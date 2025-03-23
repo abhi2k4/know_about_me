@@ -69,10 +69,10 @@ const Hero = () => {
         <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10"></div>
       </div>
 
-      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center text-center">
+      <div className="container mx-auto gap-8 px-6  py-12 flex flex-col lg:flex-row items-center justify-center text-center">
         {/* Bitmoji-like avatar with animated elements */}
-        <div className="relative animate-float mb-8">
-          <div className="relative w-64 h-64 md:w-80 md:h-80">
+        <div className="relative animate-float mb-8 lg:mb-0">
+        <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80">
             <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
               <AvatarImage src="/placeholder.svg" alt="Developer Avatar" className="object-cover" />
               <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-6xl text-white">
@@ -107,7 +107,7 @@ const Hero = () => {
               isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 animate-gradient-shift">John Doe</span>
+            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 animate-gradient-shift">Abhishek</span>
           </h1>
           
           <h2 className={`text-2xl md:text-3xl font-semibold mb-6 transition-all duration-700 delay-100 ${

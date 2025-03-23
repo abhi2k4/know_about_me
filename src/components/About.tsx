@@ -16,18 +16,17 @@ const About = () => {
   
   const backendSkills = [
     "Node.js", "Express", "Django", "Flask",
-    "PHP", "Java", "Spring Boot", "GraphQL"
+     "Java"
   ];
   
   const databaseSkills = [
-    "MongoDB", "PostgreSQL", "MySQL", "Redis",
-    "Firebase", "Supabase", "DynamoDB", "Prisma"
+    "MongoDB", "PostgreSQL", "MySQL", "Firebase", "Supabase"
   ];
   
-  const devOpsSkills = [
-    "Docker", "Kubernetes", "AWS", "GCP",
-    "CI/CD", "Git", "GitHub Actions", "Terraform"
-  ];
+  // const devOpsSkills = [
+  //   "Docker", "Kubernetes", "AWS", "GCP",
+  //   "CI/CD", "Git", "GitHub Actions", "Terraform"
+  // ];
 
   return (
     <section
@@ -105,7 +104,7 @@ const About = () => {
             </div>
           </div>
           
-          <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
+          {/* <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
             <div className="flex items-center mb-4">
               <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-500/10 text-purple-500 mr-4">
                 <Code className="h-6 w-6" />
@@ -120,7 +119,7 @@ const About = () => {
                 <SkillBadge key={skill} name={skill} />
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
         
         <div className="mt-16 bg-card rounded-xl p-8 max-w-3xl mx-auto">

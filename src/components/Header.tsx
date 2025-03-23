@@ -75,9 +75,10 @@ const Header = () => {
         </nav>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center gap-4 md:hidden">
+        <div className="flex items-center gap-4 md:hidden ">
           <ThemeToggle />
           <Button
+          className="z-50"
             size="icon"
             variant="ghost"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
