@@ -16,7 +16,10 @@ const Index = () => {
       scrollElements.forEach((element) => {
         const scrollY = window.scrollY;
         const speed = parseFloat(element.getAttribute('data-speed') || '0.1');
-        element.style.transform = `translateY(${scrollY * speed}px)`;
+        // Fix the TypeScript error by using HTMLElement type
+        if (element instanceof HTMLElement) {
+          element.style.transform = `translateY(${scrollY * speed}px)`;
+        }
       });
     };
 
