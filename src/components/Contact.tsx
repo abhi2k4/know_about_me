@@ -72,7 +72,7 @@ const Contact = () => {
                 <div>
                   <h5 className="font-medium">Email</h5>
                   <a href="mailto:contact@example.com" className="text-muted-foreground hover:text-foreground transition-colors">
-                    contact@example.com
+                  thormothe.abhishek@gmail.com
                   </a>
                 </div>
               </div>
@@ -84,7 +84,7 @@ const Contact = () => {
                 <div>
                   <h5 className="font-medium">Phone</h5>
                   <a href="tel:+1234567890" className="text-muted-foreground hover:text-foreground transition-colors">
-                    +1 (234) 567-890
+                    +91 83690 98056
                   </a>
                 </div>
               </div>
@@ -95,7 +95,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h5 className="font-medium">Location</h5>
-                  <p className="text-muted-foreground">New York, NY, United States</p>
+                  <p className="text-muted-foreground">Mumbai, Maharashtra, India</p>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@ const Contact = () => {
               <h5 className="font-medium mb-4">Connect With Me</h5>
               <div className="flex gap-4">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/abhi2k4"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-10 w-10 rounded-lg bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
@@ -113,7 +113,7 @@ const Contact = () => {
                   <Github className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://linkedin.com/in/thormotheabhishek" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-10 w-10 rounded-lg bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
@@ -122,7 +122,7 @@ const Contact = () => {
                   <Linkedin className="h-5 w-5" />
                 </a>
                 <a
-                  href="mailto:email@example.com"
+                  href="mailto:thormothe.abhishek@gmail.com"
                   className="flex items-center justify-center h-10 w-10 rounded-lg bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                   aria-label="Email"
                 >

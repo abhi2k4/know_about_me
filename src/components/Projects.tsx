@@ -18,33 +18,33 @@ const Projects = () => {
       demoUrl: "#",
       codeUrl: "#"
     },
-    {
-      id: 2,
-      title: "Task Management System",
-      description: "A collaborative task management tool with real-time updates and team functionality.",
-      tags: ["Next.js", "TypeScript", "PostgreSQL", "Socket.io", "Prisma"],
-      imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      demoUrl: "#",
-      codeUrl: "#"
-    },
-    {
-      id: 3,
-      title: "Financial Dashboard",
-      description: "An analytics dashboard for tracking financial data with interactive charts and reports.",
-      tags: ["React", "D3.js", "Express", "MySQL", "AWS"],
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      demoUrl: "#",
-      codeUrl: "#"
-    },
-    {
-      id: 4,
-      title: "Social Media App",
-      description: "A social platform with user profiles, posts, comments, and real-time notifications.",
-      tags: ["React Native", "Firebase", "Redux", "GraphQL", "Jest"],
-      imageUrl: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      demoUrl: "#",
-      codeUrl: "#"
-    }
+    // {
+    //   id: 2,
+    //   title: "Task Management System",
+    //   description: "A collaborative task management tool with real-time updates and team functionality.",
+    //   tags: ["Next.js", "TypeScript", "PostgreSQL", "Socket.io", "Prisma"],
+    //   imageUrl: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    //   demoUrl: "#",
+    //   codeUrl: "#"
+    // },
+    // {
+    //   id: 3,
+    //   title: "Financial Dashboard",
+    //   description: "An analytics dashboard for tracking financial data with interactive charts and reports.",
+    //   tags: ["React", "D3.js", "Express", "MySQL", "AWS"],
+    //   imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    //   demoUrl: "#",
+    //   codeUrl: "#"
+    // },
+    // {
+    //   id: 4,
+    //   title: "Social Media App",
+    //   description: "A social platform with user profiles, posts, comments, and real-time notifications.",
+    //   tags: ["React Native", "Firebase", "Redux", "GraphQL", "Jest"],
+    //   imageUrl: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    //   demoUrl: "#",
+    //   codeUrl: "#"
+    // }
   ];
 
   return (

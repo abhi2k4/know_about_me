@@ -74,9 +74,9 @@ const Hero = () => {
         <div className="relative animate-float mb-8 lg:mb-0">
         <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80">
             <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
-              <AvatarImage src="/placeholder.svg" alt="Developer Avatar" className="object-cover" />
+              <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
               <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-6xl text-white">
-                JD
+                abhicodes 😎
               </AvatarFallback>
             </Avatar>
             
@@ -91,15 +91,16 @@ const Hero = () => {
               <Database className="h-6 w-6" />
             </div>
           </div>
+          <span 
+            className="inline-block px-4 py-1.5 mb-6 mt-6 text-sm font-medium bg-accent rounded-full animate-fade-in-down"
+          >
+            Full Stack Developer
+          </span>
         </div>
 
         {/* Text content - centered */}
         <div className="flex flex-col items-center text-center max-w-2xl">
-          <span 
-            className="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-accent rounded-full animate-fade-in-down"
-          >
-            Full Stack Developer
-          </span>
+          
           
           <h1 
             ref={titleRef as React.RefObject<HTMLHeadingElement>}
@@ -134,17 +135,17 @@ const Hero = () => {
               isButtonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <Button size="lg" className="rounded-full">
+            <Button size="lg" className="rounded-full" onClick={() => window.location.href = "#projects"}>
               View Projects
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full">
+            <Button size="lg" variant="outline" className="rounded-full" onClick={() => window.location.href = "#contact"}>
               Contact Me
             </Button>
           </div>
           
           <div className="flex gap-6 mt-4 animate-fade-in">
             <a 
-              href="https://github.com" 
+              href="https://github.com/abhi2k4" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
@@ -153,7 +154,7 @@ const Hero = () => {
               <Github className="h-6 w-6" />
             </a>
             <a 
-              href="https://linkedin.com" 
+              href="https://linkedin.com/in/thormotheabhishek" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
@@ -162,7 +163,7 @@ const Hero = () => {
               <Linkedin className="h-6 w-6" />
             </a>
             <a 
-              href="mailto:email@example.com" 
+              href="mailto:thormothe.abhishek@gmail.com" 
               className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
               aria-label="Email"
             >

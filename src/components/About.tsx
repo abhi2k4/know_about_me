@@ -1,7 +1,6 @@
-
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SkillBadge from "./SkillBadge";
-import { Code, Database, Globe, Server } from "lucide-react";
+import { Code, Database, Globe, Server, Palette } from "lucide-react";
 
 const About = () => {
   const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
@@ -10,8 +9,8 @@ const About = () => {
   });
 
   const frontendSkills = [
-    "React", "Next.js", "TypeScript", "JavaScript", 
-    "HTML5", "CSS3", "Tailwind CSS", "Redux"
+    "React", "TypeScript", "JavaScript", 
+    "HTML5", "CSS3", "Tailwind CSS"
   ];
   
   const backendSkills = [
@@ -21,6 +20,11 @@ const About = () => {
   
   const databaseSkills = [
     "MongoDB", "PostgreSQL", "MySQL", "Firebase", "Supabase"
+  ];
+
+  const uiUxSkills = [
+    "Figma", "UI Design", "Responsive Design",
+    "Wireframing", "Prototyping", "User Research", "Design Systems"
   ];
   
   // const devOpsSkills = [
@@ -53,9 +57,15 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
+          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
+            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
+            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
+            border border-primary/5 group">
             <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10 text-blue-500 mr-4">
+            <div className="flex items-center justify-center h-12 w-12 rounded-lg 
+              bg-blue-500/10 text-blue-500 mr-4
+              transition-all duration-300 group-hover:scale-110 
+              group-hover:bg-blue-500/20 group-hover:rotate-3">
                 <Globe className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-bold">Frontend Development</h3>
@@ -70,9 +80,15 @@ const About = () => {
             </div>
           </div>
           
-          <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
+          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
+            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
+            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
+            border border-primary/5 group">
             <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-green-500/10 text-green-500 mr-4">
+              <div className="flex items-center justify-center h-12 w-12 rounded-lg 
+                bg-green-500/10 text-green-500 mr-4
+                transition-all duration-300 group-hover:scale-110 
+                group-hover:bg-green-500/20 group-hover:rotate-3">
                 <Server className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-bold">Backend Development</h3>
@@ -87,9 +103,15 @@ const About = () => {
             </div>
           </div>
           
-          <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
+          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
+            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
+            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
+            border border-primary/5 group">
             <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-amber-500/10 text-amber-500 mr-4">
+              <div className="flex items-center justify-center h-12 w-12 rounded-lg 
+                bg-amber-500/10 text-amber-500 mr-4
+                transition-all duration-300 group-hover:scale-110 
+                group-hover:bg-amber-500/20 group-hover:rotate-3">
                 <Database className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-bold">Database & Storage</h3>
@@ -103,7 +125,29 @@ const About = () => {
               ))}
             </div>
           </div>
-          
+
+          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
+            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
+            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
+            border border-primary/5 group">
+          <div className="flex items-center mb-4">
+            <div className="flex items-center justify-center h-12 w-12 rounded-lg 
+              bg-pink-500/10 text-pink-500 mr-4
+              transition-all duration-300 group-hover:scale-110 
+              group-hover:bg-pink-500/20 group-hover:rotate-3">
+              <Palette className="h-6 w-6" />
+            </div>
+            <h3 className="text-xl font-bold">UI/UX Design</h3>
+          </div>
+          <p className="text-muted-foreground mb-6">
+            Creating intuitive user interfaces and engaging user experiences through thoughtful design principles and modern aesthetics.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {uiUxSkills.map((skill) => (
+              <SkillBadge key={skill} name={skill} />
+            ))}
+          </div>
+        </div>
           {/* <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
             <div className="flex items-center mb-4">
               <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-500/10 text-purple-500 mr-4">

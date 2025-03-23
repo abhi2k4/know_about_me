@@ -54,7 +54,7 @@ const Header = () => {
           className="flex items-center gap-2 font-bold text-lg transition-all duration-300 hover:opacity-80"
         >
           <Code className="h-5 w-5" />
-          <span>Portfolio</span>
+          <span>Abhishek's Portfolio</span>
         </a>
 
         {/* Desktop Navigation */}
