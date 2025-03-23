@@ -4,6 +4,7 @@ import { ArrowDown, Github, Linkedin, Mail, Code, Server, Database } from "lucid
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DynamicSVG } from "@/components/DynamicSVG";
 
 const Hero = () => {
   const { ref: titleRef, isVisible: isTitleVisible } = useScrollAnimation({
@@ -40,18 +41,38 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
       ref={heroRef}
     >
-      {/* Decorative background elements */}
+      {/* Decorative background elements with dynamic SVGs */}
       <div className="absolute inset-0 overflow-hidden -z-10">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-purple-500/5 blur-3xl"></div>
+        
+        {/* Dynamic SVGs positioned around the hero section */}
+        <DynamicSVG 
+          icon="sparkle" 
+          className="absolute top-[15%] right-[15%] text-purple-500 opacity-70 animate-float"
+          size={32}
+        />
+        <DynamicSVG 
+          icon="zap" 
+          className="absolute top-[30%] left-[10%] text-orange-500 opacity-70 animate-float"
+          size={28}
+          style={{ animationDelay: "1.5s" }}
+        />
+        <DynamicSVG 
+          icon="star" 
+          className="absolute bottom-[20%] right-[10%] text-blue-500 opacity-70 animate-float"
+          size={24}
+          style={{ animationDelay: "2s" }}
+        />
+        
         {/* Animated grid pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10"></div>
       </div>
 
-      <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center gap-12">
+      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center text-center">
         {/* Bitmoji-like avatar with animated elements */}
-        <div className="relative animate-float">
-          <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8 md:mb-0">
+        <div className="relative animate-float mb-8">
+          <div className="relative w-64 h-64 md:w-80 md:h-80">
             <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
               <AvatarImage src="/placeholder.svg" alt="Developer Avatar" className="object-cover" />
               <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-6xl text-white">
@@ -72,8 +93,8 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Text content */}
-        <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-2xl">
+        {/* Text content - centered */}
+        <div className="flex flex-col items-center text-center max-w-2xl">
           <span 
             className="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-accent rounded-full animate-fade-in-down"
           >
