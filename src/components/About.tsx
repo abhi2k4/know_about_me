@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SkillBadge from "./SkillBadge";
 import { Code, Database, Globe, Server, Palette } from "lucide-react";
+import GithubStats from "./GitHubStats";
 
 const About = () => {
   const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
@@ -165,6 +166,7 @@ const About = () => {
             </div>
           </div> */}
         </div>
+
         
         <div className="mt-16 bg-card rounded-xl p-8 max-w-3xl mx-auto">
           <h3 className="text-2xl font-bold mb-4">My Journey</h3>
@@ -175,6 +177,11 @@ const About = () => {
             What drives me is the opportunity to solve real-world problems through elegant code. I'm passionate about creating solutions that are not only technically sound but also deliver exceptional user experiences.
           </p>
         </div>
+      </div>
+
+      
+      <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
+        <GithubStats />
       </div>
     </section>
   );

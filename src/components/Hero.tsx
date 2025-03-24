@@ -69,9 +69,9 @@ const Hero = () => {
         <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10"></div>
       </div>
 
-      <div className="container mx-auto gap-8 px-6  py-12 flex flex-col lg:flex-row items-center justify-center text-center">
+      <div className="container mx-auto lg:gap-8 px-6  py-12 flex flex-col lg:flex-row items-center justify-center text-center">
         {/* Bitmoji-like avatar with animated elements */}
-        <div className="relative animate-float mb-8 lg:mb-0">
+        <div className="relative animate-float lg:mb-0">
         <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80">
             <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
               <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
@@ -111,7 +111,7 @@ const Hero = () => {
             Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 animate-gradient-shift">Abhishek</span>
           </h1>
           
-          <h2 className={`text-2xl md:text-3xl font-semibold mb-6 transition-all duration-700 delay-100 ${
+          <h2 className={`text-xl md:text-3xl font-semibold mb-6 transition-all duration-700 delay-100 ${
             isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}>
             <span className="border-r-2 border-primary pr-2 mr-2">Developer</span>
@@ -120,18 +120,19 @@ const Hero = () => {
           </h2>
           
           <p 
-            ref={subtitleRef as React.RefObject<HTMLParagraphElement>}
-            className={`text-lg md:text-xl text-muted-foreground mb-8 transition-all duration-700 delay-100 ${
-              isSubtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-          >
-            I build scalable, responsive web applications with cutting-edge technologies. 
-            Specializing in React, Node.js, and cloud infrastructure, I turn complex problems into elegant solutions.
-          </p>
+          ref={subtitleRef as React.RefObject<HTMLParagraphElement>}
+          className={`text-lg md:text-xl text-muted-foreground mb-8 transition-all duration-700 delay-100 ${
+            isSubtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          I craft modern web applications and actively collaborate on diverse projects. 
+          With expertise in React, Node.js, and cloud technologies, I focus on building 
+          efficient solutions and contributing to open-source communities.
+        </p>
           
           <div 
             ref={buttonsRef as React.RefObject<HTMLDivElement>}
-            className={`flex flex-col sm:flex-row gap-4 mb-8 transition-all duration-700 delay-200 ${
+            className={`flex sm:flex-row gap-4 mb-8 transition-all duration-700 delay-200 ${
               isButtonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
@@ -143,7 +144,7 @@ const Hero = () => {
             </Button>
           </div>
           
-          <div className="flex gap-6 mt-4 animate-fade-in">
+          <div className="flex gap-6 mb-4 mt-4 animate-fade-in">
             <a 
               href="https://github.com/abhi2k4" 
               target="_blank" 
@@ -175,11 +176,11 @@ const Hero = () => {
       
       <a 
         href="#about"
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground hover:text-foreground transition-all duration-300 animate-bounce"
+        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground hover:text-foreground transition-all duration-300"
         aria-label="Scroll down"
       >
-        <span className="text-sm font-medium mb-2">Scroll Down</span>
-        <ArrowDown className="h-5 w-5" />
+        <span className="text-sm font-medium mb-2 mt-25">Scroll Down</span>
+        <ArrowDown className="h-5 w-5  animate-bounce" />
       </a>
     </section>
   );
