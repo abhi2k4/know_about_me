@@ -168,15 +168,32 @@ const About = () => {
         </div>
 
         
-        <div className="mt-16 bg-card rounded-xl p-8 max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold mb-4">My Journey</h3>
-          <p className="text-muted-foreground mb-4">
-            I began my development journey with a strong foundation in computer science, gradually expanding my expertise across the full technology stack. Over the years, I've worked on a diverse range of projects, from e-commerce platforms to complex enterprise systems.
-          </p>
-          <p className="text-muted-foreground">
-            What drives me is the opportunity to solve real-world problems through elegant code. I'm passionate about creating solutions that are not only technically sound but also deliver exceptional user experiences.
-          </p>
-        </div>
+        <div className="mt-16 bg-card/50 backdrop-blur-sm rounded-xl p-8 max-w-3xl mx-auto
+  transition-all duration-300 
+  hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
+  hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
+  border border-primary/5">
+  <div className="relative">
+    <h3 className="text-2xl font-bold mb-6 inline-flex items-center gap-2">
+      My Journey
+      <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+    </h3>
+    <p className="text-muted-foreground mb-6 leading-relaxed">
+      I began my development journey with a strong foundation in computer science, 
+      gradually expanding my expertise across the full technology stack. Over the years, 
+      I've worked on a diverse range of projects, from e-commerce platforms to complex 
+      enterprise systems.
+    </p>
+    <p className="text-muted-foreground leading-relaxed">
+      What drives me is the opportunity to solve real-world problems through elegant code. 
+      I'm passionate about creating solutions that are not only technically sound but also 
+      deliver exceptional user experiences.
+    </p>
+    {/* Decorative elements */}
+    <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>
+    <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary/5 rounded-full blur-2xl"></div>
+  </div>
+</div>
       </div>
 
       

@@ -1,4 +1,3 @@
-
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import ProjectCard from "./ProjectCard";
 
@@ -50,7 +49,9 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="relative py-24 md:py-32 overflow-hidden bg-secondary/50"
+      className="relative py-24 md:py-32 overflow-hidden bg-secondary/10
+        [background-image:linear-gradient(var(--secondary)_0.5px,transparent_0.5px),linear-gradient(to_right,var(--secondary)_0.5px,transparent_0.5px)]
+        [background-size:32px_32px] before:absolute before:inset-0 before:bg-background/50"
       ref={sectionRef as React.RefObject<HTMLElement>}
     >
       <div className={`container mx-auto px-4 transition-all duration-700 ${
