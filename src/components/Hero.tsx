@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { ArrowDown, Github, Linkedin, Mail, Code, Server, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -72,15 +71,31 @@ const Hero = () => {
       <div className="container mx-auto lg:gap-8 px-6  py-12 flex flex-col lg:flex-row items-center justify-center text-center">
         {/* Bitmoji-like avatar with animated elements */}
         <div className="relative animate-float lg:mb-0">
-        <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80">
-            <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
-              <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
-              <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-6xl text-white">
-                😎
-              </AvatarFallback>
-            </Avatar>
-            
-            {/* Floating tech icons around the avatar */}
+          <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 [perspective:1000px] group">
+            <div className="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+              {/* Front side - Avatar */}
+              <div className="absolute inset-0 [backface-visibility:hidden]">
+                <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
+                  <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
+                  <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-6xl text-white">
+                    😎
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              
+              {/* Back side - Logo */}
+              <div className="absolute inset-0 [transform:rotateY(180deg)] [backface-visibility:hidden]">
+                <div className="w-full h-full rounded-full border-4 shadow-xl bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                  <img 
+                    src="/abhicodes.png" 
+                    alt="Logo" 
+                    className="object-cover rounded-full"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Keep your existing floating tech icons */}
             <div className="absolute -top-4 -right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg animate-pulse-slow">
               <Code className="h-6 w-6" />
             </div>
@@ -91,9 +106,8 @@ const Hero = () => {
               <Database className="h-6 w-6" />
             </div>
           </div>
-          <span 
-            className="inline-block px-4 py-1.5 mb-6 mt-6 text-sm font-medium bg-accent rounded-full animate-fade-in-down"
-          >
+          
+          <span className="inline-block px-4 py-1.5 mb-6 mt-6 text-sm font-medium bg-accent rounded-full animate-fade-in-down">
             Full Stack Developer
           </span>
         </div>

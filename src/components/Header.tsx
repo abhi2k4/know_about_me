@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Code, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/Logo";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,8 +54,8 @@ const Header = () => {
           href="#home"
           className="flex items-center gap-2 font-bold text-lg transition-all duration-300 hover:opacity-80"
         >
-          <Code className="h-5 w-5" />
-          <span>Abhishek's Portfolio</span>
+          <Logo/>
+          <span>abhi codes</span>
         </a>
 
         {/* Desktop Navigation */}
