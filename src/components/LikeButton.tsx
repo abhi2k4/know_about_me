@@ -19,6 +19,7 @@ export const LikeButton = () => {
 
   useEffect(() => {
     fetchLikes();
+    checkIfLiked();
 
     const subscription = supabase
       .channel('likes')
@@ -50,15 +51,41 @@ export const LikeButton = () => {
     setLikes(data.count);
   };
 
+  const checkIfLiked = async () => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const { ip } = await response.json();
+      
+      const { data } = await supabase
+        .from('likes')
+        .select('ip_addresses')
+        .eq('id', 1)
+        .single();
+      
+      setHasLiked(data?.ip_addresses?.includes(ip) || false);
+    } catch (error) {
+      console.error('Error checking IP:', error);
+    }
+  };
+
   const handleLike = async () => {
     if (hasLiked) return;
     setIsLoading(true);
     try {
-      const { error } = await supabase.rpc('increment_likes');
+      const response = await fetch('https://api.ipify.org?format=json');
+      const { ip } = await response.json();
       
+      const { data, error } = await supabase
+        .rpc('increment_likes', { user_ip: ip });
+
       if (error) throw error;
-      setHasLiked(true);
-      toast.success('Thanks for the love! ❤️');
+      
+      if (data) {
+        setHasLiked(true);
+        toast.success('Thanks for the love! ❤️');
+      } else {
+        toast.error('You\'ve already liked this!');
+      }
     } catch (error) {
       console.error('Error:', error);
       toast.error('Something went wrong!');
@@ -74,9 +101,9 @@ export const LikeButton = () => {
         size="icon"
         className={cn(
           "rounded-full relative overflow-hidden transition-all duration-300",
-          "hover:bg-pink-50 hover:text-pink-500 dark:hover:bg-pink-950",
+          "hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950",
           "active:scale-95",
-          hasLiked && "text-pink-500",
+          hasLiked && "text-red-500",
           isLoading && "cursor-not-allowed opacity-70"
         )}
         onClick={handleLike}
@@ -86,12 +113,12 @@ export const LikeButton = () => {
           className={cn(
             "w-5 h-5 transition-all duration-300",
             "hover:scale-110",
-            hasLiked && "fill-pink-500 scale-110"
+            hasLiked && "fill-red-500 scale-110"
           )}
         />
         <span 
           className={cn(
-            "absolute inset-0 bg-pink-50/50 dark:bg-pink-950/50",
+            "absolute inset-0 bg-red-50/50 dark:bg-red-950/50",
             "transform transition-transform duration-300",
             isLoading ? "translate-y-0" : "translate-y-full"
           )}
@@ -100,7 +127,7 @@ export const LikeButton = () => {
       <p 
         className={cn(
           "text-sm text-muted-foreground transition-all duration-300",
-          hasLiked && "text-pink-500"
+          hasLiked && "text-red-500"
         )}
       >
        <b> {getLikeText(likes, hasLiked)} </b>
