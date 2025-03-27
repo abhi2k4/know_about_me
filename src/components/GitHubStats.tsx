@@ -1,4 +1,5 @@
 import { Card, CardContent } from "./ui/card";
+import { Github } from "lucide-react";
 
 const GithubStats = () => {
   const username = "abhi2k4";
@@ -9,7 +10,10 @@ const GithubStats = () => {
       hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
       border border-primary/5 group">
       <div className="flex flex-col items-center gap-4">
-        <h3 className="text-xl font-bold text-left">GitHub Activity</h3>
+        <div className="flex items-center gap-2">
+          <Github />
+          <h3 className="text-xl font-bold">GitHub Activity</h3>
+        </div>
         <img 
           src={`https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=transparent&hide_border=true&card_width=500`}
           alt="GitHub Streak"

@@ -77,9 +77,6 @@ const Hero = () => {
               <div className="absolute inset-0 [backface-visibility:hidden]">
                 <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
                   <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
-                  <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-500 text-6xl text-white">
-                    😎
-                  </AvatarFallback>
                 </Avatar>
               </div>
               

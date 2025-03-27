@@ -1,5 +1,6 @@
 
 import { Code } from "lucide-react";
+import Logo from "./Logo";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,8 +10,8 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
-            <Code className="h-5 w-5" />
-            <span className="font-bold text-lg">ABhishek's Portfolio</span>
+            <Logo/>
+            <span className="font-bold text-lg">Abhishek's Portfolio</span>
           </div>
           
           <div className="text-sm text-muted-foreground text-center md:text-right">
