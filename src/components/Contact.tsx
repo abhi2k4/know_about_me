@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from '@/lib/supabase';
 
 const Contact = () => {
   const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
@@ -16,6 +16,7 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -26,25 +27,27 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          created_at: new Date().toISOString()
+        }]);
   
-      if (response.ok) {
-        toast.success("Message sent! I'll get back to you soon.");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        toast.error("Failed to send message. Please try again.");
-      }
+      if (error) throw error;
+  
+      toast.success("Message sent successfully! I'll get back to you soon.");
+      setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error('Error:', error);
-      toast.error("Something went wrong. Please try again later.");
+      console.error('Supabase Error:', error);
+      toast.error("Failed to send message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -198,8 +201,8 @@ const Contact = () => {
                 ></textarea>
               </div>
               
-              <Button type="submit" className="w-full" size="lg">
-                Send Message
+              <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>
