@@ -197,9 +197,9 @@ const About = () => {
       </div>
 
       
-      <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
+      {/* <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
         <GithubStats />
-      </div>
+      </div> */}
     </section>
   );
 };
