@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ArrowDown, Github, Linkedin, Mail, Code, Server, Database } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, TwitterIcon, Code, Server, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -175,6 +175,15 @@ const Hero = () => {
               aria-label="LinkedIn"
             >
               <Linkedin className="h-6 w-6" />
+            </a>
+            <a 
+              href="https://x.com/your-handle" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
+              aria-label="X (Twitter)"
+            >
+              <TwitterIcon className="h-6 w-6" />
             </a>
             <a 
               href="mailto:thormothe.abhishek@gmail.com" 

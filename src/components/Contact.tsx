@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone, TwitterIcon } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from '@/lib/supabase';
 
@@ -141,6 +141,14 @@ const Contact = () => {
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
+                <a
+                  href="https://x.com/your-handle"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center h-10 w-10 rounded-lg bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                  aria-label="X (Twitter)">
+                    <TwitterIcon className="h-5 w-5" />
+                  </a>
                 <a
                   href="mailto:thormothe.abhishek@gmail.com"
                   className="flex items-center justify-center h-10 w-10 rounded-lg bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
