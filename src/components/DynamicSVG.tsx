@@ -1,4 +1,3 @@
-
 import React from "react";
 import { 
   Sparkle, 
@@ -11,6 +10,16 @@ import {
   Zap,
   Flower,
   Leaf,
+  Code2, 
+  Database, 
+  Globe, 
+  Layout, 
+  Terminal,
+  Server,
+  Cpu,
+  Github,
+  Chrome,
+  Laptop,
   LucideProps
 } from "lucide-react";
 
@@ -25,7 +34,17 @@ const icons = {
   moon: Moon,
   zap: Zap,
   flower: Flower,
-  leaf: Leaf
+  leaf: Leaf,
+  code: Code2,         // For programming/development
+  database: Database,  // For backend/data
+  web: Globe,         // For web development
+  frontend: Layout,    // For UI/UX
+  terminal: Terminal,  // For CLI/DevOps
+  server: Server,     // For backend/infrastructure
+  cpu: Cpu,           // For system/performance
+  github: Github,     // For version control
+  browser: Chrome,    // For web browsers
+  laptop: Laptop      // For development setup
 };
 
 type IconName = keyof typeof icons;

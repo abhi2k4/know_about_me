@@ -45,21 +45,20 @@ const Hero = () => {
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-purple-500/5 blur-3xl"></div>
         
-        {/* Dynamic SVGs positioned around the hero section */}
         <DynamicSVG 
-          icon="sparkle" 
-          className="absolute top-[15%] right-[15%] text-purple-500 opacity-70 animate-float"
+          icon="frontend" 
+          className="absolute top-[15%] right-[15%] text-blue-500 opacity-70 animate-float"
           size={32}
         />
         <DynamicSVG 
-          icon="zap" 
-          className="absolute top-[30%] left-[10%] text-orange-500 opacity-70 animate-float"
+          icon="laptop" 
+          className="absolute top-[30%] left-[10%] text-emerald-500 opacity-70 animate-float"
           size={28}
           style={{ animationDelay: "1.5s" }}
         />
         <DynamicSVG 
-          icon="star" 
-          className="absolute bottom-[20%] right-[10%] text-blue-500 opacity-70 animate-float"
+          icon="sparkle" 
+          className="absolute bottom-[20%] right-[10%] text-purple-500 opacity-70 animate-float"
           size={24}
           style={{ animationDelay: "2s" }}
         />
