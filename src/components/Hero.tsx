@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DynamicSVG } from "@/components/DynamicSVG";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXTwitter} from "@fortawesome/free-brands-svg-icons";
 
 const Hero = () => {
   const { ref: titleRef, isVisible: isTitleVisible } = useScrollAnimation({
@@ -183,7 +185,7 @@ const Hero = () => {
               className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
               aria-label="X (Twitter)"
             >
-              <TwitterIcon className="h-6 w-6" />
+              <FontAwesomeIcon icon={faXTwitter} className="w-5 h-5" />
             </a>
             <a 
               href="mailto:thormothe.abhishek@gmail.com" 
