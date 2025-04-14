@@ -179,15 +179,10 @@ const About = () => {
       <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
     </h3>
     <p className="text-muted-foreground mb-6 leading-relaxed">
-      I began my development journey with a strong foundation in computer science, 
-      gradually expanding my expertise across the full technology stack. Over the years, 
-      I've worked on a diverse range of projects, from e-commerce platforms to complex 
-      enterprise systems.
+     I began my development journey with a solid foundation in computer science during my B.Tech at Mumbai University. As I explored various domains, I steadily expanded my skills across the full stack. From building academic projects like interview prep platforms and podcast websites to developing larger systems like CRM dashboards and safety apps for hackathons, I’ve tackled diverse challenges.
     </p>
     <p className="text-muted-foreground leading-relaxed">
-      What drives me is the opportunity to solve real-world problems through elegant code. 
-      I'm passionate about creating solutions that are not only technically sound but also 
-      deliver exceptional user experiences.
+    What truly drives me is solving real-world problems with clean, efficient code. I’m passionate about building solutions that not only work seamlessly behind the scenes but also offer smooth and meaningful experiences to users.
     </p>
     {/* Decorative elements */}
     <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>
