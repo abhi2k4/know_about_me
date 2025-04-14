@@ -119,7 +119,7 @@ const Hero = () => {
           
           <h1 
             ref={titleRef as React.RefObject<HTMLHeadingElement>}
-            className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 transition-all duration-700 ${
+            className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 transition-all duration-700 font-audiowide ${
               isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >

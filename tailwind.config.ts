@@ -22,9 +22,10 @@ export default {
 			fontFamily: {
 
 				// sans: ["Montserrat", "sans-serif"],
-				sans: ["Kurale", "static", "sans-serif"],
+				kurale: ["Kurale", "static", "sans-serif"],
 				inter: ["Inter", "sans-serif"],
 				mono: ["JetBrains Mono", "monospace"],
+				audiowide: ['Audiowide', 'cursive'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

@@ -55,7 +55,7 @@ const Header = () => {
           className="flex items-center gap-2 font-bold text-lg transition-all duration-300 hover:opacity-80"
         >
           <Logo/>
-          <span>abhi codes</span>
+          <span className="font-audiowide">abhi codes</span>
         </a>
 
         {/* Desktop Navigation */}

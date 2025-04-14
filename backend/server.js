@@ -7,8 +7,18 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// Update CORS to accept your frontend URL
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}));
+
 app.use(express.json());
+
+// Add a basic health check route
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 
 // Email transporter setup
 const transporter = nodemailer.createTransport({
