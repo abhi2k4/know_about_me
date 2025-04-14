@@ -42,8 +42,8 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
       ref={heroRef}
     >
-      {/* Decorative background elements with dynamic SVGs */}
-      <div className="absolute inset-0 overflow-hidden -z-10">
+     {/* Decorative background elements with dynamic SVGs */}
+      <div className="absolute inset-0 overflow-hidden -z-10 hidden md:block">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-purple-500/5 blur-3xl"></div>
         
