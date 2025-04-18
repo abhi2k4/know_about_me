@@ -40,10 +40,10 @@ const About = () => {
       ref={sectionRef as React.RefObject<HTMLElement>}
     >
       {/* Background elements */}
-      <div className="absolute inset-0 -z-10">
+      {/* <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div>
+      </div> */}
 
       <div className={`container mx-auto px-4 transition-all duration-700 ${
         isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
