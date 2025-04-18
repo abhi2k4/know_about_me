@@ -35,7 +35,7 @@ const Experience = () => {
         "Implemented reusable UI components with Tailwind CSS for consistent design"
       ],
       technologies: ["React", "Node.js", "JavaScript", "Tailwind CSS", "Git", "RESTful APIs"],
-      logoUrl: "public/eterniq.ico"
+      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico"
     },
     // Uncomment and modify for additional experiences
     // {

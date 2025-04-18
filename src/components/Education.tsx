@@ -43,7 +43,7 @@ const Education = () => {
         "Machine Learning",
         "Operating Systems"
       ],
-      logoUrl: "public/University-icon.png"
+      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/University-icon_n0axod.jpg"
     },
     {
       id: 2,
@@ -63,7 +63,7 @@ const Education = () => {
         "Physics",
         "Chemistry"
       ],
-      logoUrl: "public/pace.avif"
+      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970932/know%20me/pace_v1q67j.avif"
     }
   ];
 
