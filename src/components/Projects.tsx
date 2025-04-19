@@ -30,8 +30,8 @@ const Projects = () => {
       images: [
         "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744606936/portfolio/b885cdba-f848-4025-a7b2-aa88f3490575.png",
         "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744606875/portfolio/0e137690-dfbf-4551-b276-43c2ecc3004d.png",
-        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745066259/know%20me/projects/ba1151f1-f74e-49b1-acc5-47c0e48f94fe.png",
-        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745066321/know%20me/projects/394b07e8-d414-45a7-ba2d-e5e231b04542.png",
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745068689/know%20me/projects/ba1151f1-f74e-49b1-acc5-47c0e48f94fe.png",
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745068649/know%20me/projects/394b07e8-d414-45a7-ba2d-e5e231b04542.png",
       ],
       note: "This project is not hosted due to scalability issues.",
       // demoUrl: "#",
