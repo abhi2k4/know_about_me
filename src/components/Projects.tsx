@@ -24,8 +24,8 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "Fraud Detection System",
-      description: "A collaborative task management tool with real-time updates and team functionality.",
+      title: "FOMO",
+      description: "Fraud Observation & Monitoring Operations (FOMO) is a system that actively observes, monitors, and flags suspicious or fraudulent activities in real-time, ensuring secure e-commerce transactions and account integrity.",
       tags: ["Django", "AWS RDS", "Gemini", "Docker", "Frontend"],
       images: [
         "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744606936/portfolio/b885cdba-f848-4025-a7b2-aa88f3490575.png",
@@ -37,15 +37,20 @@ const Projects = () => {
       // demoUrl: "#",
       codeUrl: "https://github.com/abhi2k4/fraudguard"
     },
-    // {
-    //   id: 3,
-    //   title: "Financial Dashboard",
-    //   description: "An analytics dashboard for tracking financial data with interactive charts and reports.",
-    //   tags: ["React", "D3.js", "Express", "MySQL", "AWS"],
-    //   imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    //   demoUrl: "#",
-    //   codeUrl: "#"
-    // },
+    {
+      id: 3,
+      title: "SMILE CRM",
+      description: "Smart Marketing Intelligence & Local Engagement (SMILE) is a solution designed to enhance customer relationship management through deep user segmentation tailored for the Indian market.",
+      tags: [ "NextJS", "Node.js","Gemini", "Tailwind CSS", "Frontend"],
+      images: [
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056387/know%20me/projects/37e2bc22-8536-4542-a09d-4de350e571e1.png",
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056455/know%20me/projects/d3b1c0ca-b8ec-44c8-9c3f-f786494e32c3.png",
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056507/know%20me/projects/68844bbf-edcf-4e62-a378-53cf92ce033e.png",
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056535/know%20me/projects/805ba0d7-46aa-4bf2-b56b-cc4b0e2ed367.png",
+      ],
+      note: "The code will be available soon.",
+      demoUrl: "https://smilecrm.vercel.app/"
+    },
     // {
     //   id: 4,
     //   title: "Social Media App",
@@ -77,7 +82,7 @@ const Projects = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.id}
