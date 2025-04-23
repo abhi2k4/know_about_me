@@ -1,6 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { BriefcaseIcon, CalendarIcon, MapPinIcon, CodeIcon, ListChecksIcon } from "lucide-react";
+import { BriefcaseIcon, CalendarIcon, MapPinIcon, CodeIcon, ListChecksIcon, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+// import { motion } from "framer-motion";
 
 interface ExperienceItem {
   id: number;
@@ -12,6 +13,7 @@ interface ExperienceItem {
   technologies: string[];
   logoUrl?: string;
   type?: string;
+  companyUrl?: string;
 }
 
 const Experience = () => {
@@ -35,25 +37,9 @@ const Experience = () => {
         "Implemented reusable UI components with Tailwind CSS for consistent design"
       ],
       technologies: ["React", "Node.js", "JavaScript", "Tailwind CSS", "Git", "RESTful APIs"],
-      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico"
+      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico",
+      companyUrl: "https://eterniq.com"
     },
-    // Uncomment and modify for additional experiences
-    // {
-    //   id: 2,
-    //   title: "Frontend Developer Intern",
-    //   company: "XYZ Solutions",
-    //   location: "Remote",
-    //   duration: "Jun 2022 - Dec 2022",
-    //   type: "Part-time",
-    //   description: [
-    //     "Built interactive user interfaces using React and Tailwind CSS",
-    //     "Implemented state management with Redux for complex application states",
-    //     "Participated in code reviews and team meetings to ensure code quality",
-    //     "Developed responsive layouts that work across all device sizes"
-    //   ],
-    //   technologies: ["React", "Redux", "Tailwind CSS", "JavaScript", "Figma", "Jest"],
-    //   logoUrl: "https://via.placeholder.com/150?text=XYZ"
-    // }
   ];
 
   return (
@@ -80,14 +66,16 @@ const Experience = () => {
                 key={exp.id} 
                 className={`relative pl-12 transition-all duration-500 delay-${index * 200}`}
               >
-                <div className="absolute left-0 top-1 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                {/* Timeline elements */}
+                <div className="absolute left-0 top-1 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shadow-sm">
                   <BriefcaseIcon className="w-4 h-4 text-primary" />
                 </div>
                 {index !== experiences.length - 1 && (
                   <div className="absolute left-4 top-9 bottom-0 w-[2px] bg-gradient-to-b from-primary/20 to-primary/5" />
                 )}
                 
-                <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-border/30 hover:border-primary/20 transition-colors duration-300">
+                {/* Card */}
+                <div className="group bg-background/80 backdrop-blur-sm rounded-lg p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-border/30 hover:border-primary/20 transition-colors duration-300">
                   <div className="flex flex-col md:flex-row gap-4 items-start mb-4">
                     {exp.logoUrl && (
                       <div className="flex-shrink-0 w-16 h-16 bg-background rounded-full p-1 border border-border/30 overflow-hidden hidden md:block">
@@ -109,7 +97,19 @@ const Experience = () => {
                               </Badge>
                             )}
                           </div>
-                          <p className="text-primary font-medium">{exp.company}</p>
+                          <p className="text-primary font-medium flex items-center gap-2">
+                            {exp.company}
+                            {exp.companyUrl && (
+                              <a 
+                                href={exp.companyUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-muted-foreground hover:text-primary transition-colors"
+                              >
+                                <ArrowUpRight className="w-4 h-4" />
+                              </a>
+                            )}
+                          </p>
                         </div>
                         <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 md:self-start">
                           <CalendarIcon className="w-3 h-3" />
