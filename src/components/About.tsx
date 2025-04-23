@@ -20,12 +20,12 @@ const About = () => {
   ];
   
   const databaseSkills = [
-    "MongoDB", "PostgreSQL", "MySQL", "Firebase", "Supabase"
+     "MySQL", "Firebase", "Supabase"
   ];
 
   const uiUxSkills = [
     "Figma", "UI Design", "Responsive Design",
-    "Wireframing", "Prototyping", "User Research", "Design Systems"
+    "Wireframing"
   ];
   
   // const devOpsSkills = [
