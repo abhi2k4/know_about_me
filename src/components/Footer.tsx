@@ -24,7 +24,6 @@ const Footer = () => {
           </div>
           <div className="text-sm text-muted-foreground text-center md:text-right">
             <p className="mb-1">Designed and built with ❤️</p>
-            <p>&copy; {currentYear} All Rights Reserved</p>
           </div>
         </div>
       </div>
