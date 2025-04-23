@@ -38,7 +38,7 @@ const Experience = () => {
       ],
       technologies: ["React", "Node.js", "JavaScript", "Tailwind CSS", "Git", "RESTful APIs"],
       logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico",
-      companyUrl: "https://eterniq.com"
+      companyUrl: "https://eterniq.in"
     },
   ];
 
