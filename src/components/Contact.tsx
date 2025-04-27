@@ -98,7 +98,7 @@ const Contact = () => {
                   </a>
                 </div>
               </div>
-              
+{/*               
               <div className="flex items-start">
                 <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-blue-500/10 text-blue-500 mr-4">
                   <Phone className="h-5 w-5" />
@@ -109,7 +109,7 @@ const Contact = () => {
                     +91 83690 98056
                   </a>
                 </div>
-              </div>
+              </div> */}
               
               <div className="flex items-start">
                 <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-blue-500/10 text-blue-500 mr-4">

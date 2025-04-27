@@ -1,20 +1,15 @@
 module.exports = {
   apps: [{
     name: "email-notifications",
-    script: "./server/email-notifications.js",
-    instances: 1,
-    autorestart: true,
+    script: "server/email-notifications.js",
+    cwd: "D:/Downloads/know_about_me/",
     watch: false,
-    max_memory_restart: "200M",
+    max_memory_restart: "300M",
     env: {
-      NODE_ENV: "development",
-    },
-    env_production: {
       NODE_ENV: "production",
+      EMAIL_USER: "thormothe.abhishek@gmail.com",
     },
-    log_date_format: "YYYY-MM-DD HH:mm:ss",
-    error_file: "./logs/email-notifications-error.log",
-    out_file: "./logs/email-notifications-out.log",
-    merge_logs: true
+    error_file: "./logs/email-error.log",
+    out_file: "./logs/email-out.log"
   }]
 };

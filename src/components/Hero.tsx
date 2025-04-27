@@ -78,9 +78,6 @@ const Hero = () => {
               <div className="absolute inset-0 [backface-visibility:hidden]">
                 <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
                   <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
-                  <AvatarFallback className="bg-primary/10 text-primary">
-                    AC
-                  </AvatarFallback>
                 </Avatar>
               </div>
               
