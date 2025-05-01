@@ -76,12 +76,10 @@ const Header = () => {
     closed: {
       opacity: 0,
       y: -20,
-      pointerEvents: "none",
     },
     open: {
       opacity: 1,
       y: 0,
-      pointerEvents: "auto",
       transition: {
         type: "spring",
         stiffness: 300,
@@ -105,8 +103,12 @@ const Header = () => {
   };
   
   const backdropVariants = {
-    closed: { opacity: 0, pointerEvents: "none" },
-    open: { opacity: 1, pointerEvents: "auto" }
+    closed: { 
+      opacity: 0,
+    },
+    open: { 
+      opacity: 1,
+    }
   };
 
   return (
@@ -165,6 +167,7 @@ const Header = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button 
+                        data-cursor="download"
                         variant="outline" 
                         size="sm" 
                         className="flex items-center gap-2 rounded-full bg-background/80 backdrop-blur-sm border border-border/40 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300"
@@ -228,7 +231,8 @@ const Header = () => {
           <ThemeToggle />
 
           {/* Mobile Menu Button */}
-          <Button
+          <Button 
+            data-cursor="button"
             className="z-50"
             size="icon"
             variant="ghost"
@@ -256,6 +260,9 @@ const Header = () => {
               exit="closed"
               variants={backdropVariants}
               onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                pointerEvents: isMobileMenuOpen ? 'auto' : 'none'
+              }}
             />
             
             {/* Menu panel */}
@@ -265,6 +272,9 @@ const Header = () => {
               animate="open"
               exit="closed"
               variants={menuVariants}
+              style={{
+                pointerEvents: isMobileMenuOpen ? 'auto' : 'none'
+              }}
             >
               <div className="overflow-y-auto max-h-[calc(100vh-88px)]">
                 <nav className="py-4">

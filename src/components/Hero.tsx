@@ -148,10 +148,10 @@ const Hero = () => {
               isButtonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <Button size="lg" className="rounded-full" onClick={() => window.location.href = "#projects"}>
+            <Button data-cursor="button" size="lg" className="rounded-full" onClick={() => window.location.href = "#projects"}>
               View Projects
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full" onClick={() => window.location.href = "#contact"}>
+            <Button data-cursor="button" size="lg" variant="outline" className="rounded-full" onClick={() => window.location.href = "#contact"}>
               Contact Me
             </Button>
           </div>

@@ -211,7 +211,7 @@ const Contact = () => {
                 ></textarea>
               </div>
               
-              <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+              <Button type="submit" data-cursor="button" className="w-full" size="lg" disabled={isSubmitting}>
                 {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
