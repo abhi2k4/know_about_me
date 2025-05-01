@@ -15,6 +15,21 @@ const CustomCursor = () => {
   const [showRings, setShowRings] = useState(false);
   const [particles, setParticles] = useState([]);
   const [glitchMode, setGlitchMode] = useState(false);
+  const [shape, setShape] = useState('circle'); // 'diamond', 'square', 'circle'
+  const shapeVariants = {
+    diamond: {
+      clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
+      rotation: 45
+    },
+    square: {
+      clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+      rotation: 0
+    },
+    circle: {
+      clipPath: 'circle(50% at 50% 50%)',
+      rotation: 0
+    }
+  };
   const cursorRef = useRef(null);
   const gridRef = useRef([]);
   const lastPosRef = useRef({ x: 0, y: 0 });
@@ -36,10 +51,11 @@ const CustomCursor = () => {
       
       .technosphere-cursor {
         pointer-events: none;
-        mix-blend-mode: difference;
+        mix-blend-mode: exclusion;
       }
       
       .cursor-grid-point {
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
         transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease-out;
       }
       
@@ -62,7 +78,6 @@ const CustomCursor = () => {
         100% { transform: translateY(100%); opacity: 0.3; }
       }
       
-      
       @keyframes glitch {
         0% { transform: translate(0); }
         20% { transform: translate(-4px, 2px); }
@@ -74,6 +89,25 @@ const CustomCursor = () => {
       
       .glitch-effect {
         animation: glitch 0.2s ease-in-out infinite;
+      }
+      
+      @keyframes crystallize {
+        0%, 100% { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+        50% { clip-path: polygon(45% 0%, 100% 45%, 55% 100%, 0% 55%); }
+      }
+      
+      .crystal-effect {
+        animation: crystallize 2s ease-in-out infinite;
+      }
+      
+      @keyframes energyRing {
+        0% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.1) rotate(180deg); }
+        100% { transform: scale(1) rotate(360deg); }
+      }
+      
+      .energy-ring {
+        animation: energyRing 3s linear infinite;
       }
       
       .matrix-bg {
@@ -300,11 +334,130 @@ const CustomCursor = () => {
     return cleanup;
   }, [hoverElement]);
 
+  // useEffect(() => {
+  //   if (cursorType === 'interactive') {
+  //     setShape('diamond');
+  //   } else if (cursorType === 'text') {
+  //     setShape('square');
+  //   } else {
+  //     setShape('circle');
+  //   }
+  // }, [cursorType]);
+
   if (typeof window === 'undefined' || !('matchMedia' in window) || window.matchMedia('(pointer: coarse)').matches) {
     return null;
   }
 
   const glitchOffset = glitchMode ? `${Math.random() * 5 - 2.5}px, ${Math.random() * 5 - 2.5}px` : '0, 0';
+
+  const renderCursorCore = () => (
+    <motion.div
+      className="absolute left-0 top-0 overflow-hidden"
+      animate={{
+        width: cursorSize,
+        height: cursorSize,
+        x: -cursorSize/2 + (glitchMode ? Math.random() * 3 - 1.5 : 0),
+        y: -cursorSize/2 + (glitchMode ? Math.random() * 3 - 1.5 : 0),
+        opacity: visible ? 1 : 0,
+        scale: clicked ? 0.8 : 1,
+        rotate: shapeVariants[shape].rotation + (glitchMode ? Math.random() * 20 - 10 : 0)
+      }}
+      style={{
+        backgroundColor: cursorType === 'interactive' ? 'hsl(var(--primary))' : 'white',
+        clipPath: shapeVariants[shape].clipPath,
+        boxShadow: cursorType === 'interactive' ? 
+          '0 0 15px 3px hsl(var(--primary) / 0.4), inset 0 0 4px hsl(var(--primary))' : 
+          '0 0 8px rgba(255,255,255,0.6)',
+        transform: `translate(${glitchOffset})`,
+      }}
+      transition={{
+        scale: { type: "spring", stiffness: 500, damping: 10 },
+        rotate: { type: "spring", stiffness: 200, damping: 10 },
+        width: { type: "spring", stiffness: 500, damping: 30 },
+        height: { type: "spring", stiffness: 500, damping: 30 },
+      }}
+    >
+      {cursorType === 'interactive' && (
+        <div className="matrix-bg crystal-effect"></div>
+      )}
+    </motion.div>
+  );
+
+  const renderGridPoints = () => (
+    <>
+      {cursorType !== 'text' && gridPoints.map((point, index) => (
+        <motion.div
+          key={point.id}
+          className="cursor-grid-point absolute"
+          style={{
+            left: 0,
+            top: 0,
+            width: point.size * (clicked ? 2 : 1),
+            height: point.size * (clicked ? 2 : 1),
+            backgroundColor: glitchMode ? 
+              `hsl(${(index * 40) % 360}, 100%, 70%)` : 
+              cursorType === 'interactive' ? 
+                `hsla(var(--primary), ${point.opacity})` : 
+                'white',
+            opacity: point.opacity * (clicked ? 1.5 : 1) * (visible ? 1 : 0) * (glitchMode ? Math.random() : 1),
+            transform: `
+              translate(-50%, -50%) 
+              rotate(${rotationAngle + 45}deg) 
+              translate(${point.x * (clicked ? 1.8 : 1) + (glitchMode ? Math.random() * 5 - 2.5 : 0)}px, 
+                      ${point.y * (clicked ? 1.8 : 1) + (glitchMode ? Math.random() * 5 - 2.5 : 0)}px)
+            `,
+            boxShadow: glitchMode ? `0 0 2px ${Math.random() > 0.7 ? 'cyan' : 'magenta'}` : '',
+          }}
+        />
+      ))}
+    </>
+  );
+
+  const renderRings = () => (
+    <AnimatePresence>
+      {showRings && (
+        <>
+          {[1, 2].map((ring) => (
+            <motion.div
+              key={`ring-${ring}`}
+              className="cursor-ring absolute left-0 top-0"
+              initial={{ 
+                width: cursorSize, 
+                height: cursorSize, 
+                x: -cursorSize/2, 
+                y: -cursorSize/2, 
+                opacity: 0.8,
+                clipPath: shapeVariants.diamond.clipPath,
+              }}
+              animate={{ 
+                width: cursorSize + (ring * 20), 
+                height: cursorSize + (ring * 20),
+                x: -(cursorSize + (ring * 20))/2,
+                y: -(cursorSize + (ring * 20))/2,
+                opacity: 0,
+                rotate: glitchMode ? Math.random() * 90 : 45,
+              }}
+              exit={{ opacity: 0 }}
+              transition={{ 
+                repeat: Infinity,
+                duration: 1.2,
+                delay: ring * 0.2,
+                ease: "easeOut"
+              }}
+              style={{
+                border: `1px solid ${
+                  glitchMode ? 
+                    `hsla(${Math.random() * 360}, 100%, 50%, 0.8)` : 
+                    'hsla(var(--primary), 0.8)'
+                }`,
+                transform: `translate(${glitchOffset})`,
+              }}
+            />
+          ))}
+        </>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <>
@@ -341,155 +494,9 @@ const CustomCursor = () => {
           stiffness: 400,
         }}
       >
-        {(cursorType === 'interactive' || glitchMode) && (
-          <>
-            <motion.div
-              className="absolute"
-              animate={{
-                width: cursorSize * 1.1,
-                height: cursorSize * 1.1,
-                x: -cursorSize * 1.1/2 + (glitchMode ? Math.random() * 5 - 2.5 : 0),
-                y: -cursorSize * 1.1/2 + (glitchMode ? Math.random() * 5 - 2.5 : 0),
-                opacity: 0.3,
-              }}
-              style={{
-                backgroundColor: 'rgba(255, 0, 128, 0.5)',
-                borderRadius: '50%',
-                filter: 'blur(2px)',
-                transform: `translate(${glitchOffset})`,
-              }}
-            />
-            <motion.div
-              className="absolute"
-              animate={{
-                width: cursorSize * 1.05,
-                height: cursorSize * 1.05,
-                x: -cursorSize * 1.05/2 + (glitchMode ? Math.random() * 5 - 2.5 : 0),
-                y: -cursorSize * 1.05/2 + (glitchMode ? Math.random() * 5 - 2.5 : 0),
-                opacity: 0.3,
-              }}
-              style={{
-                backgroundColor: 'rgba(0, 255, 255, 0.5)',
-                borderRadius: '50%',
-                filter: 'blur(2px)',
-                transform: `translate(${glitchOffset})`,
-              }}
-            />
-          </>
-        )}
-
-        <motion.div
-          className="absolute left-0 top-0 overflow-hidden"
-          animate={{
-            width: cursorSize,
-            height: cursorSize,
-            x: -cursorSize/2 + (glitchMode ? Math.random() * 3 - 1.5 : 0),
-            y: -cursorSize/2 + (glitchMode ? Math.random() * 3 - 1.5 : 0),
-            opacity: visible ? 1 : 0,
-            scale: clicked ? 0.8 : 1
-          }}
-          style={{
-            backgroundColor: cursorType === 'interactive' ? 'hsl(var(--primary))' : 'white',
-            borderRadius: cursorType === 'text' ? '1px' : '50%',
-            boxShadow: cursorType === 'interactive' ? 
-              '0 0 15px 3px hsl(var(--primary) / 0.4), inset 0 0 4px hsl(var(--primary))' : 
-              '0 0 8px rgba(255,255,255,0.6)',
-            transform: `translate(${glitchOffset})`,
-          }}
-          transition={{
-            scale: { type: "spring", stiffness: 500, damping: 10 },
-            width: { type: "spring", stiffness: 500, damping: 30 },
-            height: { type: "spring", stiffness: 500, damping: 30 },
-          }}
-        >
-          {cursorType === 'interactive' && (
-            <div className="matrix-bg"></div>
-          )}
-        </motion.div>
-
-        {cursorType === 'default' && !glitchMode && (
-          <motion.div 
-            className="absolute left-0 top-0"
-            animate={{
-              width: cursorSize * 1.5,
-              height: cursorSize * 1.5,
-              x: -cursorSize * 1.5/2,
-              y: -cursorSize * 1.5/2,
-              opacity: visible ? 0.5 : 0,
-            }}
-            style={{
-              borderRadius: '50%',
-              background: 'conic-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0))',
-              animation: 'radar 3s linear infinite',
-              transform: `translate(${glitchOffset})`,
-            }}
-          />
-        )}
-
-        {cursorType !== 'text' && gridPoints.map((point, index) => (
-          <motion.div
-            key={point.id}
-            className="cursor-grid-point absolute rounded-full"
-            style={{
-              left: 0,
-              top: 0,
-              width: point.size * (clicked ? 2 : 1),
-              height: point.size * (clicked ? 2 : 1),
-              backgroundColor: glitchMode ? 
-                `hsl(${(index * 40) % 360}, 100%, 70%)` : 
-                cursorType === 'interactive' ? 
-                  `hsla(var(--primary), ${point.opacity})` : 
-                  'white',
-              opacity: point.opacity * (clicked ? 1.5 : 1) * (visible ? 1 : 0) * (glitchMode ? Math.random() : 1),
-              transform: `translate(-50%, -50%) rotate(${rotationAngle}deg) translate(${point.x * (clicked ? 1.8 : 1) + (glitchMode ? Math.random() * 5 - 2.5 : 0)}px, ${point.y * (clicked ? 1.8 : 1) + (glitchMode ? Math.random() * 5 - 2.5 : 0)}px)`,
-              boxShadow: glitchMode ? `0 0 2px ${Math.random() > 0.7 ? 'cyan' : 'magenta'}` : '',
-            }}
-          />
-        ))}
-        
-        <AnimatePresence>
-          {showRings && (
-            <>
-              {[1, 2, 3].map((ring) => (
-                <motion.div
-                  key={`ring-${ring}`}
-                  className="cursor-ring absolute left-0 top-0 rounded-full"
-                  initial={{ 
-                    width: cursorSize, 
-                    height: cursorSize, 
-                    x: -cursorSize/2, 
-                    y: -cursorSize/2, 
-                    opacity: 0.8,
-                    borderColor: 'hsla(var(--primary), 0.8)'
-                  }}
-                  animate={{ 
-                    width: cursorSize + (ring * 20), 
-                    height: cursorSize + (ring * 20),
-                    x: -(cursorSize + (ring * 20))/2 + (glitchMode ? Math.random() * 5 - 2.5 : 0),
-                    y: -(cursorSize + (ring * 20))/2 + (glitchMode ? Math.random() * 5 - 2.5 : 0),
-                    opacity: 0,
-                    borderColor: glitchMode ? 
-                      `hsla(${Math.random() * 360}, 100%, 50%, 0.8)` : 
-                      'hsla(var(--primary), 0.8)',
-                    borderStyle: glitchMode && Math.random() > 0.5 ? 'dashed' : 'solid',
-                    borderWidth: '1px',
-                  }}
-                  exit={{ opacity: 0 }}
-                  transition={{ 
-                    repeat: Infinity,
-                    duration: 1.2,
-                    delay: ring * 0.2,
-                    ease: "easeOut"
-                  }}
-                  style={{
-                    transform: `translate(${glitchOffset})`,
-                    boxShadow: '0 0 3px currentColor'
-                  }}
-                />
-              ))}
-            </>
-          )}
-        </AnimatePresence>
+        {renderCursorCore()}
+        {renderGridPoints()}
+        {renderRings()}
       </motion.div>
 
       <AnimatePresence>
