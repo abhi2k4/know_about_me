@@ -120,12 +120,20 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <a
-          href="#home"
-          className="flex items-center gap-2 font-bold text-lg transition-all duration-300 hover:opacity-80 z-10"
-        >
-          <Logo/>
-          <span className="font-audiowide">abhi codes</span>
+        <a href="#home" className="flex items-center gap-3 group cursor-pointer relative" >
+        <div className="flex items-center gap-3 group cursor-pointer relative" >
+            <div className="relative transition-all duration-500 ease-out hover:scale-110">
+              <div className="absolute inset-0 bg-primary/20 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700"></div>
+              <div className="relative z-10">
+                <Logo />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-xl font-audiowide bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">
+                abhi codes
+              </span>
+            </div>
+          </div>
         </a>
 
         {/* Enhanced Desktop Navigation */}

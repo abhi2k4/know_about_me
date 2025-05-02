@@ -16,6 +16,11 @@ const CustomCursor = () => {
   const [particles, setParticles] = useState([]);
   const [glitchMode, setGlitchMode] = useState(false);
   const [shape, setShape] = useState('circle'); // 'diamond', 'square', 'circle'
+  const [cursorScale, setCursorScale] = useState(1);
+  const [trailPoints, setTrailPoints] = useState([]);
+  const MAX_TRAIL_POINTS = 12; // Increased for more visible trail
+  const TRAIL_LIFETIME = 500; // milliseconds
+  const [energyLevel, setEnergyLevel] = useState(100);
   const shapeVariants = {
     diamond: {
       clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
@@ -117,6 +122,36 @@ const CustomCursor = () => {
           linear-gradient(rgba(0, 255, 170, 0.1), rgba(0, 0, 0, 0)),
           repeating-linear-gradient(transparent, transparent 2px, rgba(0, 255, 170, 0.05) 2px, rgba(0, 255, 170, 0.05) 4px);
       }
+
+      @keyframes floatEffect {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-2px) scale(1.05); }
+      }
+
+      @keyframes energyPulse {
+        0% { filter: brightness(1) blur(0px); }
+        50% { filter: brightness(1.2) blur(1px); }
+        100% { filter: brightness(1) blur(0px); }
+      }
+
+      @keyframes trailFade {
+        0% { opacity: 0.5; transform: scale(1); }
+        100% { opacity: 0; transform: scale(0.3); }
+      }
+
+      .energy-pulse {
+        animation: energyPulse 1.5s ease-in-out infinite;
+      }
+
+      .cursor-trail {
+        pointer-events: none;
+        mix-blend-mode: screen;
+        animation: trailFade 0.5s ease-out forwards;
+      }
+
+      .float-effect {
+        animation: floatEffect 2s ease-in-out infinite;
+      }
     `;
     document.head.appendChild(styleEl);
     
@@ -142,15 +177,20 @@ const CustomCursor = () => {
   useEffect(() => {
     const createGridPoints = () => {
       const points = [];
-      const gridSize = 7;
-      const spacing = 7;
+      const gridSize = 9; // Increased for more points
+      const spacing = 6; // Tighter spacing
       
       for (let i = -Math.floor(gridSize/2); i <= Math.floor(gridSize/2); i++) {
         for (let j = -Math.floor(gridSize/2); j <= Math.floor(gridSize/2); j++) {
           if (i === 0 && j === 0) continue;
+          
           const distance = Math.sqrt(i*i + j*j);
+          // Only create points within a circular radius
+          if (distance > gridSize/2) continue;
+          
           if (Math.random() < 0.2) continue;
-          const opacityFactor = 1 - Math.min(distance / (gridSize/1.5), 0.9);
+          
+          const opacityFactor = 1 - Math.min(distance / (gridSize/2), 0.9);
           const randomFactor = 0.7 + Math.random() * 0.3;
           const opacity = opacityFactor * randomFactor;
           const xOffset = i * spacing + (Math.random() * 2 - 1);
@@ -161,7 +201,8 @@ const CustomCursor = () => {
             x: xOffset,
             y: yOffset,
             opacity: opacity,
-            size: 1 + Math.random() * 1.5
+            size: 1 + Math.random() * 1.5,
+            distance: distance // Store distance for potential effects
           });
         }
       }
@@ -227,6 +268,30 @@ const CustomCursor = () => {
         setShowRings(false);
         setCursorText('');
         setHoverElement(null);
+      }
+
+      // Add trail effect
+      if (visible && cursorType === 'interactive') {
+        setTrailPoints(prev => {
+          const now = Date.now();
+          // Filter out old points and add new one
+          const newPoints = [
+            {
+              id: now,
+              x: clientX,
+              y: clientY,
+              timestamp: now,
+              size: cursorSize * 0.4, // Slightly smaller than cursor
+              opacity: 0.8,
+              color: glitchMode ? 
+                `hsla(${Math.random() * 360}, 70%, 50%, 0.8)` : 
+                'hsla(var(--primary), 0.8)'
+            },
+            ...prev.filter(p => now - p.timestamp < TRAIL_LIFETIME)
+          ].slice(0, MAX_TRAIL_POINTS);
+
+          return newPoints;
+        });
       }
     };
     
@@ -334,15 +399,17 @@ const CustomCursor = () => {
     return cleanup;
   }, [hoverElement]);
 
-  // useEffect(() => {
-  //   if (cursorType === 'interactive') {
-  //     setShape('diamond');
-  //   } else if (cursorType === 'text') {
-  //     setShape('square');
-  //   } else {
-  //     setShape('circle');
-  //   }
-  // }, [cursorType]);
+  useEffect(() => {
+    const energyInterval = setInterval(() => {
+      if (cursorType === 'interactive') {
+        setEnergyLevel(prev => Math.max(prev - 0.5, 20));
+      } else {
+        setEnergyLevel(prev => Math.min(prev + 1, 100));
+      }
+    }, 100);
+
+    return () => clearInterval(energyInterval);
+  }, [cursorType]);
 
   if (typeof window === 'undefined' || !('matchMedia' in window) || window.matchMedia('(pointer: coarse)').matches) {
     return null;
@@ -352,21 +419,25 @@ const CustomCursor = () => {
 
   const renderCursorCore = () => (
     <motion.div
-      className="absolute left-0 top-0 overflow-hidden"
+      className={`absolute left-0 top-0 overflow-hidden ${
+        energyLevel < 40 ? 'energy-pulse' : ''
+      }`}
       animate={{
         width: cursorSize,
         height: cursorSize,
         x: -cursorSize/2 + (glitchMode ? Math.random() * 3 - 1.5 : 0),
         y: -cursorSize/2 + (glitchMode ? Math.random() * 3 - 1.5 : 0),
         opacity: visible ? 1 : 0,
-        scale: clicked ? 0.8 : 1,
+        scale: clicked ? 0.8 : cursorScale,
         rotate: shapeVariants[shape].rotation + (glitchMode ? Math.random() * 20 - 10 : 0)
       }}
       style={{
-        backgroundColor: cursorType === 'interactive' ? 'hsl(var(--primary))' : 'white',
+        backgroundColor: cursorType === 'interactive' ? 
+          `hsl(var(--primary) / ${energyLevel/100})` : 'white',
         clipPath: shapeVariants[shape].clipPath,
         boxShadow: cursorType === 'interactive' ? 
-          '0 0 15px 3px hsl(var(--primary) / 0.4), inset 0 0 4px hsl(var(--primary))' : 
+          `0 0 15px 3px hsl(var(--primary) / ${energyLevel/200}), 
+           inset 0 0 4px hsl(var(--primary))` : 
           '0 0 8px rgba(255,255,255,0.6)',
         transform: `translate(${glitchOffset})`,
       }}
@@ -380,18 +451,27 @@ const CustomCursor = () => {
       {cursorType === 'interactive' && (
         <div className="matrix-bg crystal-effect"></div>
       )}
+      {energyLevel < 40 && (
+        <div className="absolute inset-0 bg-red-500/20 mix-blend-overlay" />
+      )}
     </motion.div>
   );
 
   const renderGridPoints = () => (
-    <>
+    <div className="absolute left-0 top-0" style={{
+      width: cursorSize * 3,
+      height: cursorSize * 3,
+      transform: `translate(-50%, -50%)`,
+      clipPath: 'circle(50% at 50% 50%)',
+      overflow: 'hidden'
+    }}>
       {cursorType !== 'text' && gridPoints.map((point, index) => (
         <motion.div
           key={point.id}
           className="cursor-grid-point absolute"
           style={{
-            left: 0,
-            top: 0,
+            left: '50%',
+            top: '50%',
             width: point.size * (clicked ? 2 : 1),
             height: point.size * (clicked ? 2 : 1),
             backgroundColor: glitchMode ? 
@@ -410,7 +490,7 @@ const CustomCursor = () => {
           }}
         />
       ))}
-    </>
+    </div>
   );
 
   const renderRings = () => (
@@ -461,6 +541,47 @@ const CustomCursor = () => {
 
   return (
     <>
+      {/* Trail Effect */}
+      <AnimatePresence mode="popLayout">
+        {trailPoints.map((point, i) => {
+          const progress = 1 - ((Date.now() - point.timestamp) / TRAIL_LIFETIME);
+          return (
+            <motion.div
+              key={point.id}
+              className="fixed pointer-events-none"
+              initial={{ 
+                opacity: point.opacity,
+                scale: 1,
+                x: point.x,
+                y: point.y
+              }}
+              animate={{ 
+                opacity: 0,
+                scale: 0.2,
+                x: point.x,
+                y: point.y
+              }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              style={{
+                position: 'fixed',
+                left: 0,
+                top: 0,
+                width: point.size * (1 - i * 0.05),
+                height: point.size * (1 - i * 0.05),
+                backgroundColor: point.color,
+                borderRadius: '50%',
+                transform: 'translate(-50%, -50%)',
+                filter: glitchMode ? 'blur(1px)' : 'none',
+                zIndex: 89,
+                mixBlendMode: 'screen',
+              }}
+            />
+          );
+        })}
+      </AnimatePresence>
+
+      {/* Rest of the cursor components */}
       {particles.map(particle => (
         <motion.div
           key={particle.id}
@@ -482,7 +603,7 @@ const CustomCursor = () => {
       ))}
 
       <motion.div 
-        className={`technosphere-cursor fixed z-[100] pointer-events-none hidden md:block ${glitchMode ? 'glitch-effect' : ''}`}
+        className={`technosphere-cursor fixed z-[100] border-50 pointer-events-none hidden md:block ${glitchMode ? 'glitch-effect' : ''}`}
         animate={{
           x: position.x,
           y: position.y,

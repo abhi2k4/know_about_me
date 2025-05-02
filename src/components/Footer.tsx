@@ -1,4 +1,4 @@
-import { Code } from "lucide-react";
+import { Code, Heart, ChevronUp, Sparkles } from "lucide-react";
 import Logo from "./Logo";
 import { LikeButton } from "./LikeButton";
 import { useState, useEffect, useRef } from "react";
@@ -43,6 +43,34 @@ const Footer = () => {
         75% { transform: scale(1.2); }
       }
       
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px var(--primary-rgb); }
+        50% { box-shadow: 0 0 20px var(--primary-rgb); }
+        100% { box-shadow: 0 0 5px var(--primary-rgb); }
+      }
+
+      .hover-float:hover {
+        animation: float 2s ease infinite;
+      }
+
+      .hover-glow:hover {
+        animation: glow 2s ease infinite;
+      }
+
+      .scale-up {
+        transition: transform 0.3s ease;
+      }
+
+      .scale-up:hover {
+        transform: scale(1.05);
+      }
+
       .animate-heartbeat {
         animation: heartbeat 1s ease infinite;
       }
@@ -104,7 +132,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative border-t py-8 bg-secondary/20" ref={footerRef}>
+    <footer className="relative border-t py-12 bg-gradient-to-b from-secondary/5 to-secondary/20" ref={footerRef}>
       {/* Hidden audio for surprise effect */}
       <audio id="like-sound" src="/sounds/sparkle.mp3" preload="auto" />
       
@@ -157,34 +185,78 @@ const Footer = () => {
 
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Logo with hover glow */}
+          {/* Enhanced Logo Section */}
           <div 
-            className="flex items-center gap-2 mb-4 md:mb-0 group cursor-pointer hover:scale-105 transition-transform duration-300"
+            className="flex items-center gap-3 mb-6 md:mb-0 group cursor-pointer relative"
             onClick={scrollToTop}
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/30 rounded-full filter blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <Logo />
+            <div className="relative transition-all duration-500 ease-out hover:scale-110">
+              <div className="absolute inset-0 bg-primary/20 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700"></div>
+              <div className="relative z-10">
+                <Logo />
+              </div>
             </div>
-            <span className="font-bold text-lg font-audiowide">abhi codes</span>
-          </div>
-          
-          {/* Enhanced like button that triggers effects */}
-          <div className="flex gap-6 mb-4 mt-4 relative z-10">
-            <div onClick={handleLikeClick}>
-              <LikeButton data-cursor="button"/>
+            <div className="flex flex-col">
+              <span className="font-bold text-xl font-audiowide bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">
+                abhi codes
+              </span>
+              <span className="text-xs text-muted-foreground/80">
+                Full Stack Developer
+              </span>
             </div>
           </div>
-          
-          {/* Footer text with animated emojis */}
-          <div className="text-sm text-muted-foreground text-center md:text-right">
-            <p className="mb-1 relative group">
-              Designed and built with 
-              <span className="inline-block mx-1 group-hover:animate-heartbeat">❤️</span>
+
+          {/* Enhanced Like Button Section */}
+          <div className="flex flex-col items-center gap-4 mb-6 md:mb-0">
+            <div 
+              onClick={handleLikeClick}
+              className="relative group"
+            >
+              <div className="absolute   rounded-full filter blur-md opacity-0 group-hover:opacity-100 scale-150 transition-all duration-300"></div>
+              <LikeButton 
+                data-cursor-text="Show Some Love!" 
+              />
+            </div>
+          </div>
+
+          {/* Enhanced Footer Text Section */}
+          <div className="text-sm text-muted-foreground text-center md:text-right flex flex-col gap-2">
+            <p className="flex items-center gap-2 group">
+              <span>Designed and built with</span>
+              <span className="inline-flex items-center gap-1">
+                <Heart 
+                  size={16} 
+                  className="text-red-500 group-hover:animate-heartbeat fill-red-500"
+                />
+                <Sparkles 
+                  size={16} 
+                  className="text-yellow-500 group-hover:animate-pulse"
+                />
+              </span>
             </p>
-            <p className="text-xs opacity-70">© {currentYear} Abhishek Thormothe</p>
+            <div className="flex flex-col gap-1">
+              <p className="text-xs opacity-70 hover:opacity-100 transition-opacity duration-300">
+                © {currentYear} Abhishek Thormothe
+              </p>
+              <button 
+                onClick={scrollToTop}
+                className="text-xs text-primary/70 hover:text-primary flex items-center gap-1 justify-end group transition-colors duration-300"
+              >
+                Back to top
+                <ChevronUp 
+                  size={14} 
+                  className="group-hover:-translate-y-1 transition-transform duration-300"
+                />
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+        <div className="absolute -top-24 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute -top-12 right-1/4 w-48 h-48 bg-secondary/5 rounded-full blur-2xl"></div>
       </div>
     </footer>
   );
