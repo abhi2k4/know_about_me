@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 const CustomCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [cursorType, setCursorType] = useState('default');
-  const [cursorText, setCursorText] = useState('');
+  const [cursorType, setCursorType] = useState("default");
+  const [cursorText, setCursorText] = useState("");
   const [cursorSize, setCursorSize] = useState(16);
   const [rotationAngle, setRotationAngle] = useState(0);
   const [gridPoints, setGridPoints] = useState([]);
@@ -15,7 +15,7 @@ const CustomCursor = () => {
   const [showRings, setShowRings] = useState(false);
   const [particles, setParticles] = useState([]);
   const [glitchMode, setGlitchMode] = useState(false);
-  const [shape, setShape] = useState('circle'); // 'diamond', 'square', 'circle'
+  const [shape, setShape] = useState("circle"); // 'diamond', 'square', 'circle'
   const [cursorScale, setCursorScale] = useState(1);
   const [trailPoints, setTrailPoints] = useState([]);
   const MAX_TRAIL_POINTS = 12; // Increased for more visible trail
@@ -23,17 +23,17 @@ const CustomCursor = () => {
   const [energyLevel, setEnergyLevel] = useState(100);
   const shapeVariants = {
     diamond: {
-      clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
-      rotation: 45
+      clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+      rotation: 45,
     },
     square: {
-      clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-      rotation: 0
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      rotation: 0,
     },
     circle: {
-      clipPath: 'circle(50% at 50% 50%)',
-      rotation: 0
-    }
+      clipPath: "circle(50% at 50% 50%)",
+      rotation: 0,
+    },
   };
   const cursorRef = useRef(null);
   const gridRef = useRef([]);
@@ -42,7 +42,7 @@ const CustomCursor = () => {
   const glitchTimerRef = useRef(null);
 
   useEffect(() => {
-    const styleEl = document.createElement('style');
+    const styleEl = document.createElement("style");
     styleEl.innerHTML = `
       * {
         cursor: none !important;
