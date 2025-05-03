@@ -2,9 +2,33 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Github, Star, GitBranch, Users, GitCommit, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useTheme } from "@/components/ThemeProvider";
 
 const GithubStats = () => {
+  const { theme } = useTheme();
+  const username = "abhi2k4";
+
+  // Enhanced theme parameters with better colors
+  const themeColors = {
+    dark: {
+      bg: '00000000',
+      text: 'FFFFFF',
+      stroke: '64748B', // slate-500
+      ring: '3B82F6',   // blue-500
+      fire: 'F59E0B',   // amber-500
+      labels: '94A3B8'  // slate-400
+    },
+    light: {
+      bg: '00000000',
+      text: '1E293B',   // slate-800
+      stroke: '64748B', // slate-500
+      ring: '2563EB',   // blue-600
+      fire: 'D97706',   // amber-600
+      labels: '475569'  // slate-600
+    }
+  };
+
+  const colors = theme === 'dark' ? themeColors.dark : themeColors.light;
 
   return (
     <motion.div
@@ -37,21 +61,12 @@ const GithubStats = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            src={`https://streak-stats.demolab.com?user=abhi2k4&theme=dark&hide_border=true&background=00000000`}
+            src={`https://streak-stats.demolab.com?user=${username}&hide_border=true&background=${colors.bg}&stroke=${colors.stroke}&ring=${colors.ring}&fire=${colors.fire}&currStreakLabel=${colors.labels}&sideLabels=${colors.labels}&dates=${colors.text}&sideNums=${colors.text}&currStreakNum=${colors.text}`}
             alt="GitHub Streak"
-            className="w-full mx-auto rounded-lg hover:contrast-125 transition-all duration-300"
+            className="w-full mx-auto rounded-lg hover:contrast-125 transition-all duration-300 select-none"
             loading="lazy"
+            draggable="false"
           />
-{/* 
-          <motion.img
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            src={`https://github-readme-stats.vercel.app/apabhi2k4&show_icons=true&theme=transparent&hide_border=true&card_width=500`}
-            alt="GitHub Stats"
-            className="w-full max-w-lg mx-auto rounded-lg hover:contrast-125 transition-all duration-300"
-            loading="lazy"
-          /> */}
         </div>
 
       </div>
