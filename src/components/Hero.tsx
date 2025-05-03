@@ -88,13 +88,26 @@ const Hero = () => {
       <div className="container mx-auto lg:gap-8 px-6  py-12 flex flex-col lg:flex-row items-center justify-center text-center">
         {/* Bitmoji-like avatar with animated elements */}
         <div className="relative animate-float lg:mb-0">
+          {/* Status Badge - Moved above the image */}
+          
+
           <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 [perspective:1000px] group">
             <div className="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
               {/* Front side - Avatar */}
               <div className="absolute inset-0 [backface-visibility:hidden]">
-                <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl">
-                  <AvatarImage src="/profile.svg" alt="Developer Avatar" className="object-cover" />
-                </Avatar>
+                <div className="relative">
+                  {/* Enhanced Status Badge */}
+                 
+
+                  <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl transition-transform duration-300 group-hover:scale-105 select-none">
+                    <AvatarImage 
+                      src="/profile.svg" 
+                      alt="Developer Avatar" 
+                      className="object-cover select-none pointer-events-none"
+                      draggable="false"
+                    />
+                  </Avatar>
+                </div>
               </div>
               
               {/* Back side - Logo */}
@@ -103,14 +116,43 @@ const Hero = () => {
                   <img 
                     src="/abhicodes.png" 
                     alt="Logo" 
-                    className="object-cover rounded-full"
+                    className="object-cover rounded-full select-none pointer-events-none"
+                    draggable="false"
                   />
                 </div>
               </div>
             </div>
 
             {/* Keep your existing floating tech icons */}
-            <div className="absolute -top-4 -right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg animate-pulse-slow">
+                <div className="absolute -top-2 -right-2 z-30 transform-gpu transition-all duration-300 hover:scale-110">
+                    <div className="relative">
+                      {/* Glow Effect */}
+                      <div className="absolute inset-0 bg-green-500/20 rounded-full blur-lg animate-pulse-slow"></div>
+                      
+                      {/* Badge */}
+                      <span className="relative inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium 
+                        bg-background/95 backdrop-blur-md border border-green-500/30 
+                        text-green-500 rounded-full shadow-lg 
+                        transition-all duration-300 hover:border-green-500/50
+                        hover:bg-green-500/10 group"
+                      >
+                        {/* Animated Dot */}
+                        <span className="relative flex h-2.5 w-2.5">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                        </span>
+                        
+                        {/* Text with hover effect */}
+                        <span className="relative transition-transform group-hover:translate-x-0.5">
+                          Contributing
+                        </span>
+                        
+                        {/* Subtle highlight */}
+                        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                      </span>
+                    </div>
+                  </div>
+            <div className="absolute -top-4 -left-4 bg-blue-500 text-white p-3 rounded-full shadow-lg animate-pulse-slow">
               <Code className="h-6 w-6" />
             </div>
             <div className="absolute -bottom-2 -left-4 bg-purple-500 text-white p-3 rounded-full shadow-lg animate-pulse-slow" style={{ animationDelay: "1s" }}>
@@ -162,7 +204,7 @@ const Hero = () => {
           
           <p 
             ref={subtitleRef as React.RefObject<HTMLParagraphElement>}
-            className={`relative text-lg md:text-xl text-muted-foreground mb-8 transition-all duration-700 delay-100 hover:text-foreground ${
+            className={`relative text-lg md:text-xl text-muted-foreground mb-8 transition-all duration-700 delay-100 hover:text-foreground px-2 ${
               isSubtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >

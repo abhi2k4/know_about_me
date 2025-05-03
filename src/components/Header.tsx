@@ -175,13 +175,15 @@ const Header = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button 
-                        data-cursor="download"
+                        data-cursor-text="View Resume"
+                        data-cursor-text-secondary="Click to open options"
                         variant="outline" 
                         size="sm" 
-                        className="flex items-center gap-2 rounded-full bg-background/80 backdrop-blur-sm border border-border/40 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300"
+                        className="flex items-center gap-2 rounded-full bg-background/80 backdrop-blur-sm border border-border/40 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 relative group"
                       >
                         <File className={`h-4 w-4 ${downloading ? "animate-bounce text-primary" : ""}`} />
                         <span>Resume</span>
+                        <span className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity duration-300"></span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48 backdrop-blur-md bg-background/90">
@@ -212,9 +214,12 @@ const Header = () => {
                   </DropdownMenu>
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="bottom" className="bg-background/80 backdrop-blur-sm">
+              {/* <TooltipContent 
+                side="bottom" 
+                className="bg-background/80 backdrop-blur-sm"
+              >
                 <p>View or download my resume</p>
-              </TooltipContent>
+              </TooltipContent> */}
             </Tooltip>
           </TooltipProvider>
 

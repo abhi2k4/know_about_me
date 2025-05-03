@@ -189,12 +189,13 @@ const About = () => {
     <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary/5 rounded-full blur-2xl"></div>
   </div>
 </div>
+            
       </div>
 
       
-      {/* <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
+      <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
         <GithubStats />
-      </div> */}
+      </div>
     </section>
   );
 };
