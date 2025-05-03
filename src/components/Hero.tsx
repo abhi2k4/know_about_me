@@ -7,6 +7,14 @@ import { DynamicSVG } from "@/components/DynamicSVG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter} from "@fortawesome/free-brands-svg-icons";
 
+// First, add proper typing for the social icons
+type SocialLink = {
+  href: string;
+  icon: any; // we'll type this more specifically
+  label: string;
+  isLucideIcon?: boolean;
+};
+
 const Hero = () => {
   const { ref: titleRef, isVisible: isTitleVisible } = useScrollAnimation({
     threshold: 0.1,
@@ -35,6 +43,14 @@ const Hero = () => {
     window.addEventListener('scroll', handleParallax);
     return () => window.removeEventListener('scroll', handleParallax);
   }, []);
+
+  // Update the social icons array with proper typing
+  const socialLinks: SocialLink[] = [
+    { href: "https://github.com/abhi2k4", icon: Github, label: "GitHub", isLucideIcon: true },
+    { href: "https://linkedin.com/in/thormotheabhishek", icon: Linkedin, label: "LinkedIn", isLucideIcon: true },
+    { href: "https://x.com/your-handle", icon: faXTwitter, label: "X (Twitter)", isLucideIcon: false },
+    { href: "mailto:thormothe.abhishek@gmail.com", icon: Mail, label: "Email", isLucideIcon: true }
+  ];
 
   return (
     <section
@@ -112,35 +128,51 @@ const Hero = () => {
 
         {/* Text content - centered */}
         <div className="flex flex-col items-center text-center max-w-2xl">
-          
-          
           <h1 
             ref={titleRef as React.RefObject<HTMLHeadingElement>}
             className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 transition-all duration-700 font-audiowide ${
               isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 animate-gradient-shift">Abhishek</span>
+            Hi, I'm{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 animate-gradient-shift">
+                Abhishek
+              </span>
+              <span className="absolute inset-0 bg-blue-500/20 blur-xl animate-pulse-slow"></span>
+            </span>
           </h1>
           
           <h2 className={`text-xl md:text-3xl font-semibold mb-6 transition-all duration-700 delay-100 ${
             isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}>
-            <span className="border-r-2 border-primary pr-2 mr-2">Developer</span>
-            <span className="border-r-2 border-primary pr-2 mr-2">Designer</span>
-            <span>Problem Solver</span>
+            <span className="relative inline-block group">
+              <span className="border-r-2 border-primary pr-2 mr-2 hover:text-primary transition-colors">Developer</span>
+              <span className="absolute -inset-1 bg-primary/10 scale-0 group-hover:scale-100 rounded transition-transform"></span>
+            </span>
+            <span className="relative inline-block group">
+              <span className="border-r-2 border-primary pr-2 mr-2 hover:text-primary transition-colors">Designer</span>
+              <span className="absolute -inset-1 bg-primary/10 scale-0 group-hover:scale-100 rounded transition-transform"></span>
+            </span>
+            <span className="relative inline-block group">
+              <span className="hover:text-primary transition-colors">Problem Solver</span>
+              <span className="absolute -inset-1 bg-primary/10 scale-0 group-hover:scale-100 rounded transition-transform"></span>
+            </span>
           </h2>
           
           <p 
-          ref={subtitleRef as React.RefObject<HTMLParagraphElement>}
-          className={`text-lg md:text-xl text-muted-foreground mb-8 transition-all duration-700 delay-100 ${
-            isSubtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          I craft modern web applications and actively collaborate on diverse projects. 
-          With expertise in React, Node.js, and cloud technologies, I focus on building 
-          efficient solutions and contributing to open-source communities.
-        </p>
+            ref={subtitleRef as React.RefObject<HTMLParagraphElement>}
+            className={`relative text-lg md:text-xl text-muted-foreground mb-8 transition-all duration-700 delay-100 hover:text-foreground ${
+              isSubtitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
+          >
+            <span className="relative z-10">
+              I craft modern web applications and actively collaborate on diverse projects. 
+              With expertise in React, Node.js, and cloud technologies, I focus on building 
+              efficient solutions and contributing to open-source communities.
+            </span>
+            <span className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg"></span>
+          </p>
           
           <div 
             ref={buttonsRef as React.RefObject<HTMLDivElement>}
@@ -148,49 +180,48 @@ const Hero = () => {
               isButtonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <Button data-cursor="button" size="lg" className="rounded-full" onClick={() => window.location.href = "#projects"}>
-              View Projects
+            <Button 
+              data-cursor-text="See My Work"
+              size="lg" 
+              className="rounded-full relative group overflow-hidden"
+              onClick={() => window.location.href = "#projects"}
+            >
+              <span className="relative z-10">View Projects</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Button>
-            <Button data-cursor="button" size="lg" variant="outline" className="rounded-full" onClick={() => window.location.href = "#contact"}>
-              Contact Me
+            <Button 
+              data-cursor-text="Get in Touch"
+              size="lg" 
+              variant="outline" 
+              className="rounded-full relative group overflow-hidden"
+              onClick={() => window.location.href = "#contact"}
+            >
+              <span className="relative z-10">Contact Me</span>
+              <span className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Button>
           </div>
           
           <div className="flex gap-6 mb-4 mt-4 animate-fade-in">
-            <a 
-              href="https://github.com/abhi2k4" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
-              aria-label="GitHub"
-            >
-              <Github className="h-6 w-6" />
-            </a>
-            <a 
-              href="https://linkedin.com/in/thormotheabhishek" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-6 w-6" />
-            </a>
-            <a 
-              href="https://x.com/your-handle" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
-              aria-label="X (Twitter)"
-            >
-              <FontAwesomeIcon icon={faXTwitter} className="w-5 h-5" />
-            </a>
-            <a 
-              href="mailto:thormothe.abhishek@gmail.com" 
-              className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform"
-              aria-label="Email"
-            >
-              <Mail className="h-6 w-6" />
-            </a>
+            {socialLinks.map((social, index) => (
+              <a 
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative group"
+                aria-label={social.label}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <span className="block text-muted-foreground group-hover:text-foreground transition-colors transform group-hover:scale-110 duration-300">
+                  {social.isLucideIcon ? (
+                    <social.icon className="h-6 w-6" />
+                  ) : (
+                    <FontAwesomeIcon icon={social.icon} className="w-5 h-5" />
+                  )}
+                </span>
+                <span className="absolute -inset-2 bg-primary/10 rounded-full scale-0 group-hover:scale-100 transition-transform"></span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
