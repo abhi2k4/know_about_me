@@ -153,7 +153,11 @@ export default {
 						borderColor: 'transparent',
 						boxShadow: '0 0 20px hsl(var(--primary))'
 					}
-				}
+				},
+				glow: {
+					'0%, 100%': { opacity: '0.5' },
+					'50%': { opacity: '1' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -168,7 +172,7 @@ export default {
 				'gradient-shift': 'gradient-shift 3s ease infinite',
 				'blur-in': 'blur-in 0.5s ease-out',
 				'bounce-soft': 'bounce-soft 2s ease-in-out infinite',
-				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+				'glow-pulse': 'glow 2s ease-in-out infinite',
 				'spin-slow': 'spin-slow 8s linear infinite',
 				'scale-bounce': 'scale-bounce 2s ease-in-out infinite',
 				'border-glow': 'border-glow 2s ease-in-out infinite'
@@ -182,7 +186,10 @@ export default {
 				'filter': 'filter',
 				'text-shadow': 'text-shadow',
 				'backdrop-filter': 'backdrop-filter'
-			}
+			},
+			perspective: {
+				'1000': '1000px',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

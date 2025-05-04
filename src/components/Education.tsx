@@ -70,7 +70,7 @@ const Education = () => {
   return (
     <section
       id="education"
-      className="py-24 bg-gradient-to-b from-background to-secondary/5"
+      className="py-24 secondary/5"
       ref={ref as React.RefObject<HTMLElement>}
     >
       <div className={`container mx-auto px-4 transition-all duration-700 ${

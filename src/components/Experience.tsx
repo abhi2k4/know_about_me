@@ -45,7 +45,7 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="py-24 bg-gradient-to-b from-secondary/5 to-background"
+      className="py-24 "
       ref={ref as React.RefObject<HTMLElement>}
     >
       <div className={`container mx-auto px-4 transition-all duration-700 ${

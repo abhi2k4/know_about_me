@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Github, Linkedin, Mail, TwitterIcon, Code, Server, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -6,6 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DynamicSVG } from "@/components/DynamicSVG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter} from "@fortawesome/free-brands-svg-icons";
+import { Skeleton } from "@/components/ui/skeleton";
+import { motion } from "framer-motion";
+import { ParticleBackground } from "./ParticleBackground";
+import { useTypewriter, Cursor } from 'react-simple-typewriter';
 
 // First, add proper typing for the social icons
 type SocialLink = {
@@ -32,6 +36,7 @@ const Hero = () => {
   });
 
   const heroRef = useRef<HTMLDivElement>(null);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   useEffect(() => {
     const handleParallax = () => {
@@ -48,9 +53,36 @@ const Hero = () => {
   const socialLinks: SocialLink[] = [
     { href: "https://github.com/abhi2k4", icon: Github, label: "GitHub", isLucideIcon: true },
     { href: "https://linkedin.com/in/thormotheabhishek", icon: Linkedin, label: "LinkedIn", isLucideIcon: true },
-    { href: "https://x.com/your-handle", icon: faXTwitter, label: "X (Twitter)", isLucideIcon: false },
+    { href: "https://x.com/amt_official04", icon: faXTwitter, label: "X (Twitter)", isLucideIcon: false },
     { href: "mailto:thormothe.abhishek@gmail.com", icon: Mail, label: "Email", isLucideIcon: true }
   ];
+
+  // Enhanced typewriter configuration
+  const [typewriterText] = useTypewriter({
+    words: [
+      'Full Stack Developer',
+      'UI/UX Designer',
+      'Problem Solver',
+      'Open Source Contributor'
+    ],
+    loop: true,
+    delaySpeed: 2000,
+    deleteSpeed: 50,
+    typeSpeed: 100,
+  });
+
+  // Add this near your motion.h2 component
+  const roleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
 
   return (
     <section
@@ -58,36 +90,22 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
       ref={heroRef}
     >
-     {/* Decorative background elements with dynamic SVGs */}
-      <div className="absolute inset-0 overflow-hidden -z-10 hidden md:block">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500/5 blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-purple-500/5 blur-3xl"></div>
-        
-        <DynamicSVG 
-          icon="frontend" 
-          className="absolute top-[15%] right-[15%] text-blue-500 opacity-70 animate-float"
-          size={32}
-        />
-        <DynamicSVG 
-          icon="laptop" 
-          className="absolute top-[30%] left-[10%] text-emerald-500 opacity-70 animate-float"
-          size={28}
-          style={{ animationDelay: "1.5s" }}
-        />
-        <DynamicSVG 
-          icon="sparkle" 
-          className="absolute bottom-[20%] right-[10%] text-purple-500 opacity-70 animate-float"
-          size={24}
-          style={{ animationDelay: "2s" }}
-        />
-        
-        {/* Animated grid pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-10"></div>
+      <ParticleBackground />
+
+      {/* Animated Gradient Orbs */}
+      <div className="absolute inset-0 overflow-hidden -z-10">
+        <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-orbit-slow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full blur-3xl animate-orbit-slow-reverse"></div>
       </div>
 
-      <div className="container mx-auto lg:gap-8 px-6  py-12 flex flex-col lg:flex-row items-center justify-center text-center">
-        {/* Bitmoji-like avatar with animated elements */}
-        <div className="relative animate-float lg:mb-0">
+      <div className="container mx-auto px-6 py-12 flex flex-col lg:flex-row items-center justify-center text-center relative z-10">
+        {/* Enhanced Avatar Section */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative animate-float lg:mb-0"
+        >
           {/* Status Badge - Moved above the image */}
           
 
@@ -100,11 +118,17 @@ const Hero = () => {
                  
 
                   <Avatar className="w-full h-full border-4 border-primary/10 shadow-xl transition-transform duration-300 group-hover:scale-105 select-none">
+                    {isImageLoading && (
+                      <Skeleton className="w-full h-full rounded-full animate-pulse" />
+                    )}
                     <AvatarImage 
                       src="/profile.svg" 
                       alt="Developer Avatar" 
                       className="object-cover select-none pointer-events-none"
                       draggable="false"
+                      onLoadingStatusChange={(status) => {
+                        setIsImageLoading(status === 'loading');
+                      }}
                     />
                   </Avatar>
                 </div>
@@ -166,41 +190,95 @@ const Hero = () => {
           <span className="inline-block px-4 py-1.5 mb-6 mt-6 text-sm font-medium bg-accent rounded-full animate-fade-in-down">
             Full Stack Developer
           </span>
-        </div>
+        </motion.div>
 
-        {/* Text content - centered */}
-        <div className="flex flex-col items-center text-center max-w-2xl">
-          <h1 
-            ref={titleRef as React.RefObject<HTMLHeadingElement>}
-            className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 transition-all duration-700 font-audiowide ${
-              isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
+        {/* Enhanced Text Content */}
+        <div className="flex flex-col items-center text-center max-w-2xl lg:ml-8">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 font-audiowide group"
           >
             Hi, I'm{" "}
             <span className="relative inline-block">
-              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 animate-gradient-shift">
+              <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 animate-gradient-x">
                 Abhishek
               </span>
-              <span className="absolute inset-0 bg-blue-500/20 blur-xl animate-pulse-slow"></span>
+              <span className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-xl animate-pulse-slow"></span>
             </span>
-          </h1>
-          
-          <h2 className={`text-xl md:text-3xl font-semibold mb-6 transition-all duration-700 delay-100 ${
-            isTitleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}>
-            <span className="relative inline-block group">
-              <span className="border-r-2 border-primary pr-2 mr-2 hover:text-primary transition-colors">Developer</span>
-              <span className="absolute -inset-1 bg-primary/10 scale-0 group-hover:scale-100 rounded transition-transform"></span>
+          </motion.h1>
+
+          <motion.h2
+            initial="hidden"
+            animate="visible"
+            variants={roleVariants}
+            className="relative text-xl md:text-3xl font-semibold mb-6 group perspective-1000"
+          >
+            {/* Code bracket with glow effect */}
+            <motion.span
+              className="text-primary relative inline-block"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 5, 0]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                repeatType: "reverse" 
+              }}
+            >
+              <span className="relative z-10 opacity-75 group-hover:opacity-100 transition-opacity duration-300">
+                &lt;
+              </span>
+              <span className="absolute inset-0 bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </motion.span>
+
+            {/* Typewriter text container */}
+            <span className="relative inline-block mx-2 min-w-[200px]">
+              <span className="relative z-10 px-4">
+                {typewriterText}
+                <Cursor cursorStyle="▎" cursorColor="var(--primary)" cursorBlinking />
+              </span>
+              
+              {/* Animated background */}
+              <motion.span 
+                className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-lg"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  originX: 0,
+                  transformStyle: "preserve-3d"
+                }}
+              />
+              
+              {/* Highlight effect on hover */}
+              <span className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg transform group-hover:translate-y-0.5" />
             </span>
-            <span className="relative inline-block group">
-              <span className="border-r-2 border-primary pr-2 mr-2 hover:text-primary transition-colors">Designer</span>
-              <span className="absolute -inset-1 bg-primary/10 scale-0 group-hover:scale-100 rounded transition-transform"></span>
-            </span>
-            <span className="relative inline-block group">
-              <span className="hover:text-primary transition-colors">Problem Solver</span>
-              <span className="absolute -inset-1 bg-primary/10 scale-0 group-hover:scale-100 rounded transition-transform"></span>
-            </span>
-          </h2>
+
+            {/* Closing bracket with glow effect */}
+            <motion.span
+              className="text-primary relative inline-block"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, -5, 0]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: 0.1
+              }}
+            >
+              <span className="relative z-10 opacity-75 group-hover:opacity-100 transition-opacity duration-300">
+                /&gt;
+              </span>
+              <span className="absolute inset-0 bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </motion.span>
+          </motion.h2>
           
           <p 
             ref={subtitleRef as React.RefObject<HTMLParagraphElement>}
@@ -243,16 +321,19 @@ const Hero = () => {
             </Button>
           </div>
           
+          {/* Enhanced Social Links */}
           <div className="flex gap-6 mb-4 mt-4 animate-fade-in">
             {socialLinks.map((social, index) => (
-              <a 
+              <motion.a
                 key={social.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + index * 0.1 }}
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                className="relative group"
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative group"
-                aria-label={social.label}
-                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <span className="block text-muted-foreground group-hover:text-foreground transition-colors transform group-hover:scale-110 duration-300">
                   {social.isLucideIcon ? (
@@ -262,20 +343,28 @@ const Hero = () => {
                   )}
                 </span>
                 <span className="absolute -inset-2 bg-primary/10 rounded-full scale-0 group-hover:scale-100 transition-transform"></span>
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>
       </div>
       
-      <a 
+      {/* Simple Scroll Indicator */}
+      <motion.a
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
         href="#about"
-        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground hover:text-foreground transition-all duration-300"
-        aria-label="Scroll down"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
-        <span className="text-sm font-medium mb-2 mt-25">Scroll Down</span>
-        <ArrowDown className="h-5 w-5  animate-bounce" />
-      </a>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full animate-bounce"
+        >
+          <ArrowDown className="h-6 w-6" />
+        </Button>
+      </motion.a>
     </section>
   );
 };
