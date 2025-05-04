@@ -190,6 +190,9 @@ export default {
 			perspective: {
 				'1000': '1000px',
 			},
+			zIndex: {
+				'-1': '-1',
+			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

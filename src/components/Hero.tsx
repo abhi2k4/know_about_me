@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter} from "@fortawesome/free-brands-svg-icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
-import { ParticleBackground } from "./ParticleBackground";
+import { BackgroundEffect } from "./BackgroundEffect";
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 
 // First, add proper typing for the social icons
@@ -90,7 +90,7 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
       ref={heroRef}
     >
-      <ParticleBackground />
+      <BackgroundEffect />
 
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden -z-10">
