@@ -6,15 +6,10 @@ import { useTheme } from "@/components/ThemeProvider";
 
 export const ParticleBackground = () => {
   const { theme } = useTheme();
-  
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
 
   return (
     <Particles
       className="fixed inset-0 -z-1 pointer-events-none"
-      init={particlesInit}
       options={{
         particles: {
           number: { value: 15, density: { enable: true, value_area: 800 } },
