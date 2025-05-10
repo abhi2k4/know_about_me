@@ -90,7 +90,7 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
       ref={heroRef}
     >
-      <BackgroundEffect />
+      {/* <BackgroundEffect /> */}
 
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden -z-10">
@@ -350,7 +350,7 @@ const Hero = () => {
       </div>
       
       {/* Simple Scroll Indicator */}
-      <motion.a
+      {/* <motion.a
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
@@ -364,7 +364,7 @@ const Hero = () => {
         >
           <ArrowDown className="h-6 w-6" />
         </Button>
-      </motion.a>
+      </motion.a> */}
     </section>
   );
 };
