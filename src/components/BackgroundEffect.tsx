@@ -63,7 +63,7 @@ export const BackgroundEffect = () => {
 
       {/* Subtle Noise Texture */}
       <div 
-        className={`absolute inset-0 mix-blend-soft-light opacity-[0.3] ${
+        className={`absolute inset-0 mix-blend-soft-light opacity-[0.1] ${
           theme === 'dark' ? 'invert' : ''
         }`}
         style={{

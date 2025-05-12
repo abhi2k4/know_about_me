@@ -90,7 +90,7 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden"
       ref={heroRef}
     >
-      {/* <BackgroundEffect /> */}
+      <BackgroundEffect />
 
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden -z-10">
