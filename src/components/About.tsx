@@ -172,21 +172,55 @@ const About = () => {
   transition-all duration-300 
   hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
   hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
-  border border-primary/5">
+  border border-primary/5 relative overflow-hidden group"
+>
+  {/* Background Patterns */}
+  <div className="absolute inset-0 opacity-10 pointer-events-none transition-opacity duration-300 group-hover:opacity-20">
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(var(--primary),.1)_50%,transparent_100%)] animate-shimmer" />
+    <div className="absolute -inset-[100%] bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(var(--primary),.02)_10px,rgba(var(--primary),.02)_20px)]" />
+  </div>
+
   <div className="relative">
-    <h3 className="text-2xl font-bold mb-6 inline-flex items-center gap-2">
-      My Journey
-      <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></div>
+    <h3 className="text-2xl font-bold mb-8 inline-flex items-center gap-3">
+      <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50">
+        My Journey
+      </span>
+      <div className="flex gap-1.5">
+        <div className="h-1.5 w-1.5 rounded-full bg-primary/80 animate-pulse" />
+        <div className="h-1.5 w-1.5 rounded-full bg-primary/60 animate-pulse delay-75" />
+        <div className="h-1.5 w-1.5 rounded-full bg-primary/40 animate-pulse delay-150" />
+      </div>
     </h3>
-    <p className="text-muted-foreground mb-6 leading-relaxed">
-     I began my development journey with a solid foundation in computer science during my B.Tech at Mumbai University. As I explored various domains, I steadily expanded my skills across the full stack. From building academic projects like interview prep platforms and podcast websites to developing larger systems like CRM dashboards and safety apps for hackathons, I’ve tackled diverse challenges.
-    </p>
-    <p className="text-muted-foreground leading-relaxed">
-    What truly drives me is solving real-world problems with clean, efficient code. I’m passionate about building solutions that not only work seamlessly behind the scenes but also offer smooth and meaningful experiences to users.
-    </p>
-    {/* Decorative elements */}
-    <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>
-    <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary/5 rounded-full blur-2xl"></div>
+
+    <div className="space-y-6">
+      <div className="relative pl-6 border-l-2 border-primary/20">
+        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-primary/10 border-2 border-primary/30" />
+        <h4 className="text-lg font-semibold mb-2 text-primary/80">Education & Foundation</h4>
+        <p className="text-muted-foreground leading-relaxed">
+          I began my development journey with a solid foundation in computer science during my B.Tech at Mumbai University. This academic foundation provided me with strong problem-solving skills and theoretical knowledge.
+        </p>
+      </div>
+
+      <div className="relative pl-6 border-l-2 border-primary/20">
+        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-primary/10 border-2 border-primary/30" />
+        <h4 className="text-lg font-semibold mb-2 text-primary/80">Project Experience</h4>
+        <p className="text-muted-foreground leading-relaxed">
+          As I explored various domains, I steadily expanded my skills across the full stack. From building academic projects like interview prep platforms and podcast websites to developing larger systems like CRM dashboards and safety apps for hackathons, I've tackled diverse challenges.
+        </p>
+      </div>
+
+      <div className="relative pl-6 border-l-2 border-primary/20">
+        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-primary/10 border-2 border-primary/30" />
+        <h4 className="text-lg font-semibold mb-2 text-primary/80">Current Focus</h4>
+        <p className="text-muted-foreground leading-relaxed">
+          What truly drives me is solving real-world problems with clean, efficient code. I'm passionate about building solutions that not only work seamlessly behind the scenes but also offer smooth and meaningful experiences to users.
+        </p>
+      </div>
+    </div>
+
+    {/* Enhanced Decorative Elements */}
+    <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-secondary/5 rounded-full blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
   </div>
 </div>
             
