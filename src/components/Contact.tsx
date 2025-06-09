@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, MapPin, Phone, TwitterIcon } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from '@/lib/supabase';
+import emailjs from '@emailjs/browser';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
@@ -13,40 +13,40 @@ const Contact = () => {
     triggerOnce: true,
   });
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const form = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert([{
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          created_at: new Date().toISOString()
-        }]);
-  
-      if (error) throw error;
-  
-      toast.success("Message sent successfully! I'll get back to you soon.");
-      setFormData({ name: "", email: "", message: "" });
+      // Send contact message to you
+      const contactResult = await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID,
+        form.current!,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      // Send auto-reply to the user
+      if (contactResult.text === 'OK') {
+        await emailjs.sendForm(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID,
+          form.current!,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        );
+        
+        toast.success("Message sent successfully! Check your email for confirmation.");
+        if (form.current) {
+          form.current.reset();
+        }
+      } else {
+        throw new Error('Failed to send message');
+      }
     } catch (error) {
-      console.error('Supabase Error:', error);
+      console.error('EmailJS Error:', error);
       toast.error("Failed to send message. Please try again later.");
     } finally {
       setIsSubmitting(false);
@@ -144,7 +144,7 @@ const Contact = () => {
                   <Linkedin className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://x.com/your-handle"
+                  href="https://x.com/amt_official04"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center h-10 w-10 rounded-lg bg-secondary text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
@@ -163,7 +163,7 @@ const Contact = () => {
           </div>
           
           <div>
-            <form onSubmit={handleSubmit} className="bg-card rounded-xl p-8">
+            <form ref={form} onSubmit={handleSubmit} className="bg-card rounded-xl p-8">
               <h4 className="text-2xl font-bold mb-6">Send a Message</h4>
               
               <div className="mb-4">
@@ -172,10 +172,8 @@ const Contact = () => {
                 </label>
                 <input
                   type="text"
-                  id="name"
+                  id="user_name"
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
                   className="w-full px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-mono text-base"
                   required
                 />
@@ -187,10 +185,8 @@ const Contact = () => {
                 </label>
                 <input
                   type="email"
-                  id="email"
+                  id="user_email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   className="w-full px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-mono text-base"
                   required
                 />
@@ -203,8 +199,6 @@ const Contact = () => {
                 <textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
                   rows={5}
                   className="w-full px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none font-mono text-base"
                   required

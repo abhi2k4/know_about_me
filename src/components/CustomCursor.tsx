@@ -274,14 +274,16 @@ const CustomCursor = () => {
       if (visible && cursorType === 'interactive') {
         setTrailPoints(prev => {
           const now = Date.now();
+          const uniqueId = `${now}-${Math.random()}`; // Add random component to ensure uniqueness
+          
           // Filter out old points and add new one
           const newPoints = [
             {
-              id: now,
+              id: uniqueId, // Use the unique ID instead of just timestamp
               x: clientX,
               y: clientY,
               timestamp: now,
-              size: cursorSize * 0.4, // Slightly smaller than cursor
+              size: cursorSize * 0.4,
               opacity: 0.8,
               color: glitchMode ? 
                 `hsla(${Math.random() * 360}, 70%, 50%, 0.8)` : 
