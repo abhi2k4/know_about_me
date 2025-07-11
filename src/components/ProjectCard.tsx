@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, X } from "lucide-react";
+import { ExternalLink, Github, X, ChevronRight } from "lucide-react";
 import ProjectCarousel from './ProjectCarousel';
 import {
   Dialog,
@@ -78,11 +78,19 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
               </span>
             ))}
           </div>
+          
+          
+          
           <div className="space-y-4">
             {(project.codeUrl || project.demoUrl) && (
               <div className="flex gap-4">
                 {project.codeUrl && (
-                  <Button variant="outline" size="sm" asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    asChild
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       <Github className="h-4 w-4" />
                       Code
@@ -90,7 +98,11 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
                   </Button>
                 )}
                 {project.demoUrl && (
-                  <Button size="sm" asChild>
+                  <Button 
+                    size="sm" 
+                    asChild
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       <ExternalLink className="h-4 w-4" />
                       Live Demo
@@ -104,6 +116,13 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
                 {project.note}
               </p>
             )}
+            {/* Click to know more message */}
+          <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
+            <div className="flex items-center justify-center gap-2 text-primary font-medium text-sm">
+              <span>Click to read full case study</span>
+              <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
           </div>
         </div>
       </div>

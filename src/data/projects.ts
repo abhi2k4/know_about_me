@@ -102,5 +102,42 @@ export const projects = [
       "Created responsive and user-friendly interface",
       "Developed scalable architecture for future enhancements"
     ]
+  },
+  {
+    id: 4,
+    title: "PRISM - Personalized Risk Intelligence Scoring Model",
+    demoUrl: "https://prism-assist.vercel.app/",
+    description: "A GenAI-powered risk assessment agent designed to evaluate the financial and operational risk of individuals or companies based on structured input data, providing explainable risk levels with clear reasoning.",
+    tags: ["FastAPI", "Streamlit", "Gemini", "Risk Assessment", "AI", "Financial Technology"],
+    images: [
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217660/know%20me/projects/49df9f9f-b126-4b3e-bf88-ac8e58428df4.png",
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217797/know%20me/projects/e83be380-3ad6-482d-aaf7-d2a2beb640ee.png",
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217857/know%20me/projects/4ee5e266-5258-4ae3-99ec-ada9a7bafd5b.png",
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217906/know%20me/projects/f4d6bf63-c0cd-4626-982e-33eddd95dff0.png"
+    ],
+    note: "This project demonstrates real-time explainable AI for financial risk assessment.",
+    // Add codeUrl and demoUrl when available
+    problem: "Banks, insurers, and financial institutions need smarter, faster, and more transparent risk assessment tools that can provide explainable reasoning without relying on pre-trained models or manual analysis.",
+    solution: "Developed PRISM, a GenAI-powered risk assessment agent that uses Gemini 1.5 Flash to evaluate financial and operational risks in real-time, providing clear risk levels (High/Medium/Low) with human-like narrative explanations.",
+    role: "Full-stack development including FastAPI backend, Streamlit frontend, and integration with Gemini AI for intelligent risk scoring and explanation generation.",
+    stack: [
+      { name: "FastAPI" },
+      { name: "Streamlit" },
+      { name: "Gemini 1.5 Flash" },
+      { name: "Python" }
+    ],
+    challenges: [
+      "Implementing real-time explainable AI reasoning for risk assessment",
+      "Designing structured data input format for comprehensive risk evaluation",
+      "Optimizing prompt engineering for consistent and accurate risk scoring",
+      "Creating intuitive UI for complex financial data input and visualization"
+    ],
+    outcomes: [
+      "Successfully deployed real-time risk assessment system",
+      "Achieved high-speed, low-latency risk scoring with Gemini Flash",
+      "Created explainable AI system with human-like reasoning capabilities",
+      "Developed API and UI interfaces for easy integration and usage",
+      "Established foundation for multimodal and fraud prediction features"
+    ]
   }
 ];
