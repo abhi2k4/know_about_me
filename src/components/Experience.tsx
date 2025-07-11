@@ -28,7 +28,7 @@ const Experience = () => {
       title: "Software Development Engineer Intern",
       company: "Eterniq",
       location: "Mumbai, India",
-      duration: "Jan 2025 - Present",
+      duration: "Jan 2025 - June 2025",
       type: "Full-time",
       description: [
         "Developed and maintained responsive web application using React and Node.js",
