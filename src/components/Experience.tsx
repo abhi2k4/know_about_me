@@ -26,20 +26,51 @@ const Experience = () => {
     {
       id: 1,
       title: "Software Development Engineer Intern",
-      company: "Eterniq",
-      location: "Mumbai, India",
-      duration: "Jan 2025 - June 2025",
+      company: "Druve Media",
+      location: "Kalyan, Maharashtra",
+      duration: "Aug 2025 - Present",
       type: "Full-time",
       description: [
-        "Developed and maintained responsive web application using React and Node.js",
-        "Optimized client-side application performance resulting in 40% faster load times",
-        "Collaborated with cross-functional teams to deliver features on time",
-        "Implemented reusable UI components with Tailwind CSS for consistent design"
+        "Built and maintained responsive web applications using React and Node.js.",
+        "Designed the UI components for the application.",
+        "Worked closely with cross-functional teams to deliver features efficiently.",
+        "Created reusable UI components with Tailwind CSS for a unified design system."
       ],
-      technologies: ["React", "Node.js", "JavaScript", "Tailwind CSS", "Git", "RESTful APIs"],
+      technologies: [
+        "React",
+        "Node.js",
+        "JavaScript",
+        "Tailwind CSS",
+        "Git",
+        "Figma"
+      ],
+      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1755021397/know%20me/druve_bmvvnb.jpg",
+      companyUrl: "https://druvemedia.in"
+    },
+    {
+      id: 2,
+      title: "Software Development Engineer Intern",
+      company: "Eterniq",
+      location: "Mumbai, India",
+      duration: "Jan 2025 - Jun 2025",
+      type: "Full-time",
+      description: [
+        "Developed and maintained web applications using React and Node.js.",
+        "Enhanced client-side performance, reducing load times by 40%.",
+        "Collaborated with teams to deliver new features on schedule.",
+        "Implemented modular UI components with Tailwind CSS."
+      ],
+      technologies: [
+        "React",
+        "Node.js",
+        "JavaScript",
+        "Tailwind CSS",
+        "Git",
+        "REST APIs"
+      ],
       logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico",
       companyUrl: "https://eterniq.in"
-    },
+    }
   ];
 
   return (
