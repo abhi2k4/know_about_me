@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -12,20 +11,18 @@ import Education from "@/components/Education";
 
 const Index = () => {
   return (
-    <ThemeProvider defaultTheme="light">
-      <div className="min-h-screen flex flex-col relative">
-        <main>
-          <Header />
-          <Hero />
-          <About />
-          <Experience />
-          <Education />
-          <Projects />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </ThemeProvider>
+    <div className="min-h-screen flex flex-col relative">
+      <main>
+        <Header />
+        <Hero />
+        <About />
+        <Experience />
+        <Education />
+        <Projects />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 };
 

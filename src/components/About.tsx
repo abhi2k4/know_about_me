@@ -1,13 +1,21 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SkillBadge from "./SkillBadge";
 import { Code, Database, Globe, Server, Palette } from "lucide-react";
 import GithubStats from "./GitHubStats";
+import { Button } from "@/components/ui/button";
 
 const About = () => {
   const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
     threshold: 0.1,
     triggerOnce: true,
   });
+
+  const TAB_KEYS = ['frontend', 'backend', 'database', 'design'] as const;
+  type TabKey = typeof TAB_KEYS[number];
+
+  const [activeTab, setActiveTab] = useState<'frontend'|'backend'|'database'|'design'>('frontend');
 
   const frontendSkills = [
     "React", "TypeScript", "JavaScript", 
@@ -28,10 +36,34 @@ const About = () => {
     "Wireframing"
   ];
   
-  // const devOpsSkills = [
-  //   "Docker", "Kubernetes", "AWS", "GCP",
-  //   "CI/CD", "Git", "GitHub Actions", "Terraform"
-  // ];
+  const skillMatrix: Record<string, { name: string; level: number }[]> = {
+    frontend: [
+      { name: 'React', level: 95 },
+      { name: 'TypeScript', level: 92 },
+      { name: 'JavaScript', level: 92 },
+      { name: 'HTML5', level: 90 },
+      { name: 'CSS3', level: 88 },
+      { name: 'Tailwind CSS', level: 90 }
+    ],
+    backend: [
+      { name: 'Node.js', level: 90 },
+      { name: 'Express', level: 88 },
+      { name: 'Django', level: 72 },
+      { name: 'Flask', level: 70 },
+      { name: 'Java', level: 75 }
+    ],
+    database: [
+      { name: 'MySQL', level: 85 },
+      { name: 'Firebase', level: 80 },
+      { name: 'Supabase', level: 78 }
+    ],
+    design: [
+      { name: 'Figma', level: 88 },
+      { name: 'UI Design', level: 86 },
+      { name: 'Responsive Design', level: 90 },
+      { name: 'Wireframing', level: 80 }
+    ]
+  };
 
   return (
     <section
@@ -220,15 +252,10 @@ const About = () => {
     <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-secondary/5 rounded-full blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
   </div>
 </div>
-            
-      </div>
-
-      
-      {/* <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
-        <GithubStats />
-      </div> */}
-    </section>
-  );
-};
-
-export default About;
+        
+       </div>
+     </section>
+   );
+ };
+ 
+ export default About;

@@ -60,7 +60,7 @@ const Contact = () => {
       ref={sectionRef as React.RefObject<HTMLElement>}
     >
       {/* Subtle background effect */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 -z-20 pointer-events-none" aria-hidden="true" />
 
       <div
         className={`container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${

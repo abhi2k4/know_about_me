@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { FileDown, ExternalLink, File, Menu, X, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import Logo from "@/components/Logo";
 import {
   DropdownMenu,
@@ -213,8 +212,7 @@ const Header = () => {
             </Tooltip>
           </TooltipProvider>
 
-          {/* Theme Toggle */}
-          <ThemeToggle />
+          {/* Theme is fixed to dark in this project; the theme toggle UI has been intentionally removed. */}
         </div>
 
         {/* Mobile Controls */}
@@ -230,8 +228,7 @@ const Header = () => {
             <span className="sr-only">Download Resume</span>
           </a>
 
-          {/* Theme Toggle */}
-          <ThemeToggle />
+          {/* Theme is fixed to dark — toggle intentionally hidden */}
 
           {/* Mobile Menu Button */}
           <Button 
