@@ -12,12 +12,16 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="relative py-24 md:py-32 overflow-hidden bg-secondary/10
-        [background-image:linear-gradient(var(--secondary)_0.5px,transparent_0.5px),linear-gradient(to_right,var(--secondary)_0.5px,transparent_0.5px)]
-        [background-size:32px_32px] before:absolute before:inset-0 before:bg-background/50"
+      className="relative py-24 md:py-32 overflow-hidden bg-background"
       ref={sectionRef as React.RefObject<HTMLElement>}
     >
-      <div className={`container mx-auto px-4 transition-all duration-700 ${
+      {/* Background grid pattern */}
+      <div className="absolute inset-0 -z-20 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 opacity-[0.02] bg-grid-pattern"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent"></div>
+      </div>
+
+      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
         isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
       }`}>
         <div className="text-center mb-16">

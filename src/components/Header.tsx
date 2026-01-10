@@ -81,32 +81,32 @@ const Header = () => {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 24,
       }
     },
   };
-  
+
   const linkVariants = {
     closed: { x: -20, opacity: 0 },
-    open: i => ({
+    open: (i: number) => ({
       x: 0,
       opacity: 1,
       transition: {
         delay: i * 0.1,
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 24,
       }
     })
   };
-  
+
   const backdropVariants = {
-    closed: { 
+    closed: {
       opacity: 0,
     },
-    open: { 
+    open: {
       opacity: 1,
     }
   };
@@ -138,28 +138,21 @@ const Header = () => {
 
         {/* Enhanced Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
-          <nav className="bg-background/30 backdrop-blur-sm border border-border/20 rounded-full px-1 py-1 shadow-sm">
-            <ul className="flex gap-1">
+          <nav className="border-b border-transparent">
+            <ul className="flex gap-8">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 return (
                   <li key={link.name}>
                     <a
                       href={link.href}
-                      className={`relative px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center ${
+                      className={`relative text-sm font-medium tracking-wide transition-all duration-300 ${
                         isActive 
-                          ? "text-foreground bg-primary/10" 
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                          ? "text-primary border-b-2 border-primary pb-1" 
+                          : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      {link.name}
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeIndicator"
-                          className="absolute inset-0 bg-primary/10 rounded-full -z-10"
-                          transition={{ type: "spring", duration: 0.5 }}
-                        />
-                      )}
+                      {link.name.toUpperCase()}
                     </a>
                   </li>
                 );
@@ -175,15 +168,12 @@ const Header = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button 
-                        data-cursor-text="View Resume"
-                        data-cursor-text-secondary="Click to open options"
                         variant="outline" 
                         size="sm" 
-                        className="flex items-center gap-2 rounded-full bg-background/80 backdrop-blur-sm border border-border/40 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 relative group"
+                        className="flex items-center gap-2 rounded-none border hover:bg-primary hover:text-white transition-all duration-300"
                       >
-                        <File className={`h-4 w-4 ${downloading ? "animate-bounce text-primary" : ""}`} />
-                        <span>Resume</span>
-                        <span className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity duration-300"></span>
+                        <File className={`h-4 w-4 ${downloading ? "animate-bounce" : ""}`} />
+                        <span className="uppercase tracking-wider text-xs">Resume</span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48 backdrop-blur-md bg-background/90">

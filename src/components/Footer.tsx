@@ -132,9 +132,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative border-t py-12 bg-gradient-to-b from-secondary/5 to-secondary/20" ref={footerRef}>
-      {/* Hidden audio for surprise effect */}
-      <audio id="like-sound" src="/sounds/sparkle.mp3" preload="auto" />
+    <footer className="relative border-t py-12 bg-gradient-to-b from-background to-background/80" ref={footerRef}>
+      {/* Subtle background effect */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-primary/3 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
       
       {/* Full page confetti effect */}
       {showConfetti && createPortal(

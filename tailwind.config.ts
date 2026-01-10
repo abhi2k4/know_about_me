@@ -19,12 +19,9 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-
-				// sans: ["Montserrat", "sans-serif"],
-				kurale: ["Kurale", "static", "sans-serif"],
-				inter: ["Inter", "sans-serif"],
+				sans: ["Montserrat", "sans-serif"],
+				serif: ["Cormorant Garamond", "serif"],
 				mono: ["JetBrains Mono", "monospace"],
-				audiowide: ['Audiowide', 'cursive'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

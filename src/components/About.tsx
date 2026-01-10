@@ -36,16 +36,13 @@ const About = () => {
   return (
     <section
       id="about"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 overflow-hidden bg-background"
       ref={sectionRef as React.RefObject<HTMLElement>}
     >
-      {/* Background elements */}
-      {/* <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div> */}
+      {/* Subtle background effect */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
-      <div className={`container mx-auto px-4 transition-all duration-700 ${
+      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
         isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
       }`}>
         <div className="text-center mb-16">
@@ -227,9 +224,9 @@ const About = () => {
       </div>
 
       
-      <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
+      {/* <div className=" max-w-3xl sm:px-0 px-4 mx-auto mt-12 w-full">
         <GithubStats />
-      </div>
+      </div> */}
     </section>
   );
 };

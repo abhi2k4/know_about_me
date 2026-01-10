@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, X, ChevronRight } from "lucide-react";
+import { ExternalLink, Github, ChevronRight } from "lucide-react";
 import ProjectCarousel from './ProjectCarousel';
 import {
   Dialog,
@@ -11,6 +11,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
 
@@ -39,6 +40,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project, index }: ProjectCardProps) => {
   const [showCaseStudy, setShowCaseStudy] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const { ref, isVisible } = useScrollAnimation({
     threshold: 0.1,
     triggerOnce: true,
@@ -46,50 +48,99 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
   return (
     <>
-      <div
+      <motion.div
         ref={ref as React.RefObject<HTMLDivElement>}
         onClick={() => setShowCaseStudy(true)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.6, delay: index * 0.1 }}
+        whileHover={{ y: -8 }}
         className={`max-w-[500px] w-full cursor-pointer
           group relative bg-background rounded-lg overflow-hidden
           shadow-[0_2px_10px_0px_rgba(0,0,0,0.05)]
-          hover:shadow-[0_8px_30px_0px_rgba(0,0,0,0.12)]
+          hover:shadow-[0_20px_40px_0px_rgba(0,0,0,0.15)]
           dark:shadow-[0_2px_8px_0px_rgba(200,200,200,0.1)]
-          dark:hover:shadow-[0_8px_20px_0px_rgba(200,200,200,0.2)]
-          transition-all duration-300 ease-in-out transform
-          hover:-translate-y-1
-          delay-${index * 100}
-          ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"}
+          dark:hover:shadow-[0_20px_40px_0px_rgba(200,200,200,0.2)]
+          transition-all duration-500 ease-out transform
         `}
       >
-        <ProjectCarousel 
-          images={project.images} 
-          className="aspect-video w-full"
-        />
-        <div className="p-6">
-          <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-          <p className="text-muted-foreground mb-4">{project.description}</p>
+        {/* Image container with hover zoom */}
+        <div className="relative overflow-hidden aspect-video">
+          <motion.div
+            className="w-full h-full"
+            animate={{ scale: isHovered ? 1.1 : 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <ProjectCarousel
+              images={project.images}
+              className="aspect-video w-full"
+            />
+          </motion.div>
+          {/* Overlay on hover */}
+          <motion.div
+            className="absolute inset-0 bg-primary/10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          {/* Play icon on hover */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0.5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="bg-primary/90 text-white rounded-full p-4 backdrop-blur-sm">
+              <ChevronRight className="h-6 w-6" />
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="p-6 relative">
+          <motion.h3
+            className="text-xl font-bold mb-2"
+            animate={{ x: isHovered ? 5 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {project.title}
+          </motion.h3>
+          <motion.p
+            className="text-muted-foreground mb-4"
+            animate={{ x: isHovered ? 5 : 0 }}
+            transition={{ duration: 0.3, delay: 0.05 }}
+          >
+            {project.description}
+          </motion.p>
           <div className="flex flex-wrap gap-2 mb-6">
-            {project.tags.map((tag) => (
-              <span
+            {project.tags.map((tag, i) => (
+              <motion.span
                 key={tag}
                 className="text-xs font-medium px-2 py-1 rounded-full bg-secondary text-secondary-foreground"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.05 }}
               >
                 {tag}
-              </span>
+              </motion.span>
             ))}
           </div>
-          
-          
-          
+
           <div className="space-y-4">
             {(project.codeUrl || project.demoUrl) && (
-              <div className="flex gap-4">
+              <motion.div
+                className="flex gap-4"
+                animate={{ opacity: isHovered ? 1 : 0.7 }}
+                transition={{ duration: 0.3 }}
+              >
                 {project.codeUrl && (
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     asChild
                     onClick={(e) => e.stopPropagation()}
+                    className="hover-lift"
                   >
                     <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       <Github className="h-4 w-4" />
@@ -98,10 +149,11 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
                   </Button>
                 )}
                 {project.demoUrl && (
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     asChild
                     onClick={(e) => e.stopPropagation()}
+                    className="hover-lift"
                   >
                     <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                       <ExternalLink className="h-4 w-4" />
@@ -109,7 +161,7 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
                     </a>
                   </Button>
                 )}
-              </div>
+              </motion.div>
             )}
             {project.note && (
               <p className="text-sm text-blue-500 text-muted-foreground italic mt-4">
@@ -117,19 +169,39 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
               </p>
             )}
             {/* Click to know more message */}
-          <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
-            <div className="flex items-center justify-center gap-2 text-primary font-medium text-sm">
-              <span>Click to read full case study</span>
-              <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </div>
+            <motion.div
+              className="p-3 bg-primary/5 border border-primary/20 rounded-lg"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex items-center justify-center gap-2 text-primary font-medium text-sm">
+                <span>Click to read full case study</span>
+                <motion.div
+                  animate={{ x: isHovered ? 5 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </div>
+
+        {/* Glow effect on hover */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none rounded-lg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            boxShadow: '0 0 30px rgba(var(--primary), 0.3)',
+          }}
+        />
+      </motion.div>
 
       {/* Case Study Modal */}
       <Dialog open={showCaseStudy} onOpenChange={setShowCaseStudy}>
-        <DialogContent className="max-w-3xl  max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">{project.title}</DialogTitle>
             <DialogDescription className="text-muted-foreground">
