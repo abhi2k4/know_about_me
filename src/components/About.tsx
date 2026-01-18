@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState} from "react";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import SkillBadge from "./SkillBadge";
-import { Code, Database, Globe, Server, Palette } from "lucide-react";
+import { LayoutTemplate, Terminal, Layers, PenTool } from "lucide-react";
 import GithubStats from "./GitHubStats";
 import { Button } from "@/components/ui/button";
+import LogoLoop from "./LogoLoop";
 
 const About = () => {
   const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
@@ -65,16 +66,124 @@ const About = () => {
     ]
   };
 
+  // Tech stack logos for the loop
+  const techLogos = [
+    {
+      src: "https://cdn.simpleicons.org/react/white",
+      alt: "React",
+      title: "React"
+    },
+    {
+      src: "https://cdn.simpleicons.org/typescript/white",
+      alt: "TypeScript",
+      title: "TypeScript"
+    },
+    {
+      src: "https://cdn.simpleicons.org/javascript/white",
+      alt: "JavaScript",
+      title: "JavaScript"
+    },
+    {
+      src: "https://cdn.simpleicons.org/nodedotjs/white",
+      alt: "Node.js",
+      title: "Node.js"
+    },
+    {
+      src: "https://cdn.simpleicons.org/express/white",
+      alt: "Express",
+      title: "Express"
+    },
+    {
+      src: "https://cdn.simpleicons.org/python/white",
+      alt: "Python",
+      title: "Python"
+    },
+    {
+      src: "https://cdn.simpleicons.org/django/white",
+      alt: "Django",
+      title: "Django"
+    },
+    {
+      src: "https://cdn.simpleicons.org/flask/white",
+      alt: "Flask",
+      title: "Flask"
+    },
+    {
+      src: "https://cdn.simpleicons.org/mysql/white",
+      alt: "MySQL",
+      title: "MySQL"
+    },
+    {
+      src: "https://cdn.simpleicons.org/firebase/white",
+      alt: "Firebase",
+      title: "Firebase"
+    },
+    {
+      src: "https://cdn.simpleicons.org/supabase/white",
+      alt: "Supabase",
+      title: "Supabase"
+    },
+    {
+      src: "https://cdn.simpleicons.org/tailwindcss/white",
+      alt: "Tailwind CSS",
+      title: "Tailwind CSS"
+    },
+    {
+      src: "https://cdn.simpleicons.org/html5/white",
+      alt: "HTML5",
+      title: "HTML5"
+    },
+    {
+      src: "https://cdn.simpleicons.org/figma/white",
+      alt: "Figma",
+      title: "Figma"
+    },
+    {
+      src: "https://cdn.simpleicons.org/git/white",
+      alt: "Git",
+      title: "Git"
+    },
+    {
+      src: "https://cdn.simpleicons.org/github/white",
+      alt: "GitHub",
+      title: "GitHub"
+    },
+    {
+      src: "https://cdn.simpleicons.org/vercel/white",
+      alt: "Vercel",
+      title: "Vercel"
+    },
+    {
+      src: "https://cdn.simpleicons.org/vite/white",
+      alt: "Vite",
+      title: "Vite"
+    },
+    {
+      src: "https://cdn.simpleicons.org/npm/white",
+      alt: "npm",
+      title: "npm"
+    }
+  ];
+
   return (
     <section
       id="about"
-      className="relative py-24 md:py-32 overflow-hidden bg-background"
+      className="relative py-8 overflow-hidden bg-background"
       ref={sectionRef as React.RefObject<HTMLElement>}
     >
+        <div className="mb-12 overflow-hidden">
+          <LogoLoop 
+            logos={techLogos}
+            speed={30}
+            gap={48}
+            className="opacity-70 hover:opacity-100 transition-opacity duration-300"
+          />
+        </div>
+      
       {/* Subtle background effect */}
       <div className="absolute inset-0 -z-20 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
-      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
+      <div className={`container mx-auto py-24 md:py-32 px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
         isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
       }`}>
         <div className="text-center mb-16">
@@ -86,172 +195,120 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
-            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
-            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
-            border border-primary/5 group">
-            <div className="flex items-center mb-4">
-            <div className="flex items-center justify-center h-12 w-12 rounded-lg 
-              bg-blue-500/10 text-blue-500 mr-4
-              transition-all duration-300 group-hover:scale-110 
-              group-hover:bg-blue-500/20 group-hover:rotate-3">
-                <Globe className="h-6 w-6" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isSectionVisible ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="group relative p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-card/50 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5"
+          >
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <LayoutTemplate className="w-24 h-24 text-primary rotate-12" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-lg bg-primary/10 text-primary border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                  <LayoutTemplate className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold tracking-tight">Frontend Development</h3>
               </div>
-              <h3 className="text-xl font-bold">Frontend Development</h3>
+              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+                Building responsive, performant user interfaces with modern frameworks and a focus on accessibility and user experience.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {frontendSkills.map((skill) => (
+                  <SkillBadge key={skill} name={skill} />
+                ))}
+              </div>
             </div>
-            <p className="text-muted-foreground mb-6">
-              Building responsive, performant user interfaces with modern frameworks and a focus on accessibility and user experience.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {frontendSkills.map((skill) => (
-                <SkillBadge key={skill} name={skill} />
-              ))}
-            </div>
-          </div>
+          </motion.div>
           
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
-            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
-            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
-            border border-primary/5 group">
-            <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center h-12 w-12 rounded-lg 
-                bg-green-500/10 text-green-500 mr-4
-                transition-all duration-300 group-hover:scale-110 
-                group-hover:bg-green-500/20 group-hover:rotate-3">
-                <Server className="h-6 w-6" />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isSectionVisible ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="group relative p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-card/50 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5"
+          >
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Terminal className="w-24 h-24 text-primary rotate-12" />
+            </div>
+
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-lg bg-primary/10 text-primary border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                  <Terminal className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold tracking-tight">Backend Development</h3>
               </div>
-              <h3 className="text-xl font-bold">Backend Development</h3>
+              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+                Creating robust APIs, implementing business logic, and ensuring secure, scalable server-side applications.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {backendSkills.map((skill) => (
+                  <SkillBadge key={skill} name={skill} />
+                ))}
+              </div>
             </div>
-            <p className="text-muted-foreground mb-6">
-              Creating robust APIs, implementing business logic, and ensuring secure, scalable server-side applications.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {backendSkills.map((skill) => (
-                <SkillBadge key={skill} name={skill} />
-              ))}
-            </div>
-          </div>
+          </motion.div>
           
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
-            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
-            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
-            border border-primary/5 group">
-            <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center h-12 w-12 rounded-lg 
-                bg-amber-500/10 text-amber-500 mr-4
-                transition-all duration-300 group-hover:scale-110 
-                group-hover:bg-amber-500/20 group-hover:rotate-3">
-                <Database className="h-6 w-6" />
-              </div>
-              <h3 className="text-xl font-bold">Database & Storage</h3>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isSectionVisible ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="group relative p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-card/50 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5"
+          >
+             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Layers className="w-24 h-24 text-primary rotate-12" />
             </div>
-            <p className="text-muted-foreground mb-6">
-              Designing efficient database schemas, optimizing queries, and implementing data storage solutions for various application needs.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {databaseSkills.map((skill) => (
-                <SkillBadge key={skill} name={skill} />
-              ))}
-            </div>
-          </div>
 
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 
-            hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
-            hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
-            border border-primary/5 group">
-          <div className="flex items-center mb-4">
-            <div className="flex items-center justify-center h-12 w-12 rounded-lg 
-              bg-pink-500/10 text-pink-500 mr-4
-              transition-all duration-300 group-hover:scale-110 
-              group-hover:bg-pink-500/20 group-hover:rotate-3">
-              <Palette className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-bold">UI/UX Design</h3>
-          </div>
-          <p className="text-muted-foreground mb-6">
-            Creating intuitive user interfaces and engaging user experiences through thoughtful design principles and modern aesthetics.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {uiUxSkills.map((skill) => (
-              <SkillBadge key={skill} name={skill} />
-            ))}
-          </div>
-        </div>
-          {/* <div className="bg-card rounded-xl p-6 transition-all duration-300 hover:shadow-md">
-            <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-500/10 text-purple-500 mr-4">
-                <Code className="h-6 w-6" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-lg bg-primary/10 text-primary border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                  <Layers className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold tracking-tight">Database & Architecture</h3>
               </div>
-              <h3 className="text-xl font-bold">DevOps & Deployment</h3>
+              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+                Designing efficient database schemas, optimizing queries, and implementing reliable data storage solutions.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {databaseSkills.map((skill) => (
+                  <SkillBadge key={skill} name={skill} />
+                ))}
+              </div>
             </div>
-            <p className="text-muted-foreground mb-6">
-              Setting up CI/CD pipelines, containerization, cloud deployment, and ensuring smooth operation of applications.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {devOpsSkills.map((skill) => (
-                <SkillBadge key={skill} name={skill} />
-              ))}
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isSectionVisible ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="group relative p-6 bg-card/30 backdrop-blur-sm rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 hover:bg-card/50 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5"
+          >
+             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <PenTool className="w-24 h-24 text-primary rotate-12" />
             </div>
-          </div> */}
+
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-lg bg-primary/10 text-primary border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                  <PenTool className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold tracking-tight">UI/UX Design</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+                Creating intuitive user interfaces and engaging user experiences through thoughtful design principles.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {uiUxSkills.map((skill) => (
+                  <SkillBadge key={skill} name={skill} />
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        
-        <div className="mt-16 bg-card/50 backdrop-blur-sm rounded-xl p-8 max-w-3xl mx-auto
-  transition-all duration-300 
-  hover:shadow-lg hover:shadow-primary/5 hover:bg-card/80 
-  hover:backdrop-blur-md hover:scale-[1.02] hover:-translate-y-1 
-  border border-primary/5 relative overflow-hidden group"
->
-  {/* Background Patterns */}
-  <div className="absolute inset-0 opacity-10 pointer-events-none transition-opacity duration-300 group-hover:opacity-20">
-    <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(var(--primary),.1)_50%,transparent_100%)] animate-shimmer" />
-    <div className="absolute -inset-[100%] bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(var(--primary),.02)_10px,rgba(var(--primary),.02)_20px)]" />
-  </div>
-
-  <div className="relative">
-    <h3 className="text-2xl font-bold mb-8 inline-flex items-center gap-3">
-      <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50">
-        My Journey
-      </span>
-      <div className="flex gap-1.5">
-        <div className="h-1.5 w-1.5 rounded-full bg-primary/80 animate-pulse" />
-        <div className="h-1.5 w-1.5 rounded-full bg-primary/60 animate-pulse delay-75" />
-        <div className="h-1.5 w-1.5 rounded-full bg-primary/40 animate-pulse delay-150" />
-      </div>
-    </h3>
-
-    <div className="space-y-6">
-      <div className="relative pl-6 border-l-2 border-primary/20">
-        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-primary/10 border-2 border-primary/30" />
-        <h4 className="text-lg font-semibold mb-2 text-primary/80">Education & Foundation</h4>
-        <p className="text-muted-foreground leading-relaxed">
-          I began my development journey with a solid foundation in computer science during my B.Tech at Mumbai University. This academic foundation provided me with strong problem-solving skills and theoretical knowledge.
-        </p>
-      </div>
-
-      <div className="relative pl-6 border-l-2 border-primary/20">
-        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-primary/10 border-2 border-primary/30" />
-        <h4 className="text-lg font-semibold mb-2 text-primary/80">Project Experience</h4>
-        <p className="text-muted-foreground leading-relaxed">
-          As I explored various domains, I steadily expanded my skills across the full stack. From building academic projects like interview prep platforms and podcast websites to developing larger systems like CRM dashboards and safety apps for hackathons, I've tackled diverse challenges.
-        </p>
-      </div>
-
-      <div className="relative pl-6 border-l-2 border-primary/20">
-        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-primary/10 border-2 border-primary/30" />
-        <h4 className="text-lg font-semibold mb-2 text-primary/80">Current Focus</h4>
-        <p className="text-muted-foreground leading-relaxed">
-          What truly drives me is solving real-world problems with clean, efficient code. I'm passionate about building solutions that not only work seamlessly behind the scenes but also offer smooth and meaningful experiences to users.
-        </p>
-      </div>
-    </div>
-
-    {/* Enhanced Decorative Elements */}
-    <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-secondary/5 rounded-full blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-  </div>
-</div>
         
        </div>
      </section>

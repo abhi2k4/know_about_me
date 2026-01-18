@@ -1,7 +1,7 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { GraduationCapIcon, CalendarIcon, MapPinIcon, AwardIcon, BookOpenIcon } from "lucide-react";
+import { School, CalendarRange, MapPin, Trophy, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface EducationItem {
   id: number;
@@ -90,21 +90,25 @@ const Education = () => {
         <div className="max-w-4xl mx-auto">
           <div className="space-y-12">
             {educationItems.map((edu, index) => (
-              <div 
+              <motion.div 
                 key={edu.id} 
-                className={`relative pl-12 transition-all duration-500 delay-${index * 200}`}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="relative pl-8 md:pl-12"
               >
-                <div className="absolute left-0 top-1 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                  <GraduationCapIcon className="w-4 h-4 text-primary" />
-                </div>
-                {index !== educationItems.length - 1 && (
-                  <div className="absolute left-4 top-9 bottom-0 w-[2px] bg-gradient-to-b from-primary/20 to-primary/5" />
-                )}
+                {/* Timeline Line */}
+                <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:left-4" />
                 
-                <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-border/30 hover:border-primary/20 transition-colors duration-300">
-                  <div className="flex flex-col md:flex-row gap-4 items-start mb-4">
+                {/* Timeline Dot */}
+                <div className="absolute left-[-4px] top-6 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-primary/10 md:left-[13px]" />
+                
+                {/* Card */}
+                <div className="group relative bg-card/30 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/5 hover:border-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+                  <div className="flex flex-col md:flex-row gap-6 items-start mb-6">
                     {edu.logoUrl && (
-                      <div className="flex-shrink-0 w-16 h-16 rounded-full  bg-white p-1 border border-border/30 overflow-hidden hidden md:block">
+                      <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-white p-2 border border-white/10 overflow-hidden hidden md:block group-hover:scale-105 transition-transform duration-300">
                         <img 
                           src={edu.logoUrl} 
                           alt={edu.institution} 
@@ -112,43 +116,49 @@ const Education = () => {
                         />
                       </div>
                     )}
-                    <div className="flex-1">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
+                    <div className="flex-1 w-full">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
                         <div>
-                          <h4 className="text-xl font-bold">{edu.degree}</h4>
-                          <p className="text-primary font-medium">{edu.institution}</p>
+                          <h4 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3">
+                            {edu.degree}
+                          </h4>
+                          <div className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 mt-1">
+                            {edu.institution}
+                          </div>
                         </div>
-                        <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1 md:self-start">
-                          <CalendarIcon className="w-3 h-3" />
-                          <span>{edu.duration}</span>
-                        </Badge>
-                      </div>
-                      
-                      <div className="flex items-center mb-4 text-sm text-muted-foreground">
-                        <MapPinIcon className="w-4 h-4 mr-1 flex-shrink-0" />
-                        <span>{edu.location}</span>
-                        {edu.gpa && (
-                          <>
-                            <span className="mx-2">•</span>
-                            <span className="font-medium">GPA: {edu.gpa}</span>
-                          </>
-                        )}
+                        <div className="flex flex-col items-start md:items-end gap-1 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-2 bg-secondary/30 px-3 py-1 rounded-full">
+                            <CalendarRange className="w-3.5 h-3.5" />
+                            <span>{edu.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-2 px-3">
+                            <MapPin className="w-3.5 h-3.5" />
+                            <span>{edu.location}</span>
+                          </div>
+                          {edu.gpa && (
+                            <div className="flex items-center gap-2 px-3 font-medium text-primary">
+                              <span>GPA: {edu.gpa}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                       
                       {edu.description && (
-                        <p className="mb-4 text-muted-foreground">{edu.description}</p>
+                        <p className="mb-6 text-muted-foreground leading-relaxed">
+                          {edu.description}
+                        </p>
                       )}
                       
                       <div className="grid md:grid-cols-2 gap-6">
                         {edu.courses && edu.courses.length > 0 && (
-                          <div>
-                            <h5 className="font-medium mb-2 flex items-center gap-2">
-                              <BookOpenIcon className="w-4 h-4 text-primary" />
+                          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                            <h5 className="font-medium mb-3 flex items-center gap-2 text-foreground">
+                              <BookOpen className="w-4 h-4 text-primary" />
                               Key Courses
                             </h5>
                             <div className="flex flex-wrap gap-2">
                               {edu.courses.map((course, i) => (
-                                <Badge key={i} variant="outline" className="bg-secondary/20">
+                                <Badge key={i} variant="outline" className="border-white/10 bg-transparent hover:bg-white/5 transition-colors">
                                   {course}
                                 </Badge>
                               ))}
@@ -157,16 +167,16 @@ const Education = () => {
                         )}
                         
                         {edu.achievements && edu.achievements.length > 0 && (
-                          <div>
-                            <h5 className="font-medium mb-2 flex items-center gap-2">
-                              <AwardIcon className="w-4 h-4 text-primary" />
+                          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                            <h5 className="font-medium mb-3 flex items-center gap-2 text-foreground">
+                              <Trophy className="w-4 h-4 text-primary" />
                               Achievements
                             </h5>
-                            <ul className="space-y-1">
+                            <ul className="space-y-2">
                               {edu.achievements.map((achievement, i) => (
-                                <li key={i} className="text-muted-foreground text-sm flex items-start">
-                                  <span className="text-primary mr-2">•</span>
-                                  {achievement}
+                                <li key={i} className="text-muted-foreground text-sm flex items-start gap-2">
+                                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+                                  <span>{achievement}</span>
                                 </li>
                               ))}
                             </ul>
@@ -176,7 +186,7 @@ const Education = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

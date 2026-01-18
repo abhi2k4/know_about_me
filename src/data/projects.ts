@@ -140,4 +140,40 @@ export const projects = [
       "Established foundation for multimodal and fraud prediction features"
     ]
   }
+  ,
+  {
+    id: 5,
+    title: "Artisy - Preserving Indian Artistry",
+    description: "Artisy is an Indian art marketplace focused on preserving Indian heritage and empowering artisans. It integrates Razorpay for payments and Delhivery for shipping to provide a seamless buying and selling experience.",
+    tags: ["NextJS", "Razorpay", "Delhivery", "E-commerce", "Tailwind CSS"],
+    images: [
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1768740565/know%20me/projects/PHOTO-2026-01-18-18-17-25_sekgc5.jpg",
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1768740625/know%20me/projects/PHOTO-2026-01-18-18-18-07_bn4jc4.jpg",
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1768740705/know%20me/projects/PHOTO-2026-01-18-18-21-07_pcwbhd.jpg",
+      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1768741236/know%20me/projects/PHOTO-2026-01-18-18-29-20_opzsem.jpg"
+    ],
+    demoUrl: "https://artisy.in",
+    problem: "Many traditional artisans struggle to access broader markets and require reliable payment and shipping infrastructure to sell their craft at scale.",
+    solution: "Built a marketplace that allows artisans to list and sell their work, accept payments via Razorpay, and ship orders using Delhivery, with features for seller onboarding, order management, and secure checkout.",
+    role: "Full-stack development: UI/UX, serverless function (Vercel), payment gateway integration (Razorpay), logistics integration (Delhivery), and order flow implementation.",
+    stack: [
+      { name: "ReactJS" },
+      { name: "Node.js" },
+      { name: "SupaBase" },
+      { name: "Razorpay" },
+      { name: "Delhivery" },
+      { name: "Tailwind CSS" }
+    ],
+    challenges: [
+      "Integrating Razorpay for secure payments and seller settlements",
+      "Implementing Delhivery API for shipping, label generation and tracking",
+      "Designing seller onboarding with product moderation",
+      "Ensuring a seamless checkout and order lifecycle across the platform"
+    ],
+    outcomes: [
+      "Launched a live marketplace at artisy.in with a seamless checkout and shipping flow",
+      "Enabled artisans to reach customers nationwide with simplified order management",
+      "Reduced payment friction by integrating Razorpay and automated shipping via Delhivery"
+    ]
+  }
 ];

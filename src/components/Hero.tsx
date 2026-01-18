@@ -27,9 +27,9 @@ const Hero = () => {
 
   const [typewriterText] = useTypewriter({
     words: [
-      'Web Design',
+      'API Development',
       'UI/UX',
-      'Webflow',
+      'Machine Learning',
       'Front-End Development'
     ],
     loop: true,
@@ -67,12 +67,12 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
           className="flex justify-start"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 mt-2 rounded-full border border-foreground/20 bg-foreground/5 backdrop-blur-sm hover:border-primary/50 transition-colors cursor-pointer">
+          {/* <div className="inline-flex items-center gap-2 px-4 py-2 mt-2 rounded-full border border-foreground/20 bg-foreground/5 backdrop-blur-sm hover:border-primary/50 transition-colors cursor-pointer">
             <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50"></span>
             <span className="text-xs font-light tracking-wide text-foreground/70">
               Available for new opportunities
             </span>
-          </div>
+          </div> */}
         </motion.div>
 
         {/* Main Content */}
@@ -114,7 +114,7 @@ const Hero = () => {
                     <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-red-500/5 rounded-full animate-pulse" aria-hidden="true" />
                     
                     <img 
-                      src="/Profile .png"
+                      src="/Profile-red.png"
                       alt="Abhishek - Digital Product Designer"
                       className="w-full h-full object-cover rounded-full relative z-10 hover:scale-105 transition-transform duration-500"
                       ref={titleRef as React.RefObject<HTMLImageElement>}

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Header from "@/components/Header";
+import NavigationDock from "@/components/NavigationDock";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
@@ -13,7 +13,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col relative">
       <main>
-        <Header />
+        <NavigationDock />
         <Hero />
         <About />
         <Experience />
