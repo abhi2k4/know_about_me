@@ -8,12 +8,15 @@ import NotFound from "./pages/NotFound";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import SEOHead from "@/components/SEOHead";
+import FloatingBackToTop from "@/components/FloatingBackToTop";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
+      <SEOHead />
       <SpeedInsights />
       <TooltipProvider>
         <Toaster />
@@ -24,6 +27,7 @@ const App = () => (
           theme="dark"
         />
         <BrowserRouter>
+          <FloatingBackToTop />
           <Analytics />
           <Routes>
             <Route path="/" element={<Index />} />

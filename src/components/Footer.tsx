@@ -1,8 +1,9 @@
-import { Code, Heart, ChevronUp, Sparkles } from "lucide-react";
+import { Heart } from "lucide-react";
 import Logo from "./Logo";
 import { LikeButton } from "./LikeButton";
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -132,9 +133,12 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative border-t py-12 bg-gradient-to-b from-background to-background/80" ref={footerRef}>
-      {/* Subtle background effect */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-primary/3 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
+    <footer className="relative border-t border-border py-12 bg-background" ref={footerRef}>
+      {/* Background gradient */}
+      <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.02] bg-grid-pattern"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent"></div>
+      </div>
       
       {/* Full page confetti effect */}
       {showConfetti && createPortal(
@@ -183,80 +187,52 @@ const Footer = () => {
         </div>
       ))}
 
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Enhanced Logo Section */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main footer content - Simplified */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          {/* Brand Section */}
           <div 
-            className="flex items-center gap-3 mb-6 md:mb-0 group cursor-pointer relative"
+            className="flex items-center gap-3 group cursor-pointer"
             onClick={scrollToTop}
           >
-            <div className="relative transition-all duration-500 ease-out hover:scale-110">
-              <div className="absolute inset-0 bg-primary/20 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700"></div>
-              <div className="relative z-10">
-                <Logo />
-              </div>
+            <div className="relative transition-all duration-300 hover:scale-110">
+              <Logo />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl font-audiowide bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">
+              <span className="font-bold text-lg text-foreground font-audiowide">
                 abhi codes
               </span>
-              <span className="text-xs text-muted-foreground/80">
-                Full Stack Developer
+              <span className="text-xs text-muted-foreground">
+                Full Stack Dev
               </span>
             </div>
           </div>
 
-          {/* Enhanced Like Button Section */}
-          <div className="flex flex-col items-center gap-4 mb-6 md:mb-0">
-            <div 
-              onClick={handleLikeClick}
-              className="relative group"
-            >
-              <div className="absolute   rounded-full filter blur-md opacity-0 group-hover:opacity-100 scale-150 transition-all duration-300"></div>
-              <LikeButton 
-                data-cursor-text="Show Some Love!" 
+          {/* Like Button */}
+          <div 
+            onClick={handleLikeClick}
+            className="relative group"
+          >
+            <LikeButton 
+              data-cursor-text="Show Some Love!" 
+            />
+          </div>
+
+          {/* Right Section - Credit */}
+          <div className="text-center md:text-right flex flex-col gap-2">
+            <p className="flex items-center justify-center md:justify-end gap-2 text-xs text-muted-foreground group">
+              <span>Built with</span>
+              <Heart 
+                size={14} 
+                className="text-primary fill-primary"
               />
-            </div>
-          </div>
-
-          {/* Enhanced Footer Text Section */}
-          <div className="text-sm text-muted-foreground text-center md:text-right flex flex-col gap-2">
-            <p className="flex items-center gap-2 group">
-              <span>Designed and built with</span>
-              <span className="inline-flex items-center gap-1">
-                <Heart 
-                  size={16} 
-                  className="text-red-500 group-hover:animate-heartbeat fill-red-500"
-                />
-                <Sparkles 
-                  size={16} 
-                  className="text-yellow-500 group-hover:animate-pulse"
-                />
-              </span>
             </p>
-            <div className="flex flex-col gap-1">
-              <p className="text-xs opacity-70 hover:opacity-100 transition-opacity duration-300">
-                © {currentYear} Abhishek Thormothe
-              </p>
-              <button 
-                onClick={scrollToTop}
-                className="text-xs text-primary/70 hover:text-primary flex items-center gap-1 justify-end group transition-colors duration-300"
-              >
-                Back to top
-                <ChevronUp 
-                  size={14} 
-                  className="group-hover:-translate-y-1 transition-transform duration-300"
-                />
-              </button>
-            </div>
+            <p className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              © {currentYear} Abhishek Thormothe
+            </p>
+
           </div>
         </div>
-      </div>
-
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
-        <div className="absolute -top-24 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute -top-12 right-1/4 w-48 h-48 bg-secondary/5 rounded-full blur-2xl"></div>
       </div>
     </footer>
   );

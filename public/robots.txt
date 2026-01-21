@@ -1,13 +1,29 @@
+# robots.txt for Abhishek Thormothe's Portfolio
+
+# Allow all search engines
+User-agent: *
+Allow: /
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
+Allow: /
+
+# Sitemap
+Sitemap: https://abhishekthormothe.me/sitemap.xml
+
+# Disallow private paths
+Disallow: /admin
+Disallow: /private
 Allow: /
 
 User-agent: *
