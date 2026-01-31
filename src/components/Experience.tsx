@@ -37,12 +37,11 @@ const Experience = () => {
         "Created reusable UI components with Tailwind CSS for a unified design system."
       ],
       technologies: [
-        "React",
-        "Node.js",
-        "JavaScript",
-        "Tailwind CSS",
+        "React Native",
+        "FastAPI",
+        "Websocket APIs",
         "Git",
-        "Figma"
+        "REST APIs"
       ],
       logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1755021397/know%20me/druve_bmvvnb.jpg",
       companyUrl: "https://druvemedia.in"
@@ -62,11 +61,11 @@ const Experience = () => {
       ],
       technologies: [
         "React",
-        "Django",
-        "FastAPI",
-        "Websocket APIs",
+        "Node.js",
+        "JavaScript",
+        "Tailwind CSS",
         "Git",
-        "REST APIs"
+        "Figma"
       ],
       logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico",
       companyUrl: "https://eterniq.in"
