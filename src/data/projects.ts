@@ -68,81 +68,81 @@ export const projects = [
       "Created comprehensive documentation for system maintenance"
     ]
   },
-  {
-    id: 3,
-    title: "SMILE CRM",
-    description: "Smart Marketing Intelligence & Local Engagement (SMILE) is a solution designed to enhance customer relationship management through deep user segmentation tailored for the Indian market.",
-    tags: ["NextJS", "Node.js", "Gemini", "Tailwind CSS", "Frontend"],
-    images: [
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056387/know%20me/projects/37e2bc22-8536-4542-a09d-4de350e571e1.png",
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056455/know%20me/projects/d3b1c0ca-b8ec-44c8-9c3f-f786494e32c3.png",
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056507/know%20me/projects/68844bbf-edcf-4e62-a378-53cf92ce033e.png",
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056535/know%20me/projects/805ba0d7-46aa-4bf2-b56b-cc4b0e2ed367.png"
-    ],
-    note: "The code will be available soon.",
-    demoUrl: "https://smilecrm.vercel.app/",
-    problem: "Businesses struggle to effectively segment and engage with customers in the Indian market due to unique cultural and regional differences.",
-    solution: "Created a sophisticated CRM system with AI-powered user segmentation and localized engagement strategies, specifically designed for the Indian market context.",
-    role: "Led frontend development using NextJS and implemented AI features with Gemini for smart customer segmentation and analysis.",
-    stack: [
-      { name: "NextJS",},
-      { name: "Node.js",},
-      { name: "Gemini",},
-      { name: "Tailwind CSS",  }
-    ],
-    challenges: [
-      "Implementing complex user segmentation algorithms",
-      "Creating an intuitive interface for data visualization",
-      "Handling diverse data sets for Indian market analysis",
-      "Optimizing performance for large customer databases"
-    ],
-    outcomes: [
-      "Successfully launched demo version with positive user feedback",
-      "Implemented AI-driven customer insights system",
-      "Created responsive and user-friendly interface",
-      "Developed scalable architecture for future enhancements"
-    ]
-  },
-  {
-    id: 4,
-    title: "PRISM - Personalized Risk Intelligence Scoring Model",
-    demoUrl: "https://prism-assist.vercel.app/",
-    description: "A GenAI-powered risk assessment agent designed to evaluate the financial and operational risk of individuals or companies based on structured input data, providing explainable risk levels with clear reasoning.",
-    tags: ["FastAPI", "Streamlit", "Gemini", "Risk Assessment", "AI", "Financial Technology"],
-    images: [
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217660/know%20me/projects/49df9f9f-b126-4b3e-bf88-ac8e58428df4.png",
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217797/know%20me/projects/e83be380-3ad6-482d-aaf7-d2a2beb640ee.png",
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217857/know%20me/projects/4ee5e266-5258-4ae3-99ec-ada9a7bafd5b.png",
-      "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217906/know%20me/projects/f4d6bf63-c0cd-4626-982e-33eddd95dff0.png"
-    ],
-    note: "This project demonstrates real-time explainable AI for financial risk assessment.",
-    // Add codeUrl and demoUrl when available
-    problem: "Banks, insurers, and financial institutions need smarter, faster, and more transparent risk assessment tools that can provide explainable reasoning without relying on pre-trained models or manual analysis.",
-    solution: "Developed PRISM, a GenAI-powered risk assessment agent that uses Gemini 1.5 Flash to evaluate financial and operational risks in real-time, providing clear risk levels (High/Medium/Low) with human-like narrative explanations.",
-    role: "Full-stack development including FastAPI backend, Streamlit frontend, and integration with Gemini AI for intelligent risk scoring and explanation generation.",
-    stack: [
-      { name: "FastAPI" },
-      { name: "Streamlit" },
-      { name: "Gemini 1.5 Flash" },
-      { name: "Python" }
-    ],
-    challenges: [
-      "Implementing real-time explainable AI reasoning for risk assessment",
-      "Designing structured data input format for comprehensive risk evaluation",
-      "Optimizing prompt engineering for consistent and accurate risk scoring",
-      "Creating intuitive UI for complex financial data input and visualization"
-    ],
-    outcomes: [
-      "Successfully deployed real-time risk assessment system",
-      "Achieved high-speed, low-latency risk scoring with Gemini Flash",
-      "Created explainable AI system with human-like reasoning capabilities",
-      "Developed API and UI interfaces for easy integration and usage",
-      "Established foundation for multimodal and fraud prediction features"
-    ]
-  }
+  // {
+  //   id: 3,
+  //   title: "SMILE CRM",
+  //   description: "Smart Marketing Intelligence & Local Engagement (SMILE) is a solution designed to enhance customer relationship management through deep user segmentation tailored for the Indian market.",
+  //   tags: ["NextJS", "Node.js", "Gemini", "Tailwind CSS", "Frontend"],
+  //   images: [
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056387/know%20me/projects/37e2bc22-8536-4542-a09d-4de350e571e1.png",
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056455/know%20me/projects/d3b1c0ca-b8ec-44c8-9c3f-f786494e32c3.png",
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056507/know%20me/projects/68844bbf-edcf-4e62-a378-53cf92ce033e.png",
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745056535/know%20me/projects/805ba0d7-46aa-4bf2-b56b-cc4b0e2ed367.png"
+  //   ],
+  //   note: "The code will be available soon.",
+  //   demoUrl: "https://smilecrm.vercel.app/",
+  //   problem: "Businesses struggle to effectively segment and engage with customers in the Indian market due to unique cultural and regional differences.",
+  //   solution: "Created a sophisticated CRM system with AI-powered user segmentation and localized engagement strategies, specifically designed for the Indian market context.",
+  //   role: "Led frontend development using NextJS and implemented AI features with Gemini for smart customer segmentation and analysis.",
+  //   stack: [
+  //     { name: "NextJS",},
+  //     { name: "Node.js",},
+  //     { name: "Gemini",},
+  //     { name: "Tailwind CSS",  }
+  //   ],
+  //   challenges: [
+  //     "Implementing complex user segmentation algorithms",
+  //     "Creating an intuitive interface for data visualization",
+  //     "Handling diverse data sets for Indian market analysis",
+  //     "Optimizing performance for large customer databases"
+  //   ],
+  //   outcomes: [
+  //     "Successfully launched demo version with positive user feedback",
+  //     "Implemented AI-driven customer insights system",
+  //     "Created responsive and user-friendly interface",
+  //     "Developed scalable architecture for future enhancements"
+  //   ]
+  // },
+  // {
+  //   id: 4,
+  //   title: "PRISM - Personalized Risk Intelligence Scoring Model",
+  //   demoUrl: "https://prism-assist.vercel.app/",
+  //   description: "A GenAI-powered risk assessment agent designed to evaluate the financial and operational risk of individuals or companies based on structured input data, providing explainable risk levels with clear reasoning.",
+  //   tags: ["FastAPI", "Streamlit", "Gemini", "Risk Assessment", "AI", "Financial Technology"],
+  //   images: [
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217660/know%20me/projects/49df9f9f-b126-4b3e-bf88-ac8e58428df4.png",
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217797/know%20me/projects/e83be380-3ad6-482d-aaf7-d2a2beb640ee.png",
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217857/know%20me/projects/4ee5e266-5258-4ae3-99ec-ada9a7bafd5b.png",
+  //     "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1752217906/know%20me/projects/f4d6bf63-c0cd-4626-982e-33eddd95dff0.png"
+  //   ],
+  //   note: "This project demonstrates real-time explainable AI for financial risk assessment.",
+  //   // Add codeUrl and demoUrl when available
+  //   problem: "Banks, insurers, and financial institutions need smarter, faster, and more transparent risk assessment tools that can provide explainable reasoning without relying on pre-trained models or manual analysis.",
+  //   solution: "Developed PRISM, a GenAI-powered risk assessment agent that uses Gemini 1.5 Flash to evaluate financial and operational risks in real-time, providing clear risk levels (High/Medium/Low) with human-like narrative explanations.",
+  //   role: "Full-stack development including FastAPI backend, Streamlit frontend, and integration with Gemini AI for intelligent risk scoring and explanation generation.",
+  //   stack: [
+  //     { name: "FastAPI" },
+  //     { name: "Streamlit" },
+  //     { name: "Gemini 1.5 Flash" },
+  //     { name: "Python" }
+  //   ],
+  //   challenges: [
+  //     "Implementing real-time explainable AI reasoning for risk assessment",
+  //     "Designing structured data input format for comprehensive risk evaluation",
+  //     "Optimizing prompt engineering for consistent and accurate risk scoring",
+  //     "Creating intuitive UI for complex financial data input and visualization"
+  //   ],
+  //   outcomes: [
+  //     "Successfully deployed real-time risk assessment system",
+  //     "Achieved high-speed, low-latency risk scoring with Gemini Flash",
+  //     "Created explainable AI system with human-like reasoning capabilities",
+  //     "Developed API and UI interfaces for easy integration and usage",
+  //     "Established foundation for multimodal and fraud prediction features"
+  //   ]
+  // }
   ,
   {
-    id: 5,
+    id: 3,
     title: "Artisy - Preserving Indian Artistry",
     description: "Artisy is an Indian art marketplace focused on preserving Indian heritage and empowering artisans. It integrates Razorpay for payments and Delhivery for shipping to provide a seamless buying and selling experience.",
     tags: ["NextJS", "Razorpay", "Delhivery", "E-commerce", "Tailwind CSS"],
@@ -174,6 +174,70 @@ export const projects = [
       "Launched a live marketplace at artisy.in with a seamless checkout and shipping flow",
       "Enabled artisans to reach customers nationwide with simplified order management",
       "Reduced payment friction by integrating Razorpay and automated shipping via Delhivery"
+    ]
+  },
+  {
+    id: 4,
+    title: "OverSightAI - Enterprise AI & Data Governance",
+    description: "OverSightAI is a centralized control plane that gives enterprises real-time visibility and governance over how AI agents consume organizational data. It automates risk-scoring, trust evaluation, and policy compliance across agent interactions.",
+    tags: ["DataHub", "Keycloak", "Langfuse", "AI Governance", "Open Source"],
+    images: ["https://res.cloudinary.com/ds2uw5gcw/image/upload/v1773596803/know%20me/projects/PHOTO-2026-03-15-23-16-07_zoonym.jpg"],
+    demoUrl: "https://oversightai.in",
+    problem: "Organizations deploying AI agents have no centralized way to monitor, audit, or enforce governance policies over how those agents access and use sensitive organizational data — creating compliance and trust risks.",
+    solution: "Built a governance control plane on top of open-source tools (DataHub, Keycloak, Langfuse) that continuously monitors AI agent activity, auto-evaluates risk and trust scores, enforces RBAC policies, and maintains a full audit trail — reducing manual governance overhead for low-risk events entirely.",
+    role: "Full-stack development: system architecture, open-source tool integration (DataHub, Keycloak, Langfuse), RBAC implementation, risk-scoring engine, and governance dashboard UI.",
+    stack: [
+      { name: "DataHub" },
+      { name: "Keycloak" },
+      { name: "Langfuse" },
+      { name: "Python" },
+      { name: "React" },
+      { name: "FastAPI" }
+    ],
+    challenges: [
+      "Integrating DataHub, Keycloak, and Langfuse into a unified control plane with consistent data models",
+      "Designing an automated risk-scoring system that classifies agent interactions without human triage for low-risk events",
+      "Implementing RBAC with Keycloak across multiple AI agent contexts",
+      "Building a real-time audit trail that captures governance events without impacting agent performance"
+    ],
+    outcomes: [
+      "Launched a live governance platform at oversightai.in serving enterprise AI compliance use cases",
+      "Automated risk classification for agent interactions, eliminating manual review for low-risk events",
+      "Delivered a centralized audit trail and RBAC system giving teams full visibility into AI data consumption"
+    ]
+  },
+
+  {
+    id: 5,
+    title: "Chalo Kisaan - Agritourism Platform for Indian Farmers",
+    description: "Chalo Kisaan is a Progressive Web App that empowers small-scale Indian farmers to establish and scale agritourism businesses. Built end-to-end on AWS infrastructure, it connects rural farmers with urban tourists through seamless discovery, booking, and dashboard management.",
+    tags: ["FastAPI", "React Router", "AWS", "PWA", "Tailwind CSS"],
+    images: ["https://res.cloudinary.com/ds2uw5gcw/image/upload/v1773596711/know%20me/projects/PHOTO-2026-03-15-23-14-13_m1nef0.jpg"],
+    demoUrl: "https://chalokisaan.in",
+    problem: "Small-scale Indian farmers lack the digital infrastructure and market access needed to monetize their land and culture through agritourism — a high-potential but underserved segment.",
+    solution: "Built a full-stack PWA hosted on AWS (EC2, S3, RDS, CloudFront, Bedrock) that allows farmers to list experiences, manage bookings, and track revenue through responsive dashboards — with offline support critical for low-connectivity rural areas.",
+    role: "Full-stack development: UI/UX design, FastAPI backend, AWS infrastructure setup (EC2, S3, RDS, CloudFront, Bedrock), PWA configuration, and dashboard implementation.",
+    stack: [
+      { name: "FastAPI" },
+      { name: "ReactJS" },
+      { name: "AWS EC2" },
+      { name: "AWS S3" },
+      { name: "AWS RDS" },
+      { name: "CloudFront" },
+      { name: "AWS Bedrock" },
+      { name: "AWS Amplify" },
+      { name: "Tailwind CSS" }
+    ],
+    challenges: [
+      "Architecting a multi-service AWS infrastructure (EC2, S3, RDS, CloudFront, Bedrock) for a production PWA",
+      "Achieving Lighthouse PWA score of 90+ with offline access for rural users on low-connectivity networks",
+      "Designing intuitive farmer-facing dashboards for users with limited digital literacy",
+      "Integrating FastAPI backend with React Router for seamless SPA navigation and API data flow"
+    ],
+    outcomes: [
+      "Launched a live platform at chalokisaan.in fully hosted on AWS with zero-downtime deployments via Elastic Beanstalk",
+      "Achieved Lighthouse PWA score of 90+, enabling offline access and home-screen install for rural farmers",
+      "Empowered farmers to independently list, manage, and monetize agritourism experiences nationwide"
     ]
   }
 ];

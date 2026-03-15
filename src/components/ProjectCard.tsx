@@ -73,18 +73,29 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
             animate={{ scale: isHovered ? 1.1 : 1 }}
             transition={{ duration: 0.5 }}
           >
-            <ProjectCarousel
-              images={project.images}
-              className="aspect-video w-full"
-            />
-          </motion.div>
-          {/* Overlay on hover */}
-          <motion.div
-            className="absolute inset-0 bg-primary/10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
+            {project.images?.some((img) => img && img.trim()) ? (
+              <ProjectCarousel
+                images={project.images}
+                className="aspect-video w-full"
+              />
+            ) : (
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-lg bg-secondary/20 text-center px-6">
+                <div className="text-sm font-semibold tracking-wide text-muted-foreground">
+                  No preview available
+                </div>
+                <div className="text-xs text-muted-foreground/80">
+                  Visit the demo to see this project in action.
+                </div>
+              </div>
+            )}
+           </motion.div>
+           {/* Overlay on hover */}
+           <motion.div
+             className="absolute inset-0 bg-primary/10"
+             initial={{ opacity: 0 }}
+             animate={{ opacity: isHovered ? 1 : 0 }}
+             transition={{ duration: 0.3 }}
+           />
           {/* Play icon on hover */}
           <motion.div
             className="absolute inset-0 flex items-center justify-center"
