@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FileDown, ExternalLink, File, Home, User, Code2, BookOpen, Briefcase, Mail, ChevronDown, Map } from "lucide-react";
+import { FileDown, ExternalLink, FileText, LayoutGrid, IdCard, Building2, GraduationCap, Blocks, AtSign, ChevronDown, Waypoints } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Dock } from "@/components/ui/dock";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -78,13 +78,13 @@ const NavigationDock = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "#home", icon: Home, isSection: true },
-    { name: "About", href: "#about", icon: User, isSection: true },
-    { name: "Experience", href: "#experience", icon: Briefcase, isSection: true },
-    { name: "Education", href: "#education", icon: BookOpen, isSection: true },
-    { name: "Projects", href: "/projects", icon: Code2, isSection: false },
-    { name: "Journey", href: "/journey", icon: Map, isSection: false },
-    { name: "Contact", href: "#contact", icon: Mail, isSection: true },
+    { name: "Home", href: "#home", icon: LayoutGrid, isSection: true },
+    { name: "About", href: "#about", icon: IdCard, isSection: true },
+    { name: "Experience", href: "#experience", icon: Building2, isSection: true },
+    { name: "Education", href: "#education", icon: GraduationCap, isSection: true },
+    { name: "Projects", href: "/projects", icon: Blocks, isSection: false },
+    { name: "Journey", href: "/journey", icon: Waypoints, isSection: false },
+    { name: "Contact", href: "#contact", icon: AtSign, isSection: true },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isSection: boolean) => {
@@ -187,7 +187,7 @@ const NavigationDock = () => {
                             : "hover:bg-primary/10 text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        <Home className="w-5 h-5" />
+                        <LayoutGrid className="w-5 h-5" />
                       </a>
                     </TooltipTrigger>
                     <TooltipContent side="bottom" className="bg-background/90 backdrop-blur-sm border border-primary/20">
@@ -247,7 +247,7 @@ const NavigationDock = () => {
                             : "hover:bg-primary/10 text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        <Mail className="w-5 h-5" />
+                        <AtSign className="w-5 h-5" />
                       </a>
                     </TooltipTrigger>
                     <TooltipContent side="bottom" className="bg-background/90 backdrop-blur-sm border border-primary/20">
@@ -263,7 +263,7 @@ const NavigationDock = () => {
                       <TooltipTrigger asChild>
                         <DropdownMenuTrigger asChild>
                           <button className="inline-flex items-center justify-center h-10 w-10 rounded-full hover:bg-primary/10 transition-colors text-muted-foreground hover:text-foreground">
-                            <File className={`w-5 h-5 ${downloading ? "animate-bounce" : ""}`} />
+                            <FileText className={`w-5 h-5 ${downloading ? "animate-bounce" : ""}`} />
                           </button>
                         </DropdownMenuTrigger>
                       </TooltipTrigger>
@@ -373,7 +373,7 @@ const NavigationDock = () => {
                 <TooltipTrigger asChild>
                   <DropdownMenuTrigger asChild>
                     <button className="inline-flex items-center justify-center h-9 w-9 rounded-full hover:bg-primary/10 transition-colors text-muted-foreground hover:text-foreground">
-                      <File className={`w-4 h-4 ${downloading ? "animate-bounce" : ""}`} />
+                      <FileText className={`w-4 h-4 ${downloading ? "animate-bounce" : ""}`} />
                     </button>
                   </DropdownMenuTrigger>
                 </TooltipTrigger>
