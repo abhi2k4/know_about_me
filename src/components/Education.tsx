@@ -1,7 +1,7 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { School, CalendarRange, MapPin, Trophy, BookOpen } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
+import { CalendarRange, MapPin, BookOpen, Trophy } from "lucide-react";
 
 interface EducationItem {
   id: number;
@@ -17,10 +17,15 @@ interface EducationItem {
 }
 
 const Education = () => {
-  const { ref, isVisible } = useScrollAnimation({
-    threshold: 0.1,
-    triggerOnce: true,
+  const sectionRef = useRef<HTMLElement>(null);
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
   });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
   const educationItems: EducationItem[] = [
     {
@@ -28,162 +33,170 @@ const Education = () => {
       degree: "B.E. in Computer Engineering",
       institution: "University of Mumbai",
       location: "Mumbai, India",
-      duration: "2022 - 2026",
-      // gpa: "9.0/10",
-      description: "Currently pursuing my Bachelor's in Computer Engineering with a focus on full-stack development, data structures, and algorithms.",
+      duration: "2022 – 2026",
+      description:
+        "Pursuing Bachelor's in Computer Engineering with focus on full-stack development, data structures, and algorithms.",
       achievements: [
-        "Founding Member of Coders Club - an emerging community for tech enthusiasts",
+        "Founding Member of Coders Club — an emerging community for tech enthusiasts",
         "Participated in several hackathons and coding competitions",
-        "Built multiple projects showcased in college tech exhibitions"
+        "Built multiple projects showcased in college tech exhibitions",
       ],
       courses: [
         "Data Structures & Algorithms",
         "Database Management Systems",
         "Web Development",
         "Machine Learning",
-        "Operating Systems"
+        "Operating Systems",
       ],
-      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/University-icon_n0axod.jpg"
+      logoUrl:
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/University-icon_n0axod.jpg",
     },
     {
       id: 2,
       degree: "Higher Secondary Certificate (HSC)",
       institution: "PACE Junior College",
-      location: "Borivali, Mumbai, India", 
-      duration: "2020 - 2022",
-      // gpa: "90%",
-      description: "Completed my higher secondary education with specialization in Science and Mathematics.",
+      location: "Borivali, Mumbai, India",
+      duration: "2020 – 2022",
+      description:
+        "Completed higher secondary education with specialization in Science and Mathematics.",
       achievements: [
         "Successfully completed multiple programming certifications",
-        "Scored 87 percentile in CET"
+        "Scored 87 percentile in CET",
       ],
-      courses: [
-        "Computer Science",
-        "Mathematics",
-        "Physics",
-        "Chemistry"
-      ],
-      logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970932/know%20me/pace_v1q67j.avif"
-    }
+      courses: ["Computer Science", "Mathematics", "Physics", "Chemistry"],
+      logoUrl:
+        "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970932/know%20me/pace_v1q67j.avif",
+    },
   ];
 
   return (
     <section
       id="education"
-      className="relative py-24 md:py-32 overflow-hidden bg-background"
-      ref={ref as React.RefObject<HTMLElement>}
+      ref={sectionRef}
+      className="relative overflow-hidden"
+      style={{ backgroundColor: "#0c0c0c" }}
     >
-      {/* Subtle background effect */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
+      {/* Parallax background grid */}
+      <motion.div
+        className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none"
+        style={{ y: bgY }}
+      />
 
-      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-      }`}>
-        <div className="text-center mb-16">
-          <h2 className="text-primary font-medium tracking-wide uppercase text-sm mb-2">Academic Background</h2>
-          <h3 className="text-3xl md:text-4xl font-bold mb-4">Education Journey</h3>
-          <p className="max-w-2xl mx-auto text-muted-foreground">
-            My educational qualifications and academic achievements that have shaped my technical knowledge.
-          </p>
+      <div
+        className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32"
+        ref={ref as React.RefObject<HTMLDivElement>}
+      >
+        {/* Header */}
+        <div
+          className={`mb-20 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <span className="section-subtitle">Education</span>
+          <h2 className="section-title">
+            Academic<br />
+            <span style={{ color: "hsl(var(--primary))" }}>background.</span>
+          </h2>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="space-y-12">
+        {/* Timeline */}
+        <div className="max-w-4xl">
+          <div className="relative pl-6 md:pl-10 space-y-0">
+            {/* Vertical timeline line */}
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-white/8" />
+
             {educationItems.map((edu, index) => (
-              <motion.div 
-                key={edu.id} 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="relative pl-8 md:pl-12"
+              <motion.div
+                key={edu.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="relative pb-16 last:pb-0"
               >
-                {/* Timeline Line */}
-                <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:left-4" />
-                
-                {/* Timeline Dot */}
-                <div className="absolute left-[-4px] top-6 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-primary/10 md:left-[13px]" />
-                
+                {/* Timeline dot */}
+                <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full border border-primary/60 bg-primary/20" />
+
+                {/* Duration tag — above card */}
+                <div className="flex items-center gap-3 mb-4 ml-0">
+                  <span className="font-mono text-xs text-primary/70 tracking-wider">
+                    {edu.duration}
+                  </span>
+                  <div className="flex-1 h-px bg-white/5" />
+                </div>
+
                 {/* Card */}
-                <div className="group relative bg-card/30 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/5 hover:border-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
-                  <div className="flex flex-col md:flex-row gap-6 items-start mb-6">
-                    {edu.logoUrl && (
-                      <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-white p-2 border border-white/10 overflow-hidden hidden md:block group-hover:scale-105 transition-transform duration-300">
-                        <img 
-                          src={edu.logoUrl} 
-                          alt={edu.institution} 
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1 w-full">
-                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
-                        <div>
-                          <h4 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-3">
-                            {edu.degree}
-                          </h4>
-                          <div className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 mt-1">
-                            {edu.institution}
-                          </div>
+                <div className="border border-white/8 hover:border-white/14 transition-colors duration-300 bg-background group">
+                  {/* Card header */}
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 p-6 md:p-8 border-b border-white/6">
+                    <div className="flex items-start gap-4">
+                      {edu.logoUrl && (
+                        <div className="flex-shrink-0 w-10 h-10 bg-white overflow-hidden hidden md:block">
+                          <img
+                            src={edu.logoUrl}
+                            alt={edu.institution}
+                            className="w-full h-full object-contain"
+                          />
                         </div>
-                        <div className="flex flex-col items-start md:items-end gap-1 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-2 bg-secondary/30 px-3 py-1 rounded-full">
-                            <CalendarRange className="w-3.5 h-3.5" />
-                            <span>{edu.duration}</span>
-                          </div>
-                          <div className="flex items-center gap-2 px-3">
-                            <MapPin className="w-3.5 h-3.5" />
-                            <span>{edu.location}</span>
-                          </div>
-                          {edu.gpa && (
-                            <div className="flex items-center gap-2 px-3 font-medium text-primary">
-                              <span>GPA: {edu.gpa}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {edu.description && (
-                        <p className="mb-6 text-muted-foreground leading-relaxed">
-                          {edu.description}
-                        </p>
                       )}
-                      
-                      <div className="grid md:grid-cols-2 gap-6">
-                        {edu.courses && edu.courses.length > 0 && (
-                          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                            <h5 className="font-medium mb-3 flex items-center gap-2 text-foreground">
-                              <BookOpen className="w-4 h-4 text-primary" />
-                              Key Courses
-                            </h5>
-                            <div className="flex flex-wrap gap-2">
-                              {edu.courses.map((course, i) => (
-                                <Badge key={i} variant="outline" className="border-white/10 bg-transparent hover:bg-white/5 transition-colors">
-                                  {course}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        
-                        {edu.achievements && edu.achievements.length > 0 && (
-                          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-                            <h5 className="font-medium mb-3 flex items-center gap-2 text-foreground">
-                              <Trophy className="w-4 h-4 text-primary" />
-                              Achievements
-                            </h5>
-                            <ul className="space-y-2">
-                              {edu.achievements.map((achievement, i) => (
-                                <li key={i} className="text-muted-foreground text-sm flex items-start gap-2">
-                                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                                  <span>{achievement}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
+                      <div>
+                        <h3 className="text-lg font-semibold text-white/90 leading-tight mb-1">
+                          {edu.degree}
+                        </h3>
+                        <p className="text-sm font-mono text-primary/80">{edu.institution}</p>
                       </div>
                     </div>
+                    <div className="flex flex-row md:flex-col gap-3 md:gap-1.5 md:items-end text-xs font-mono text-white/30">
+                      <span className="flex items-center gap-1.5">
+                        <MapPin className="w-3 h-3" />
+                        {edu.location}
+                      </span>
+                      {edu.gpa && (
+                        <span className="text-primary/60">GPA: {edu.gpa}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  {edu.description && (
+                    <div className="p-6 md:p-8 border-b border-white/6">
+                      <p className="text-sm text-white/40 leading-relaxed">{edu.description}</p>
+                    </div>
+                  )}
+
+                  {/* Grid: Courses + Achievements */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/6">
+                    {edu.courses && edu.courses.length > 0 && (
+                      <div className="p-6 md:p-8">
+                        <h5 className="flex items-center gap-2 text-xs font-mono tracking-[0.15em] text-white/30 uppercase mb-4">
+                          <BookOpen className="w-3 h-3 text-primary/60" />
+                          Key Courses
+                        </h5>
+                        <div className="flex flex-wrap gap-2">
+                          {edu.courses.map((c, i) => (
+                            <span key={i} className="tag-mono">
+                              {c}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {edu.achievements && edu.achievements.length > 0 && (
+                      <div className="p-6 md:p-8">
+                        <h5 className="flex items-center gap-2 text-xs font-mono tracking-[0.15em] text-white/30 uppercase mb-4">
+                          <Trophy className="w-3 h-3 text-primary/60" />
+                          Achievements
+                        </h5>
+                        <ul className="space-y-2.5">
+                          {edu.achievements.map((a, i) => (
+                            <li key={i} className="flex items-start gap-2.5 text-xs text-white/40 leading-relaxed">
+                              <span className="w-1 h-1 rounded-full bg-primary/40 mt-1.5 flex-shrink-0" />
+                              {a}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>

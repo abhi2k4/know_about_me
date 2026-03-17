@@ -133,12 +133,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative border-t border-border py-12 bg-background" ref={footerRef}>
-      {/* Background gradient */}
-      <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.02] bg-grid-pattern"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent"></div>
-      </div>
+    <footer className="relative border-t border-white/6 py-12" style={{ backgroundColor: "#080808" }} ref={footerRef}>
+      {/* No gradient - flat bg */}
+
       
       {/* Full page confetti effect */}
       {showConfetti && createPortal(

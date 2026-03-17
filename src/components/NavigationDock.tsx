@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { FileDown, ExternalLink, File, Home, User, Code2, BookOpen, Briefcase, Mail, ChevronDown } from "lucide-react";
+import { FileDown, ExternalLink, File, Home, User, Code2, BookOpen, Briefcase, Mail, ChevronDown, Map } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Dock } from "@/components/ui/dock";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
@@ -16,7 +17,9 @@ const NavigationDock = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [downloading, setDownloading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [showDockMobile, setShowDockMobile] = useState(true);
+  
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -39,18 +42,20 @@ const NavigationDock = () => {
     };
 
     const handleScroll = () => {
-      const sections = navLinks.map(link => link.href.substring(1));
+      const sections = navLinks.filter(l => l.isSection).map(link => link.href.substring(1));
       const position = window.scrollY + 200;
       
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          
-          if (position >= top && position <= top + height) {
-            setActiveSection(section);
-            break;
+      if (pathname === "/") {
+        for (const section of sections) {
+          const element = document.getElementById(section);
+          if (element) {
+            const top = element.offsetTop;
+            const height = element.offsetHeight;
+            
+            if (position >= top && position <= top + height) {
+              setActiveSection(section);
+              break;
+            }
           }
         }
       }
@@ -65,7 +70,7 @@ const NavigationDock = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isMobile]);
+  }, [isMobile, pathname]);
 
   const handleDownload = () => {
     setDownloading(true);
@@ -73,13 +78,50 @@ const NavigationDock = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "#home", icon: Home },
-    { name: "About", href: "#about", icon: User },
-    { name: "Experience", href: "#experience", icon: Briefcase },
-    { name: "Education", href: "#education", icon: BookOpen },
-    { name: "Projects", href: "#projects", icon: Code2 },
-    { name: "Contact", href: "#contact", icon: Mail },
+    { name: "Home", href: "#home", icon: Home, isSection: true },
+    { name: "About", href: "#about", icon: User, isSection: true },
+    { name: "Experience", href: "#experience", icon: Briefcase, isSection: true },
+    { name: "Education", href: "#education", icon: BookOpen, isSection: true },
+    { name: "Projects", href: "/projects", icon: Code2, isSection: false },
+    { name: "Journey", href: "/journey", icon: Map, isSection: false },
+    { name: "Contact", href: "#contact", icon: Mail, isSection: true },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isSection: boolean) => {
+    e.preventDefault();
+    
+    if (isSection) {
+      const sectionName = href.substring(1); // removes '#'
+      
+      if (pathname !== "/") {
+        navigate("/");
+        // wait for page to mount
+        setTimeout(() => {
+          if (sectionName === "home") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            document.getElementById(sectionName)?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        if (sectionName === "home") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          document.getElementById(sectionName)?.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    } else {
+      navigate(href);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const getIsActive = (link: { href: string; isSection: boolean }) => {
+    if (link.isSection) {
+      return pathname === "/" && activeSection === link.href.substring(1);
+    }
+    return pathname === link.href;
+  };
 
   // Desktop: Top navbar that hides/shows on hover
   if (!isMobile) {
@@ -136,7 +178,15 @@ const NavigationDock = () => {
                 <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <a href="#home" className="inline-flex items-center justify-center h-10 w-10 rounded-full hover:bg-primary/10 transition-colors">
+                      <a 
+                        href="/#home" 
+                        onClick={(e) => handleNavClick(e, "#home", true)}
+                        className={`inline-flex items-center justify-center h-10 w-10 rounded-full transition-colors ${
+                          getIsActive(navLinks[0])
+                            ? "bg-primary/20 text-primary"
+                            : "hover:bg-primary/10 text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         <Home className="w-5 h-5" />
                       </a>
                     </TooltipTrigger>
@@ -149,7 +199,7 @@ const NavigationDock = () => {
                 {/* Navigation Items */}
                 {navLinks.slice(1, -1).map((link, index) => {
                   const Icon = link.icon;
-                  const isActive = activeSection === link.href.substring(1);
+                  const isActive = getIsActive(link);
                   return (
                     <motion.div 
                       key={link.name}
@@ -162,7 +212,8 @@ const NavigationDock = () => {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <a
-                            href={link.href}
+                            href={link.isSection ? `/${link.href}` : link.href}
+                            onClick={(e) => handleNavClick(e, link.href, link.isSection)}
                             className={`inline-flex items-center justify-center h-10 w-10 rounded-full transition-all duration-300 ${
                               isActive
                                 ? "bg-primary/20 text-primary"
@@ -187,7 +238,15 @@ const NavigationDock = () => {
                 <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <a href="#contact" className="inline-flex items-center justify-center h-10 w-10 rounded-full hover:bg-primary/10 transition-colors text-muted-foreground hover:text-foreground">
+                      <a 
+                        href="/#contact" 
+                        onClick={(e) => handleNavClick(e, "#contact", true)}
+                        className={`inline-flex items-center justify-center h-10 w-10 rounded-full transition-colors ${
+                          getIsActive(navLinks[navLinks.length - 1])
+                            ? "bg-primary/20 text-primary"
+                            : "hover:bg-primary/10 text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         <Mail className="w-5 h-5" />
                       </a>
                     </TooltipTrigger>
@@ -266,7 +325,7 @@ const NavigationDock = () => {
           {/* Mobile Navigation - Compact */}
           {navLinks.map((link, index) => {
             const Icon = link.icon;
-            const isActive = activeSection === link.href.substring(1);
+            const isActive = getIsActive(link);
             return (
               <motion.div
                 key={link.name}
@@ -279,7 +338,8 @@ const NavigationDock = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a
-                      href={link.href}
+                      href={link.isSection ? `/${link.href}` : link.href}
+                      onClick={(e) => handleNavClick(e, link.href, link.isSection)}
                       className={`inline-flex items-center justify-center h-9 w-9 rounded-full transition-all duration-300 ${
                         isActive
                           ? "bg-primary/20 text-primary"

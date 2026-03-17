@@ -7,6 +7,7 @@ import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Aurora from "@/components/ui/aurora";
 import { useTypewriter } from 'react-simple-typewriter';
+import { Link } from "react-router-dom";
 
 type SocialLink = {
   href: string;
@@ -51,11 +52,11 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col overflow-hidden bg-background"
       ref={heroRef}
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#080808] via-[#0D0808] to-[#111111]" aria-hidden="true" />
+      {/* Flat dark background - no gradient */}
+      <div className="absolute inset-0 -z-20" style={{ backgroundColor: "#080808" }} aria-hidden="true" />
       
-      {/* Aurora effect */}
-      <div className="absolute inset-0 -z-4 pointer-events-none opacity-20">
+      {/* Aurora effect - subtle red accents */}
+      <div className="absolute inset-0 -z-4 pointer-events-none opacity-15">
         <Aurora colorStops={["#3A0B0B", "#FF3232", "#FFBDBD"]} amplitude={1.0} blend={0.6} speed={0.4} />
       </div>
 
@@ -175,24 +176,24 @@ const Hero = () => {
           className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 sm:gap-8 pb-6 sm:pb-8"
         >
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <Button 
-              aria-label="View my work" 
-              size="lg" 
-              className="rounded-full px-10 py-7 text-xs uppercase tracking-[0.15em] bg-foreground text-background hover:bg-red-500 transition-all duration-300 font-bold shadow-xl hover:shadow-red-500/40 hover:shadow-2xl flex items-center gap-3 group" 
-              onClick={() => window.location.href = "#projects"}
-            >
-              <span>View My Work</span>
-              <motion.span
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="group-hover:translate-x-1 transition-transform"
+            <Link to="/projects">
+              <Button 
+                aria-label="View my work" 
+                size="lg" 
+                className="rounded-none px-10 py-7 text-xs uppercase tracking-[0.2em] bg-foreground text-background hover:bg-primary transition-all duration-300 font-mono flex items-center gap-3 group" 
               >
-                <ArrowRight className="w-4 h-4" />
-              </motion.span>
-            </Button>
+                <span>View My Work</span>
+                <motion.span
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </motion.span>
+              </Button>
+            </Link>
           </motion.div>
           
           <div className="flex gap-3 sm:gap-4">
