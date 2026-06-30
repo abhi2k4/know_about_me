@@ -1,347 +1,235 @@
 import { useState, useEffect } from "react";
-import { FileDown, ExternalLink, File, Menu, X, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Logo from "@/components/Logo";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState("Home");
+
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
       
-      // Update active section based on scroll position
-      const sections = navLinks.map(link => link.href.substring(1));
-      const position = window.scrollY + 200;
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          
-          if (position >= top && position <= top + height) {
-            setActiveSection(section);
-            break;
-          }
-        }
+      setIsScrolled(currentScrollY > 10);
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setShowHeader(false);
+      } else {
+        setShowHeader(true);
       }
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+  const goToSection = (sectionName: string) => {
+    setActiveSection(sectionName);
+    if (sectionName === "Home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
+    const sectionMap: { [key: string]: string } = {
+      "About": "about",
+      "Services": "services",
+      "Journey": "experience",
+      "Projects": "projects",
+      "Contact": "contact",
+    };
+
+    const targetId = sectionMap[sectionName] || sectionName.toLowerCase();
+    const element = document.getElementById(targetId);
+    
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
     }
     
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isMobileMenuOpen]);
-
-  const handleDownload = () => {
-    setDownloading(true);
-    setTimeout(() => setDownloading(false), 2000);
+    setIsMobileMenuOpen(false);
   };
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Experience", href: "#experience" },
-    { name: "Education", href: "#education" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: "About" },
+    { name: "Services" },
+    { name: "Journey" },
+    { name: "Projects" },
   ];
 
-  // Variants for animated elements
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      y: -20,
-    },
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 24,
-      }
-    },
-  };
-
-  const linkVariants = {
-    closed: { x: -20, opacity: 0 },
-    open: (i: number) => ({
-      x: 0,
-      opacity: 1,
-      transition: {
-        delay: i * 0.1,
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 24,
-      }
-    })
-  };
-
-  const backdropVariants = {
-    closed: {
-      opacity: 0,
-    },
-    open: {
-      opacity: 1,
-    }
-  };
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isMobileMenuOpen
-          ? "bg-background/80 backdrop-blur-md border-b"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="#home" className="flex items-center gap-3 group cursor-pointer relative" >
-        <div className="flex items-center gap-3 group cursor-pointer relative" >
-            <div className="relative transition-all duration-500 ease-out hover:scale-110">
-              <div className="absolute inset-0 bg-primary/20 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700"></div>
-              <div className="relative z-10">
-                <Logo />
-              </div>
+    <>
+      {/* Floating Pill Header */}
+      <header
+        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ease-in-out w-fit ${
+          showHeader ? "top-6 sm:top-8" : "-top-32"
+        }`}
+      >
+        <div 
+          className={`flex items-center gap-6 sm:gap-12 rounded-full transition-all duration-500 shadow-2xl p-2 pl-5 sm:pl-8 ${
+            isScrolled 
+              ? "bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 shadow-black/50" 
+              : "bg-[#040404]/40 backdrop-blur-md border border-white/5 shadow-none"
+          }`}
+        >
+          {/* Logo / Brand */}
+          <div 
+            onClick={() => goToSection("Home")}
+            className="flex items-center gap-3 font-bold cursor-pointer group"
+          >
+            <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center text-black text-xs font-black group-hover:scale-105 transition-transform">
+              A
             </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-xl font-audiowide bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">
-                abhi codes
-              </span>
-            </div>
+            <span className="text-white/90 text-base tracking-tight group-hover:text-white transition-colors whitespace-nowrap">
+              Abhishek <span className="hidden sm:inline">Thormothe</span>
+            </span>
           </div>
-        </a>
 
-        {/* Enhanced Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
-          <nav className="border-b border-transparent">
-            <ul className="flex gap-8">
-              {navLinks.map((link) => {
-                const isActive = activeSection === link.href.substring(1);
-                return (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className={`relative text-sm font-medium tracking-wide transition-all duration-300 ${
-                        isActive 
-                          ? "text-primary border-b-2 border-primary pb-1" 
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {link.name.toUpperCase()}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+          {/* Desktop Nav Links (Nested Pill) */}
+          <div className="hidden md:flex items-center gap-1.5 p-1.5 bg-white/[0.03] rounded-full border border-white/5 relative">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.name;
+              return (
+                <button
+                  key={link.name}
+                  onClick={() => goToSection(link.name)}
+                  className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 z-10 ${
+                    isActive ? "text-white" : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-pill"
+                      className="absolute inset-0 bg-white/10 rounded-full -z-10"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  {link.name}
+                </button>
+              );
+            })}
+          </div>
 
-          {/* Desktop Resume Button */}
-          <TooltipProvider delayDuration={300}>
-            <Tooltip>
-              <TooltipTrigger>
-                <div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="flex items-center gap-2 rounded-none border hover:bg-primary hover:text-white transition-all duration-300"
-                      >
-                        <File className={`h-4 w-4 ${downloading ? "animate-bounce" : ""}`} />
-                        <span className="uppercase tracking-wider text-xs">Resume</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48 backdrop-blur-md bg-background/90">
-                      <DropdownMenuItem>
-                        <a 
-                          href="/Abhishek Resume.pdf" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 cursor-pointer w-full"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                          <span>View Online</span>
-                        </a>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <a 
-                          href="/Abhishek Resume.pdf" 
-                          download="Abhishek_Resume.pdf"
-                          className="flex items-center gap-2 cursor-pointer w-full"
-                          onClick={handleDownload}
-                        >
-                          <FileDown className="h-4 w-4" />
-                          <span>Download PDF</span>
-                        </a>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </TooltipTrigger>
-              {/* <TooltipContent 
-                side="bottom" 
-                className="bg-background/80 backdrop-blur-sm"
+          {/* Right side CTA & Mobile trigger */}
+          <div className="flex items-center gap-3 pr-1">
+            {/* Resume Link (Desktop) */}
+            <a
+              href="/Abhishek Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto"
+              title="View Resume"
+            >
+              <FileText className="w-4.5 h-4.5" />
+            </a>
+
+            <motion.button
+              onClick={() => goToSection("Contact")}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              className="hidden sm:inline-flex items-center justify-center gap-1 w-28 h-10 rounded-full bg-[#f0eadd] text-black text-sm font-semibold shadow-inner relative overflow-hidden"
+              animate={{
+                backgroundColor: isHovered ? "#ffffff" : "#f0eadd",
+                scale: isHovered ? 1.05 : 1,
+              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              <motion.div 
+                className="flex items-center justify-center"
+                animate={{
+                  x: isHovered ? -3 : 8 // Centers the combined block vs centering just the text
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
               >
-                <p>View or download my resume</p>
-              </TooltipContent> */}
-            </Tooltip>
-          </TooltipProvider>
+                <span className="relative z-10">Say Hi</span>
+                <motion.span
+                  initial={false}
+                  animate={{
+                    opacity: isHovered ? 1 : 0,
+                    scale: isHovered ? 1 : 0,
+                    width: isHovered ? 20 : 0,
+                    marginLeft: isHovered ? 6 : 0
+                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="inline-block overflow-hidden"
+                >
+                  <motion.span
+                    className="inline-block origin-[70%_70%]"
+                    animate={isHovered ? {
+                      rotate: [0, 14, -8, 14, -4, 10, 0],
+                    } : { rotate: 0 }}
+                    transition={{
+                      duration: 1.2,
+                      ease: "easeInOut",
+                      repeat: isHovered ? Infinity : 0,
+                      repeatDelay: 0.2,
+                    }}
+                  >
+                    👋
+                  </motion.span>
+                </motion.span>
+              </motion.div>
+            </motion.button>
 
-          {/* Theme is fixed to dark in this project; the theme toggle UI has been intentionally removed. */}
+            {/* Mobile menu trigger */}
+            <button
+              className="md:hidden text-white/70 hover:text-white p-2.5 rounded-full hover:bg-white/10 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+      </header>
 
-        {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-3">
-          {/* Mobile Resume Button */}
-          <a
-            href="/Abhishek Resume.pdf" 
-            download="Abhishek_Resume.pdf"
-            onClick={handleDownload}
-            className="inline-flex items-center justify-center rounded-md w-8 h-8 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            <File className={`h-4 w-4 ${downloading ? "animate-bounce text-primary" : ""}`} />
-            <span className="sr-only">Download Resume</span>
-          </a>
-
-          {/* Theme is fixed to dark — toggle intentionally hidden */}
-
-          {/* Mobile Menu Button */}
-          <Button 
-            data-cursor="button"
-            className="z-50"
-            size="icon"
-            variant="ghost"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </Button>
-        </div>
-      </div>
-
-      {/* Mobile Menu with AnimatePresence */}
+      {/* Mobile Menu Panel */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div 
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30"
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={backdropVariants}
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{
-                pointerEvents: isMobileMenuOpen ? 'auto' : 'none'
-              }}
-            />
-            
-            {/* Menu panel */}
-            <motion.div
-              className="fixed top-[72px] right-4 left-4 bg-card shadow-lg border rounded-xl overflow-hidden z-40 max-h-[calc(100vh-88px)]"
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={menuVariants}
-              style={{
-                pointerEvents: isMobileMenuOpen ? 'auto' : 'none'
-              }}
-            >
-              <div className="overflow-y-auto max-h-[calc(100vh-88px)]">
-                <nav className="py-4">
-                  <ul className="space-y-1">
-                    {navLinks.map((link, i) => (
-                      <motion.li 
-                        key={link.name}
-                        custom={i}
-                        variants={linkVariants}
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                      >
-                        <a
-                          href={link.href}
-                          className="flex items-center justify-between px-6 py-3 hover:bg-primary/5 transition-colors"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          <span className="font-medium">{link.name}</span>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                        </a>
-                      </motion.li>
-                    ))}
-                  </ul>
-                  
-                  <div className="border-t my-4" />
-                  
-                  {/* Resume options */}
-                  <div className="px-6 py-3 space-y-3">
-                    <h3 className="text-sm font-medium text-muted-foreground mb-2">Resume</h3>
-                    <a 
-                      href="/Abhishek Resume.pdf" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between py-2 hover:text-primary transition-colors"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <div className="flex items-center">
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        <span>View Online</span>
-                      </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    </a>
-                    
-                    <a 
-                      href="/Abhishek Resume.pdf" 
-                      download="Abhishek_Resume.pdf"
-                      className="flex items-center justify-between py-2 hover:text-primary transition-colors"
-                      onClick={() => {
-                        handleDownload();
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      <div className="flex items-center">
-                        <FileDown className="h-4 w-4 mr-2" />
-                        <span>Download PDF</span>
-                      </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    </a>
-                  </div>
-                </nav>
-              </div>
-            </motion.div>
-          </>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-[#040404]/95 backdrop-blur-xl pt-32 px-8 md:hidden flex flex-col gap-8"
+          >
+            <div className="flex flex-col gap-6 text-2xl font-medium text-white/70">
+              {navLinks.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => goToSection(link.name)}
+                  className="text-left py-3 hover:text-white transition-colors border-b border-white/5 flex items-center justify-between"
+                >
+                  {link.name}
+                  <ArrowUpRight className="w-5 h-5 opacity-45" />
+                </button>
+              ))}
+              <a
+                href="/Abhishek Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-left py-3 text-white/70 hover:text-white transition-colors border-b border-white/5 flex items-center justify-between"
+              >
+                <span>Resume</span>
+                <FileText className="w-5 h-5 opacity-45" />
+              </a>
+              <button
+                onClick={() => goToSection("Contact")}
+                className="text-left py-3 text-[#f0eadd] hover:text-white transition-colors border-b border-white/5 flex items-center justify-between"
+              >
+                Say Hi
+                <ArrowUpRight className="w-5 h-5 opacity-45" />
+              </button>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };
 

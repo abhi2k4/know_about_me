@@ -12,33 +12,36 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import SEOHead from "@/components/SEOHead";
 import FloatingBackToTop from "@/components/FloatingBackToTop";
+import { ReactLenis } from "@studio-freight/react-lenis";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-      <SEOHead />
-      <SpeedInsights />
-      <TooltipProvider>
-        <Toaster />
-        <Sonner
-          position="top-center"
-          closeButton
-          duration={5000}
-          theme="dark"
-        />
-        <BrowserRouter>
-          <FloatingBackToTop />
-          <Analytics />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/journey" element={<JourneyPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <ReactLenis root options={{ lerp: 0.1, duration: 1.2, smoothTouch: false }}>
+        <SEOHead />
+        <SpeedInsights />
+        <TooltipProvider>
+          <Toaster />
+          <Sonner
+            position="top-center"
+            closeButton
+            duration={5000}
+            theme="dark"
+          />
+          <BrowserRouter>
+            <FloatingBackToTop />
+            <Analytics />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/journey" element={<JourneyPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ReactLenis>
     </ThemeProvider>
   </QueryClientProvider>
 );

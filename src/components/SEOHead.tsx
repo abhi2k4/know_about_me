@@ -8,7 +8,7 @@ export const SEOHead = () => {
       "@type": "Person",
       "name": "Abhishek Thormothe",
       "title": "Full Stack Developer",
-      "url": "https://abhishekthormothe.me/",
+      "url": "https://abhishekthormothe.in/",
       "sameAs": [
         "https://github.com/abhi2k4",
         "https://linkedin.com/in/thormotheabhishek",
@@ -55,8 +55,8 @@ export const SEOHead = () => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Abhishek Thormothe's Portfolio",
-      "url": "https://abhishekthormothe.me/",
-      "description": "Portfolio of Abhishek Thormothe, a Full Stack Developer specializing in modern web technologies"
+      "url": "https://abhishekthormothe.in/",
+      "description": "Portfolio of Abhishek Thormothe, a Software Developer specializing in MERN stack and DSA"
     };
 
     const orgScript = document.createElement('script');
