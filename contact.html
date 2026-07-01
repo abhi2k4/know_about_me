@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Form Submission</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
       * {
         margin: 0;
@@ -10,33 +14,35 @@
         box-sizing: border-box;
       }
 
-      html {
-        font-size: clamp(14px, calc(14px + 0.5vw), 16px);
-      }
-
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         line-height: 1.6;
-        background-color: #f1f5f9;
-        padding: clamp(12px, 3vw, 20px);
-        color: #1f2937;
+        background-color: #080808;
+        padding: clamp(12px, 3vw, 24px);
+        color: rgba(255, 255, 255, 0.9);
       }
 
       .email-container {
-        max-width: min(600px, 100%);
+        max-width: 600px;
         margin: 0 auto;
-        background: #ffffff;
-        border-radius: clamp(8px, 2vw, 12px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        background: #0c0c0c;
+        border: 1px solid #1f1f1f;
+        border-radius: 0px; /* Sharp corners to match theme */
         overflow: hidden;
       }
 
       .header {
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        background: #080808;
         padding: clamp(24px, 5vw, 32px);
-        color: white;
-        position: relative;
-        text-align: center;
+        border-bottom: 2px solid #E61919; /* Vivid red accent line */
+        text-align: left;
+      }
+
+      .header h2 {
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
       }
 
       .content {
@@ -46,50 +52,52 @@
       .field {
         margin-bottom: clamp(16px, 3vw, 20px);
         padding: clamp(16px, 3vw, 20px);
-        background: #f8f9fa;
-        border-radius: 8px;
-        border: 1px solid #e1e1e1;
-        transition: transform 0.2s ease;
+        background: #121212;
+        border: 1px solid #1f1f1f;
+        border-radius: 0px; /* Sharp corners */
+        transition: border-color 0.2s ease;
       }
 
       .field:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border-color: rgba(230, 25, 25, 0.4);
       }
 
       .label {
-        font-weight: 600;
-        color: #3b82f6;
+        font-family: 'Space Mono', 'Courier New', monospace;
+        font-weight: 700;
+        color: #E61919; /* Red accent label */
         margin-bottom: 8px;
         display: block;
-        font-size: 0.95rem;
+        font-size: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.1em;
       }
 
       .field-content {
-        color: #1f2937;
-        font-size: clamp(1rem, calc(1rem + 0.2vw), 1.1rem);
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1rem;
         word-break: break-word;
       }
 
       .field-content a {
-        color: #3b82f6;
+        color: #E61919;
         text-decoration: none;
-        transition: color 0.2s ease;
+        font-family: 'Space Mono', 'Courier New', monospace;
+        transition: color 0.2s ease, text-decoration 0.2s ease;
       }
 
       .field-content a:hover {
-        color: #8b5cf6;
+        color: #ff3333;
         text-decoration: underline;
       }
 
       .timestamp {
         margin-top: clamp(24px, 5vw, 32px);
         padding-top: clamp(16px, 3vw, 24px);
-        border-top: 1px solid #e1e1e1;
-        color: #64748b;
-        font-size: 0.9rem;
+        border-top: 1px solid #1f1f1f;
+        color: #555555;
+        font-family: 'Space Mono', 'Courier New', monospace;
+        font-size: 0.75rem;
         text-align: right;
       }
 
@@ -97,19 +105,21 @@
         body {
           background: none;
           padding: 0;
+          color: #000000;
         }
         
         .email-container {
-          box-shadow: none;
+          border: none;
           max-width: 100%;
+        }
+        
+        .field {
+          background: #ffffff;
+          border: 1px solid #dddddd;
         }
       }
 
       @media (max-width: 640px) {
-        html {
-          font-size: 14px;
-        }
-        
         .field {
           margin-bottom: 16px;
         }

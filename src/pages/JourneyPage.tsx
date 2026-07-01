@@ -31,100 +31,107 @@ interface Collaboration {
 
 const typeConfig = {
   hackathon: { label: "HACKATHON", color: "text-orange-400", borderColor: "border-orange-400/30", bg: "bg-orange-400/10" },
-  collaboration: { label: "COLLAB", color: "text-blue-400", borderColor: "border-blue-400/30", bg: "bg-blue-400/10" },
+  collaboration: { label: "LEADERSHIP", color: "text-blue-400", borderColor: "border-blue-400/30", bg: "bg-blue-400/10" },
   milestone: { label: "MILESTONE", color: "text-primary", borderColor: "border-primary/30", bg: "bg-primary/10" },
   launch: { label: "LAUNCH", color: "text-green-400", borderColor: "border-green-400/30", bg: "bg-green-400/10" },
-  award: { label: "AWARD", color: "text-yellow-400", borderColor: "border-yellow-400/30", bg: "bg-yellow-400/10" },
+  award: { label: "CERTIFIED", color: "text-yellow-400", borderColor: "border-yellow-400/30", bg: "bg-yellow-400/10" },
 };
 
 const journeyEvents: JourneyEvent[] = [
   {
     id: 1,
     year: "2026",
-    month: "Feb",
-    title: "OverSightAI — Live at oversightai.in",
-    type: "launch",
-    description: "Launched OverSightAI, a centralized governance control plane for enterprise AI agents, built atop DataHub, Keycloak, and Langfuse.",
-    tags: ["DataHub", "Keycloak", "AI Governance", "Open Source"],
-    link: "https://oversightai.in",
-    linkLabel: "Visit Site",
+    month: "May",
+    title: "B.E. Computer Engineering Graduation",
+    type: "milestone",
+    description: "Expected graduation from AP Shah Institute of Technology, University of Mumbai. Consistently maintaining a strong academic record with a CGPA of 7.52/10.",
+    tags: ["Engineering", "Mumbai", "CS"],
     highlight: true,
   },
   {
     id: 2,
-    year: "2026",
-    month: "Jan",
-    title: "Artisy — Indian Art Marketplace Launched",
-    type: "launch",
-    description: "Launched Artisy, a marketplace dedicated to Indian artisans integrating Razorpay and Delhivery for seamless payments and shipping.",
-    tags: ["NextJS", "Razorpay", "Delhivery", "E-commerce"],
-    link: "https://artisy.in",
-    linkLabel: "Visit Site",
-  },
-  {
-    id: 3,
-    year: "2026",
-    month: "Mar",
-    title: "Chalo Kisaan — AgriTourism Platform",
-    type: "launch",
-    description: "Built a progressive web app connecting rural Indian farmers with urban tourists. Hosted fully on AWS with a Lighthouse PWA score of 90+.",
-    tags: ["FastAPI", "AWS", "PWA", "React"],
-    link: "https://chalokisaan.in",
-    linkLabel: "Visit Site",
-    highlight: true,
-  },
-  {
-    id: 4,
     year: "2025",
     month: "Aug",
     title: "SDE Intern at Druve Media",
     type: "milestone",
-    description: "Joined Druve Media as a Software Development Engineer Intern to build and maintain real-time applications using React Native and FastAPI.",
-    tags: ["React Native", "FastAPI", "WebSockets"],
+    description: "Architected a society management system and an analytics dashboard for monitoring real-time trends. Designed a reusable React component library, cutting frontend dev time by roughly 40%.",
+    tags: ["React", "FastAPI", "Analytics"],
     link: "https://druvemedia.in",
     linkLabel: "Company",
   },
   {
-    id: 5,
+    id: 3,
     year: "2025",
     month: "Jan",
     title: "SDE Intern at EternIQ",
     type: "milestone",
-    description: "Joined EternIQ as an SDE Intern. Reduced client-side load times by 40% across their web platform. Built component library using Tailwind CSS.",
-    tags: ["React", "Node.js", "Tailwind CSS"],
+    description: "Optimized the client-side rendering pipeline of a React + Node.js web app, delivering a 40% reduction in load time. Delivered 6 end-to-end features across 5 Agile sprints with a 100% sprint completion rate.",
+    tags: ["React", "Node.js", "Agile"],
     link: "https://eterniq.in",
     linkLabel: "Company",
   },
   {
-    id: 6,
+    id: 4,
     year: "2024",
     month: "Nov",
-    title: "FOMO — Fraud Detection Platform",
+    title: "Union Bank of India Hackathon",
     type: "hackathon",
-    description: "Built FOMO (Fraud Observation & Monitoring Operations) — a real-time fraud detection system using Django, AWS, and Gemini AI.",
-    tags: ["Django", "AWS RDS", "Gemini", "Docker"],
-    link: "https://github.com/abhi2k4/fraudguard",
-    linkLabel: "GitHub",
+    description: "Built FOMO (Fraud Observation & Monitoring Operations), an ML-based real-time fraud detection system utilizing Django and FastAPI at PSB's Series iDEA Hackathon by Union Bank of India.",
+    tags: ["Django", "FastAPI", "Hackathon"],
+    highlight: true,
+  },
+  {
+    id: 5,
+    year: "2024",
+    month: "Oct",
+    title: "Organiser, DataWeb Hackathon",
+    type: "collaboration",
+    description: "Led the organization and execution of the DataWeb Hackathon, managing teams, logistics, and ensuring a seamless competitive experience for all participants.",
+    tags: ["Leadership", "Event Management"],
+  },
+  {
+    id: 6,
+    year: "2024",
+    month: "Sep",
+    title: "Design & Publicity Head, Coders Club",
+    type: "collaboration",
+    description: "Founding team member. Spearheaded the design and publicity efforts to build, brand, and scale the official student coding community at APSIT.",
+    tags: ["Community", "Leadership", "Design"],
   },
   {
     id: 7,
     year: "2024",
-    month: "Sep",
-    title: "Coders Club — Official Launch",
+    month: "Mar",
+    title: "Development Head, HackScript 4.0",
     type: "collaboration",
-    description: "Founded and launched Coders Club at APSIT — a student community helping engineers prepare for placements through workshops, projects and peer learning.",
-    tags: ["Community", "Leadership", "Education"],
-    link: "https://codersclub.apsit.edu.in",
-    linkLabel: "Visit Site",
-    highlight: true,
+    description: "Spearheaded the technical development and digital infrastructure for HackScript 4.0, coordinating a successful and large-scale college hackathon event.",
+    tags: ["Leadership", "Web Dev"],
   },
   {
     id: 8,
+    year: "2024",
+    month: "Feb",
+    title: "Technical Co-Lead, OJUS Cultural Fest",
+    type: "collaboration",
+    description: "Managed technical operations and digital infrastructure for OJUS – Radiance of Euphoria, the highly anticipated official cultural fest of APSIT.",
+    tags: ["Event Tech", "Leadership"],
+  },
+  {
+    id: 9,
+    year: "2023",
+    title: "Technical Certifications Achieved",
+    type: "award",
+    description: "Earned AWS Academy Graduate certifications in Cloud Foundations and Data Engineering. Completed HackerRank SQL (Intermediate) and finished the Google Android Developer Virtual Internship.",
+    tags: ["AWS", "SQL", "Android"],
+    highlight: true,
+  },
+  {
+    id: 10,
     year: "2022",
     month: "Jul",
     title: "Started B.E. in Computer Engineering",
     type: "milestone",
-    description: "Enrolled at University of Mumbai's APSIT to pursue a Bachelor's degree in Computer Engineering. Started the journey of turning code into craft.",
+    description: "Enrolled at University of Mumbai's APSIT to pursue a Bachelor's degree in Computer Engineering. The start of an incredible journey.",
     tags: ["Engineering", "Mumbai", "CS"],
   },
 ];
@@ -132,29 +139,25 @@ const journeyEvents: JourneyEvent[] = [
 const collaborations: Collaboration[] = [
   {
     id: 1,
-    name: "Druve Media",
-    role: "SDE Intern",
-    description: "Built real-time communication features using React Native and WebSocket APIs.",
-    tags: ["React Native", "FastAPI", "Real-time"],
-    link: "https://druvemedia.in",
-    logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1755021397/know%20me/druve_bmvvnb.jpg",
+    name: "Coders Club",
+    role: "Founding Team & Head of Design",
+    description: "Built and scaled an active student community, leading all design and publicity initiatives.",
+    tags: ["Community", "Leadership", "Design"],
+    link: "https://codersclub.apsit.edu.in",
   },
   {
     id: 2,
-    name: "EternIQ",
-    role: "SDE Intern",
-    description: "Delivered performance improvements and a design system rewrite for their main platform.",
-    tags: ["React", "Node.js", "Figma"],
-    link: "https://eterniq.in",
-    logoUrl: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1744970928/know%20me/eterniq_abqsnr.ico",
+    name: "OJUS Cultural Fest",
+    role: "Technical Co-Lead",
+    description: "Managed technical operations and digital infrastructure for APSIT's biggest cultural festival.",
+    tags: ["Event Tech", "Leadership"],
   },
   {
     id: 3,
-    name: "Coders Club — APSIT",
-    role: "Founding Member",
-    description: "Built and scaled an active student community for engineers preparing for industry placement.",
-    tags: ["Community", "Leadership", "Education"],
-    link: "https://codersclub.apsit.edu.in",
+    name: "HackScript 4.0",
+    role: "Development Head",
+    description: "Led the development team to orchestrate digital operations for the major hackathon.",
+    tags: ["Web Dev", "Leadership"],
   },
 ];
 
@@ -190,14 +193,13 @@ const JourneyPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="section-subtitle">Journey</span>
+            <span className="section-subtitle">Story</span>
             <h1 className="section-title">
-              Events &<br />
-              <span className="text-primary">milestones.</span>
+              Academic &<br />
+              <span className="text-primary">Leadership Timeline.</span>
             </h1>
             <p className="max-w-xl text-white/35 text-sm leading-relaxed mt-4">
-              A timeline of meaningful moments — from lines of code to launched products,
-              internships, hackathons, and communities built along the way.
+              A timeline of meaningful moments — tracing my academic journey, hackathon builds, certifications, and leadership roles within student communities.
             </p>
           </motion.div>
         </div>
@@ -220,10 +222,10 @@ const JourneyPage = () => {
 /* ─── Stats ──────────────────────────────────────────── */
 const StatsSection = () => {
   const stats = [
-    { icon: <Zap className="w-4 h-4" />, value: "5+", label: "Projects Shipped" },
-    { icon: <Users className="w-4 h-4" />, value: "2", label: "Internships" },
-    { icon: <Trophy className="w-4 h-4" />, value: "3+", label: "Hackathons" },
-    { icon: <Calendar className="w-4 h-4" />, value: "4", label: "Years Coding" },
+    { icon: <Users className="w-4 h-4" />, value: "4", label: "Leadership Roles" },
+    { icon: <Zap className="w-4 h-4" />, value: "2", label: "Internships" },
+    { icon: <Trophy className="w-4 h-4" />, value: "12+", label: "Hackathons" },
+    { icon: <Calendar className="w-4 h-4" />, value: "4", label: "Certifications" },
   ];
 
   return (
@@ -238,7 +240,7 @@ const StatsSection = () => {
         >
           <span className="text-primary/60">{s.icon}</span>
           <span className="text-3xl font-bold tracking-tight text-white/90">{s.value}</span>
-          <span className="text-xs font-mono text-white/25 tracking-widest uppercase">{s.label}</span>
+          <span className="text-xs font-mono text-white/25 tracking-widest uppercase text-center">{s.label}</span>
         </motion.div>
       ))}
     </div>

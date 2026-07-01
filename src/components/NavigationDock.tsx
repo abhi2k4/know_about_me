@@ -81,8 +81,7 @@ const NavigationDock = () => {
     { name: "Home", href: "#home", icon: LayoutGrid, isSection: true },
     { name: "About", href: "#about", icon: IdCard, isSection: true },
     { name: "Experience", href: "#experience", icon: Building2, isSection: true },
-    { name: "Education", href: "#education", icon: GraduationCap, isSection: true },
-    { name: "Projects", href: "/projects", icon: Blocks, isSection: false },
+    { name: "Projects", href: "#projects", icon: Blocks, isSection: true },
     { name: "Journey", href: "/journey", icon: Waypoints, isSection: false },
     { name: "Contact", href: "#contact", icon: AtSign, isSection: true },
   ];

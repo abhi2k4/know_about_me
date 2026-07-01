@@ -19,7 +19,7 @@ User-agent: facebookexternalhit
 Allow: /
 
 # Sitemap
-Sitemap: https://abhishekthormothe.me/sitemap.xml
+Sitemap: https://abhishekthormothe.in/sitemap.xml
 
 # Disallow private paths
 Disallow: /admin
