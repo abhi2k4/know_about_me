@@ -30,11 +30,11 @@ interface Collaboration {
 }
 
 const typeConfig = {
-  hackathon: { label: "HACKATHON", color: "text-orange-400", borderColor: "border-orange-400/30", bg: "bg-orange-400/10" },
-  collaboration: { label: "LEADERSHIP", color: "text-blue-400", borderColor: "border-blue-400/30", bg: "bg-blue-400/10" },
-  milestone: { label: "MILESTONE", color: "text-primary", borderColor: "border-primary/30", bg: "bg-primary/10" },
-  launch: { label: "LAUNCH", color: "text-green-400", borderColor: "border-green-400/30", bg: "bg-green-400/10" },
-  award: { label: "CERTIFIED", color: "text-yellow-400", borderColor: "border-yellow-400/30", bg: "bg-yellow-400/10" },
+  hackathon: { label: "HACKATHON", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
+  collaboration: { label: "LEADERSHIP", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
+  milestone: { label: "MILESTONE", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
+  launch: { label: "LAUNCH", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
+  award: { label: "CERTIFIED", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
 };
 
 const journeyEvents: JourneyEvent[] = [
