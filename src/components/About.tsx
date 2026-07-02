@@ -51,11 +51,7 @@ const About = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const stats = [
-    { value: "12+", label: "Months of SDE Internship Experience" },
-    { value: "12+", label: "Hackathons Participated & Won" },
-    { value: "7.64", label: "B.E. Computer Engineering CGPA" },
-  ];
+
 
   const skillGroups = [
     {
@@ -175,37 +171,16 @@ const About = () => {
           </div>
         </div>
 
-        {/* Bottom: Stats & Skills Grid */}
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 pt-8 border-t border-white/5">
-          {/* Stats Column */}
-          <div className="lg:col-span-4 grid grid-cols-3 lg:grid-cols-1 gap-6 lg:gap-8">
-            {stats.map((stat, idx) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="flex flex-col"
-              >
-                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter mb-1.5 md:mb-2">
-                  {stat.value}
-                </span>
-                <span className="text-[10px] sm:text-xs font-mono text-white/40 uppercase tracking-wider max-w-[180px]">
-                  {stat.label}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Skills Column */}
-          <div className="lg:col-span-8 flex flex-col gap-5 md:gap-6">
+        {/* Bottom: Skills Grid */}
+        <div className="w-full pt-8 border-t border-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
             {skillGroups.map((group, idx) => (
               <motion.div
                 key={group.category}
                 initial={{ opacity: 0, y: 25 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + idx * 0.12 }}
-                className="border border-white/[0.05] bg-[#0a0a0a]/70 p-5 md:p-6 rounded-2xl hover:border-[#B6443A]/20 transition-colors duration-300"
+                transition={{ duration: 0.5, delay: 0.1 * idx }}
+                className="border border-white/[0.05] bg-[#0a0a0a]/70 p-5 md:p-6 rounded-2xl hover:border-[#B6443A]/20 transition-colors duration-300 flex flex-col"
               >
                 <div className="flex items-center gap-2.5 mb-5">
                   {group.icon}

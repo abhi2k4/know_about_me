@@ -31,7 +31,7 @@ const Experience = () => {
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground max-w-xl">
-            A Yearly snapshot of my creative growth
+            A brief snapshot of my professional growth
           </h2>
         </motion.div>
 

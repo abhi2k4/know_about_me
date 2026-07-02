@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useTypewriter } from "react-simple-typewriter";
 import { Linkedin, Github, ArrowRight } from "lucide-react";
@@ -13,6 +13,7 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const { scrollY } = useScroll();
   const imageY = useTransform(scrollY, [0, 600], [0, prefersReducedMotion ? 0 : 60]);
@@ -51,31 +52,6 @@ const Hero = () => {
       className="relative min-h-screen flex flex-col bg-[#040404] overflow-hidden"
       ref={heroRef}
     >
-      {/* Background Vertical Stripes */}
-      <div className="absolute inset-0 flex justify-center pointer-events-none z-0 overflow-hidden">
-        <div className="w-full max-w-5xl h-full grid grid-cols-5 border-x border-white/[0.02]">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className="border-r border-white/[0.02] h-full relative"
-            >
-              <div 
-                className="absolute inset-0 bg-gradient-to-b from-[#B6443A]/[0.03] via-transparent to-transparent" 
-                style={{ opacity: i % 2 === 0 ? 0.8 : 0.4 }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Faint scan-line texture */}
-      <div
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px)",
-        }}
-      />
 
       {/* Centered Profile Image */}
       <motion.div
@@ -83,9 +59,12 @@ const Hero = () => {
         className="absolute left-0 right-0 mx-auto bottom-0 w-[85vw] max-w-[460px] md:max-w-[500px] h-[65vh] md:h-[82vh] z-10 pointer-events-none will-change-transform flex items-center justify-center"
       >
         <img
-          src="/Profile-red.png"
+          src="https://res.cloudinary.com/ds2uw5gcw/image/upload/v1783014014/know%20me/photo2_csdlts.png"
           alt="Abhishek Thormothe"
-          className="w-full h-full object-cover object-center select-none filter brightness-[0.7] contrast-[1.1] saturate-[0.85]"
+          onLoad={() => setImageLoaded(true)}
+          className={`w-full h-full object-cover object-center select-none filter brightness-[0.7] contrast-[1.1] saturate-[0.85] transition-opacity duration-1000 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#040404] via-[#040404]/20 to-transparent z-10" />
         <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-[#040404] to-transparent z-10" />
@@ -93,7 +72,7 @@ const Hero = () => {
       </motion.div>
 
       {/* Giant Name Typography with Text Hover Effect */}
-      <div className="absolute left-0 right-0 bottom-[2vh] md:bottom-[-2vh] h-[25vh] sm:h-[30vh] md:h-[38vh] z-20 flex justify-center select-none pointer-events-none overflow-hidden px-2 opacity-85">
+      <div className="absolute left-0 right-0 bottom-[0.5vh] md:bottom-[-2vh] h-[22vh] sm:h-[34vh] md:h-[38vh] z-20 flex justify-center select-none pointer-events-none overflow-hidden px-2 opacity-85">
         <TextHoverEffect text="ABHISHEK" />
       </div>
 
@@ -141,29 +120,6 @@ const Hero = () => {
             </p>
           </motion.div>
 
-          {/* Social Links inline for mobile/tablet */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex lg:hidden items-center gap-4 mt-2"
-          >
-            {socialLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] hover:border-[#B6443A]/30 transition-all duration-300 pointer-events-auto"
-                  aria-label={link.name}
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              );
-            })}
-          </motion.div>
         </div>
 
         {/* Right Side: CTAs */}
@@ -204,8 +160,13 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      {/* Desktop: Vertical Social Icons */}
-      {/* <div className="hidden lg:flex flex-col items-center gap-5 absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-30">
+      {/* Centered Social Links below the giant ABHISHEK text */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.9 }}
+        className="absolute left-0 right-0 bottom-4 md:bottom-10 z-30 flex justify-center items-center gap-4 pointer-events-auto"
+      >
         {socialLinks.map((link) => {
           const Icon = link.icon;
           return (
@@ -214,14 +175,14 @@ const Hero = () => {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] hover:border-[#B6443A]/30 transition-all duration-300 pointer-events-auto"
+              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] hover:border-[#B6443A]/30 transition-all duration-300"
               aria-label={link.name}
             >
               <Icon className="w-4 h-4" />
             </a>
           );
         })}
-      </div> */}
+      </motion.div>
     </section>
   );
 };

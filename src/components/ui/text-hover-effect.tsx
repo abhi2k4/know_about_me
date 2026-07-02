@@ -30,7 +30,7 @@ export const TextHoverEffect = ({
 
       const endTimeout = setTimeout(() => {
         setIsGlancing(false);
-      }, 1500);
+      }, 4000);
 
       return () => {
         clearTimeout(startTimeout);
@@ -72,7 +72,7 @@ export const TextHoverEffect = ({
 
   const isRevealed = hovered || isGlancing;
   const maskTransition = isGlancing
-    ? { duration: 1.3, ease: "easeInOut" }
+    ? { duration: 3.5, ease: "easeInOut" }
     : { duration: duration ?? 0, ease: "easeOut" };
 
   return (
@@ -109,7 +109,7 @@ export const TextHoverEffect = ({
           r="20%"
           initial={{ cx: -300, cy: 150 }}
           animate={maskPosition}
-          // transition={maskTransition}
+          transition={maskTransition}
         >
           <stop offset="0%" stopColor="white" />
           <stop offset="100%" stopColor="black" />
@@ -137,7 +137,7 @@ export const TextHoverEffect = ({
           strokeDasharray: 4000,
         }}
         transition={{
-          duration: 4,
+          duration: 8,
           ease: "easeInOut",
         }}
       >
