@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Server, Globe, Cpu, Database } from "lucide-react";
+import { FlipWords } from "@/components/ui/flip-words";
 
 // Skill icon URLs from simple CDN
 const skillIcons: Record<string, string> = {
@@ -29,11 +30,11 @@ const skillIcons: Record<string, string> = {
 };
 
 const memories = [
-  { src: "/ccd25.jpeg", label: "Google Cloud Community Days", date: "2025" },
-  { src: "/dsaclub.jpeg", label: "DSA Club Drive", date: "2024" },
-  { src: "/ms.jpeg", label: "Microsoft Event", date: "2023" },
-  { src: "/next.jpeg", label: ".NEXT Summit", date: "2024" },
-  { src: "/aws.jpeg", label: "AWS Summit", date: "2023" }
+  { src: "/ccd25.jpeg", label: "Cloud Community Days", date: "2025" },
+  { src: "/dsaclub.jpeg", label: "DSA Club Core", date: "2024" },
+  { src: "/ms.jpeg", label: "Microsoft Learn", date: "2024" },
+  { src: "/next.jpeg", label: "Next.js Tech Session", date: "2024" },
+  { src: "/aws.jpeg", label: "AWS Cloud Workshop", date: "2023" }
 ];
 
 const About = () => {
@@ -41,7 +42,6 @@ const About = () => {
   const { ref: animRef, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   
   const [isMobile, setIsMobile] = useState(false);
-  const [isDeckExpanded, setIsDeckExpanded] = useState(false);
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -94,7 +94,13 @@ const About = () => {
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tight leading-[1.1] text-white max-w-4xl">
-              Building robust digital platforms at the intersection of full-stack engineering and data.
+              Crafting systems at the intersection of{" "}
+              <span className="block sm:inline-block">
+                <FlipWords 
+                  words={["Full-Stack Engineering", "Data Architecture", "Applied AI"]} 
+                  className="text-[#B6443A] font-semibold pl-0 pr-2"
+                />
+              </span>
             </h2>
           </div>
 

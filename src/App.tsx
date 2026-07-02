@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProjectsPage from "./pages/ProjectsPage";
 import JourneyPage from "./pages/JourneyPage";
+import Arena from "./pages/Arena";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/journey" element={<JourneyPage />} />
+              <Route path="/arena" element={<Arena />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

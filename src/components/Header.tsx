@@ -23,6 +23,27 @@ const Header = () => {
         setShowHeader(true);
       }
       setLastScrollY(currentScrollY);
+
+      // Scroll spy for active section highlight
+      const sections = ["home", "about", "services", "experience", "projects", "contact"];
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 250 && rect.bottom >= 250) {
+            const sectionNameMap: { [key: string]: string } = {
+              home: "Home",
+              about: "About",
+              services: "Services",
+              experience: "Journey",
+              projects: "Projects",
+              contact: "Contact",
+            };
+            setActiveSection(sectionNameMap[section]);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });

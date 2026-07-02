@@ -42,20 +42,18 @@ const NavigationDock = () => {
     };
 
     const handleScroll = () => {
+      if (pathname !== "/") return;
+
       const sections = navLinks.filter(l => l.isSection).map(link => link.href.substring(1));
-      const position = window.scrollY + 200;
       
-      if (pathname === "/") {
-        for (const section of sections) {
-          const element = document.getElementById(section);
-          if (element) {
-            const top = element.offsetTop;
-            const height = element.offsetHeight;
-            
-            if (position >= top && position <= top + height) {
-              setActiveSection(section);
-              break;
-            }
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // Active if the section overlaps the trigger threshold line (250px from top of viewport)
+          if (rect.top <= 250 && rect.bottom >= 250) {
+            setActiveSection(section);
+            break;
           }
         }
       }

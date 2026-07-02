@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useTypewriter } from "react-simple-typewriter";
 import { Linkedin, Github, ArrowRight } from "lucide-react";
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -91,16 +92,9 @@ const Hero = () => {
         <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-[#040404] to-transparent z-10" />
       </motion.div>
 
-      {/* Giant Name Typography */}
-      <div className="absolute left-0 right-0 bottom-[6vh] md:bottom-[5vh] z-20 flex justify-center select-none pointer-events-none overflow-hidden px-2">
-        <motion.h1 
-          initial={{ y: 80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[15vw] sm:text-[14vw] md:text-[16vw] font-black leading-none tracking-tighter text-[#F5F1EA] uppercase whitespace-nowrap text-center"
-        >
-          Abhishek
-        </motion.h1>
+      {/* Giant Name Typography with Text Hover Effect */}
+      <div className="absolute left-0 right-0 bottom-[2vh] md:bottom-[-2vh] h-[25vh] sm:h-[30vh] md:h-[38vh] z-20 flex justify-center select-none pointer-events-none overflow-hidden px-2 opacity-85">
+        <TextHoverEffect text="ABHISHEK" />
       </div>
 
       {/* Foreground Content Layout */}

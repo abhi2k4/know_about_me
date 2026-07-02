@@ -2,13 +2,26 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import ProjectCard from "./ProjectCard";
-import { projects } from "@/data/projects";
+import { useProjects } from "@/hooks/useProjects";
+
+const ProjectsSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {[...Array(5)].map((_, i) => (
+      <div
+        key={i}
+        className={`rounded-2xl bg-white/[0.04] animate-pulse min-h-[280px] ${i === 0 ? "md:col-span-2" : "md:col-span-1"}`}
+      />
+    ))}
+  </div>
+);
 
 const Projects = () => {
   const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
     threshold: 0.1,
     triggerOnce: true,
   });
+
+  const { data: projects = [], isLoading } = useProjects();
 
   return (
     <section
@@ -40,24 +53,28 @@ const Projects = () => {
         </motion.div>
 
         {/* Bento Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 ${
-          isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}>
-          {projects.map((project, index) => {
-            const isFeatured = index === 0;
-            return (
-              <div 
-                key={project.id}
-                className={isFeatured ? "md:col-span-2" : "md:col-span-1"}
-              >
-                <ProjectCard
-                  project={project}
-                  index={index}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {isLoading ? (
+          <ProjectsSkeleton />
+        ) : (
+          <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 ${
+            isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}>
+            {projects.map((project, index) => {
+              const isFeatured = index === 0;
+              return (
+                <div
+                  key={project.id}
+                  className={isFeatured ? "md:col-span-2" : "md:col-span-1"}
+                >
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
