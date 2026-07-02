@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import ProjectCard from "./ProjectCard";
 import { useProjects } from "@/hooks/useProjects";
@@ -59,7 +61,7 @@ const Projects = () => {
           <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 ${
             isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}>
-            {projects.map((project, index) => {
+            {projects.slice(0, 5).map((project, index) => {
               const isFeatured = index === 0;
               return (
                 <div
@@ -74,6 +76,29 @@ const Projects = () => {
               );
             })}
           </div>
+        )}
+
+        {/* Deep Dive Button */}
+        {!isLoading && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={isSectionVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="w-full flex justify-center mt-12 md:mt-16"
+          >
+            <Link to="/projects">
+              <motion.button
+                className="flex items-center gap-3 pl-2 pr-5 py-2 rounded-full bg-[#B6443A] text-white hover:bg-[#c94f44] transition-colors duration-300 shadow-lg shadow-red-950/10 group"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center text-[#B6443A] group-hover:translate-x-0.5 transition-transform duration-300">
+                  <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                </div>
+                <span className="tracking-wide uppercase text-[10px] md:text-xs font-semibold">Deep Dive</span>
+              </motion.button>
+            </Link>
+          </motion.div>
         )}
       </div>
     </section>

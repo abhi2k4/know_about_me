@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import ProjectsPage from "./pages/ProjectsPage";
 import JourneyPage from "./pages/JourneyPage";
 import Arena from "./pages/Arena";
+import ScrollToTop from "@/components/ScrollToTop";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -32,6 +33,7 @@ const App = () => (
             theme="dark"
           />
           <BrowserRouter>
+            <ScrollToTop />
             <FloatingBackToTop />
             <Analytics />
             <Routes>

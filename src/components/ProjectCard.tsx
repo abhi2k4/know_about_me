@@ -14,8 +14,8 @@ interface ProjectCardProps {
     description: string;
     images: string[];
     tags: string[];
-    demoUrl?: string;
-    codeUrl?: string;
+    demo_url?: string;
+    code_url?: string;
     note?: string;
     problem?: string;
     solution?: string;
@@ -151,16 +151,16 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
             )}
 
             <div className="flex gap-4 pt-4 border-t border-white/5">
-              {project.codeUrl && (
+              {project.code_url && (
                 <Button variant="outline" asChild className="border-white/20 text-white hover:bg-white/5">
-                  <a href={project.codeUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={project.code_url} target="_blank" rel="noopener noreferrer">
                     <Github className="mr-2 h-4 w-4" /> View Code
                   </a>
                 </Button>
               )}
-              {project.demoUrl && (
+              {project.demo_url && (
                 <Button asChild className="bg-[#B6443A] hover:bg-[#c94f44] text-white border-none">
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                  <a href={project.demo_url} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
                   </a>
                 </Button>

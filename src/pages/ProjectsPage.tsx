@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { projects } from "@/data/projects";
+import { useProjects } from "@/hooks/useProjects";
 import { ExternalLink, Github, ChevronRight, X, ArrowLeft, Users, Star, GitFork } from "lucide-react";
 import NavigationDock from "@/components/NavigationDock";
 import Footer from "@/components/Footer";
@@ -80,7 +80,8 @@ const ProjectsPage = () => {
   const { scrollYProgress } = useScroll({ target: pageRef, offset: ["start start", "end end"] });
   const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const { data: projects = [], isLoading } = useProjects();
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   return (
     <div ref={pageRef} className="min-h-screen bg-background text-foreground">
@@ -127,22 +128,30 @@ const ProjectsPage = () => {
           {/* Label row */}
           <div className="flex items-center gap-4 mb-12">
             <span className="font-mono text-xs text-white/20 tracking-widest uppercase">
-              {projects.length} projects
+              {isLoading ? "Loading..." : `${projects.length} projects`}
             </span>
             <div className="flex-1 h-px bg-white/6" />
           </div>
 
           {/* Cards with gap, each card has its own border */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {projects.map((project, index) => (
-              <ProjectGridCard
-                key={project.id}
-                project={project}
-                index={index}
-                onOpen={() => setSelectedProject(project)}
-              />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white/[0.02] border border-white/8 rounded-2xl animate-pulse min-h-[280px]" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {projects.map((project, index) => (
+                <ProjectGridCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onOpen={() => setSelectedProject(project)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -164,7 +173,7 @@ const ProjectsPage = () => {
 
 /* ─── Project Grid Card ─────────────────────────────── */
 interface CardProps {
-  project: typeof projects[0];
+  project: any;
   index: number;
   onOpen: () => void;
 }
@@ -184,7 +193,7 @@ const ProjectGridCard = ({ project, index, onOpen }: CardProps) => {
     >
       {/* Image */}
       <div className="relative overflow-hidden aspect-video">
-        {project.images?.some((img) => img && img.trim()) ? (
+        {project.images?.some((img: string) => img && img.trim()) ? (
           <motion.div
             className="w-full h-full"
             animate={{ scale: hovered ? 1.05 : 1 }}
@@ -226,7 +235,7 @@ const ProjectGridCard = ({ project, index, onOpen }: CardProps) => {
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-4">
-          {project.tags.slice(0, 4).map((tag) => (
+          {project.tags.slice(0, 4).map((tag: string) => (
             <span key={tag} className="tag-mono">
               {tag}
             </span>
@@ -235,9 +244,9 @@ const ProjectGridCard = ({ project, index, onOpen }: CardProps) => {
 
         {/* Links */}
         <div className="flex items-center gap-3 pt-3 border-t border-white/6 mt-auto">
-          {project.codeUrl && (
+          {project.code_url && (
             <a
-              href={project.codeUrl}
+              href={project.code_url}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -247,9 +256,9 @@ const ProjectGridCard = ({ project, index, onOpen }: CardProps) => {
               Code
             </a>
           )}
-          {project.demoUrl && (
+          {project.demo_url && (
             <a
-              href={project.demoUrl}
+              href={project.demo_url}
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
@@ -353,7 +362,7 @@ const CommunitySection = () => {
 
 /* ─── Case Study Drawer ─────────────────────────────── */
 interface DrawerProps {
-  project: typeof projects[0];
+  project: any;
   onClose: () => void;
 }
 
@@ -370,6 +379,7 @@ const CaseStudyDrawer = ({ project, onClose }: DrawerProps) => {
 
       {/* Drawer panel */}
       <motion.div
+        data-lenis-prevent
         className="relative ml-auto w-full max-w-2xl h-full bg-[#0a0a0a] border-l border-white/8 overflow-y-auto"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
@@ -393,7 +403,7 @@ const CaseStudyDrawer = ({ project, onClose }: DrawerProps) => {
           </div>
 
           {/* Images */}
-          {project.images?.some((img) => img && img.trim()) && (
+          {project.images?.some((img: string) => img && img.trim()) && (
             <div className="overflow-hidden border border-white/8">
               <ProjectCarousel images={project.images} className="aspect-video w-full" />
             </div>
@@ -401,9 +411,9 @@ const CaseStudyDrawer = ({ project, onClose }: DrawerProps) => {
 
           {/* Links */}
           <div className="flex gap-4">
-            {project.codeUrl && (
+            {project.code_url && (
               <a
-                href={project.codeUrl}
+                href={project.code_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-xs font-mono border border-white/15 px-4 py-2.5 hover:border-primary/40 hover:text-primary transition-colors no-underline text-white/50 uppercase tracking-widest"
@@ -412,9 +422,9 @@ const CaseStudyDrawer = ({ project, onClose }: DrawerProps) => {
                 Source Code
               </a>
             )}
-            {project.demoUrl && (
+            {project.demo_url && (
               <a
-                href={project.demoUrl}
+                href={project.demo_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-xs font-mono border border-primary/40 px-4 py-2.5 hover:bg-primary/10 text-primary transition-colors no-underline uppercase tracking-widest"
