@@ -1,7 +1,13 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useTypewriter } from "react-simple-typewriter";
-import { Twitter, Linkedin, Github, ArrowRight } from "lucide-react";
+import { Linkedin, Github, ArrowRight } from "lucide-react";
+
+const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -33,7 +39,7 @@ const Hero = () => {
   };
 
   const socialLinks = [
-    { name: "Twitter", href: "https://x.com/amt_official04", icon: Twitter },
+    { name: "X", href: "https://x.com/amt_official04", icon: XIcon },
     { name: "LinkedIn", href: "https://linkedin.com/in/thormotheabhishek", icon: Linkedin },
     { name: "GitHub", href: "https://github.com/abhi2k4", icon: Github },
   ];
@@ -73,7 +79,7 @@ const Hero = () => {
       {/* Centered Profile Image */}
       <motion.div
         style={{ y: imageY }}
-        className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[85vw] max-w-[460px] md:max-w-[500px] h-[65vh] md:h-[82vh] z-10 pointer-events-none will-change-transform flex items-center justify-center"
+        className="absolute left-0 right-0 mx-auto bottom-0 w-[85vw] max-w-[460px] md:max-w-[500px] h-[65vh] md:h-[82vh] z-10 pointer-events-none will-change-transform flex items-center justify-center"
       >
         <img
           src="/Profile-red.png"
@@ -140,6 +146,30 @@ const Hero = () => {
               specializing in <span className="text-white">{typewriterText}</span><span className="text-[#B6443A] animate-pulse">_</span>
             </p>
           </motion.div>
+
+          {/* Social Links inline for mobile/tablet */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="flex lg:hidden items-center gap-4 mt-2"
+          >
+            {socialLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] hover:border-[#B6443A]/30 transition-all duration-300 pointer-events-auto"
+                  aria-label={link.name}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              );
+            })}
+          </motion.div>
         </div>
 
         {/* Right Side: CTAs */}
@@ -180,27 +210,8 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      {/* Mobile social links (bottom row) */}
-      <div className="absolute bottom-[13vh] left-5 z-30 flex items-center gap-3 sm:hidden">
-        {socialLinks.map((link) => {
-          const Icon = link.icon;
-          return (
-            <a
-              key={link.name}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] transition-all duration-300"
-              aria-label={link.name}
-            >
-              <Icon className="w-3.5 h-3.5" />
-            </a>
-          );
-        })}
-      </div>
-
       {/* Desktop: Vertical Social Icons */}
-      <div className="hidden sm:flex flex-col items-center gap-5 absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-30">
+      {/* <div className="hidden lg:flex flex-col items-center gap-5 absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-30">
         {socialLinks.map((link) => {
           const Icon = link.icon;
           return (
@@ -209,14 +220,14 @@ const Hero = () => {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] hover:border-[#B6443A]/30 transition-all duration-300"
+              className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#B6443A] hover:border-[#B6443A]/30 transition-all duration-300 pointer-events-auto"
               aria-label={link.name}
             >
               <Icon className="w-4 h-4" />
             </a>
           );
         })}
-      </div>
+      </div> */}
     </section>
   );
 };

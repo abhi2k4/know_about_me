@@ -91,24 +91,19 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 + (index * 0.1) }}
-              className={`p-8 md:p-10 rounded-3xl flex flex-col justify-between group cursor-pointer transition-all duration-300 ${
+              className={`p-6 sm:p-7 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 ${
                 service.highlight 
                   ? 'bg-primary/5 border border-primary/20 hover:border-primary/40' 
                   : 'bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]'
               }`}
             >
               <div>
-                <h3 className={`text-xl font-medium mb-4 ${service.highlight ? 'text-primary' : 'text-foreground'}`}>
+                <h3 className={`text-lg font-medium mb-3 ${service.highlight ? 'text-primary' : 'text-foreground'}`}>
                   {service.title}
                 </h3>
-                <p className="text-sm text-muted-foreground/80 leading-relaxed mb-12">
+                <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed">
                   {service.desc}
                 </p>
-              </div>
-              <div className="w-full flex justify-end">
-                <ArrowUpRight className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 ${
-                  service.highlight ? 'text-primary' : 'text-muted-foreground'
-                }`} />
               </div>
             </motion.div>
           ))}

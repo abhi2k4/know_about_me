@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IconArrowUp } from '@tabler/icons-react';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
 
 export const FloatingBackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -14,7 +15,7 @@ export const FloatingBackToTop = () => {
       }
     };
 
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
@@ -30,20 +31,38 @@ export const FloatingBackToTop = () => {
       {isVisible && (
         <motion.button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-4 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-all duration-300 z-40"
-          initial={{ opacity: 0, scale: 0 }}
+          className="fixed bottom-20 right-6 md:bottom-24 md:right-10 w-12 h-12 rounded-full bg-[#0c0c0c]/90 border border-white/10 text-white flex items-center justify-center z-50 backdrop-blur-md cursor-pointer transition-colors duration-300 hover:border-[#B6443A]/30 hover:bg-[#0f0a09] group"
+          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0 }}
-          whileHover={{ scale: 1.1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Back to top"
         >
-          <motion.div
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <IconArrowUp size={24} stroke={2} />
-          </motion.div>
+          {/* Scroll progress circle */}
+          <svg className="absolute inset-0 w-full h-full transform -rotate-90 pointer-events-none">
+            <circle
+              cx="24"
+              cy="24"
+              r="22"
+              className="stroke-white/[0.04] fill-none"
+              strokeWidth="1.5"
+            />
+            <motion.circle
+              cx="24"
+              cy="24"
+              r="22"
+              className="stroke-[#B6443A] fill-none"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              style={{
+                pathLength: scrollYProgress,
+              }}
+            />
+          </svg>
+          
+          {/* Minimal Arrow icon */}
+          <ArrowUp className="w-5.5 h-5.5 text-white/50 group-hover:text-white transition-colors duration-300" />
         </motion.button>
       )}
     </AnimatePresence>

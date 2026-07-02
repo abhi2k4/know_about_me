@@ -79,7 +79,10 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
       {/* Case Study Modal */}
       <Dialog open={showCaseStudy} onOpenChange={setShowCaseStudy}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-white/10 text-white">
+        <DialogContent 
+          data-lenis-prevent
+          className="max-w-3xl max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-white/10 text-white"
+        >
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-white">{project.title}</DialogTitle>
             <DialogDescription className="text-white/50">Case Study</DialogDescription>

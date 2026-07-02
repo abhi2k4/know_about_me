@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Server, Globe, Cpu, Database } from "lucide-react";
 
@@ -28,14 +28,33 @@ const skillIcons: Record<string, string> = {
   "Flask": "https://cdn.simpleicons.org/flask/ffffff",
 };
 
+const memories = [
+  { src: "/ccd25.jpeg", label: "Google Cloud Community Days", date: "2025" },
+  { src: "/dsaclub.jpeg", label: "DSA Club Drive", date: "2024" },
+  { src: "/ms.jpeg", label: "Microsoft Event", date: "2023" },
+  { src: "/next.jpeg", label: ".NEXT Summit", date: "2024" },
+  { src: "/aws.jpeg", label: "AWS Summit", date: "2023" }
+];
+
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { ref: animRef, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  
+  const [isMobile, setIsMobile] = useState(false);
+  const [isDeckExpanded, setIsDeckExpanded] = useState(false);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const stats = [
     { value: "12+", label: "Months of SDE Internship Experience" },
     { value: "12+", label: "Hackathons Participated & Won" },
-    { value: "7.52", label: "B.E. Computer Engineering CGPA" },
+    { value: "7.64", label: "B.E. Computer Engineering CGPA" },
   ];
 
   const skillGroups = [
@@ -79,16 +98,74 @@ const About = () => {
             </h2>
           </div>
 
-          <div className="flex-1 text-white/55 text-sm sm:text-base leading-relaxed space-y-5 lg:pt-20">
-            <p>
-              I began my development journey with a solid foundation in computer science during my Bachelor of Computer Engineering at Mumbai University's AP Shah Institute of Technology.
-            </p>
-            <p>
-              From building production-grade fintech applications and analytics dashboards during my SDE internships to constructing real-time fraud detection systems at Union Bank hackathons, I have tackled diverse technical challenges.
-            </p>
-            <p>
-              What truly drives me is solving complex, real-world problems with clean, efficient code — building robust systems that perform seamlessly while offering smooth, intuitive user experiences.
-            </p>
+          {/* 3D Fanning Deck of Memories */}
+          <div className="flex-1 w-full flex items-center justify-center lg:justify-end lg:p-8 lg:pr-28">
+            <motion.div 
+              className="relative flex items-center justify-center h-48 sm:h-64 md:h-72 w-full max-w-[480px]"
+              onMouseLeave={() => {
+                if (!isMobile) {
+                  setHoveredCardIndex(null);
+                }
+              }}
+            >
+              {memories.map((photo, i) => {
+                const totalCards = memories.length;
+                const offset = i - Math.floor(totalCards / 2);
+                
+                // Always fanned out positions
+                const xOffset = offset * (isMobile ? 55 : 90);
+                const rotation = offset * 8;
+                const yOffset = Math.abs(offset) * (isMobile ? 4 : 8);
+
+                const isHovered = hoveredCardIndex === i;
+
+                return (
+                  <motion.div
+                    key={i}
+                    className="absolute w-[120px] sm:w-[160px] md:w-[200px] aspect-[4/3] rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl bg-[#0d0d0d] will-change-transform group cursor-pointer"
+                    style={{ originY: 1 }} // Rotate from bottom edge for clean fan effect
+                    animate={{
+                      x: xOffset,
+                      y: isHovered ? yOffset - (isMobile ? 16 : 25) : yOffset, // pop up higher when hovered/tapped
+                      rotate: isHovered ? 0 : rotation,
+                      scale: isHovered ? 1.15 : 1,
+                      zIndex: isHovered ? 50 : i + 10,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 220,
+                      damping: 24,
+                    }}
+                    onMouseEnter={() => !isMobile && setHoveredCardIndex(i)}
+                    onMouseLeave={() => !isMobile && setHoveredCardIndex(null)}
+                    onClick={() => {
+                      if (isMobile) {
+                        setHoveredCardIndex(hoveredCardIndex === i ? null : i);
+                      }
+                    }}
+                  >
+                    {/* Dark gradient overlay for typography contrast */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent transition-opacity duration-300 z-10 flex flex-col justify-end p-2 sm:p-3 ${
+                      isHovered ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`} />
+                    
+                    <img
+                      src={photo.src}
+                      alt={photo.label}
+                      className="w-full h-full object-cover filter contrast-[1.05] saturate-[0.8] brightness-[0.85] group-hover:saturate-100 group-hover:brightness-100 transition-all duration-300"
+                    />
+
+                    {/* Captions that slide up on hover/touch */}
+                    <div className={`absolute bottom-0 left-0 right-0 p-2 sm:p-2.5 z-20 transition-transform duration-300 ease-out ${
+                      isHovered ? 'translate-y-0' : 'translate-y-full group-hover:translate-y-0'
+                    }`}>
+                      <p className="text-[8px] sm:text-[10px] font-mono text-white/50 uppercase tracking-wider">{photo.date}</p>
+                      <h4 className="text-[10px] sm:text-xs font-semibold text-white truncate">{photo.label}</h4>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
 
