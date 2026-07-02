@@ -30,11 +30,11 @@ const skillIcons: Record<string, string> = {
 };
 
 const memories = [
-  { src: "/ccd25.jpeg", label: "Cloud Community Days", date: "2025" },
-  { src: "/dsaclub.jpeg", label: "DSA Club Core", date: "2024" },
-  { src: "/ms.jpeg", label: "Microsoft Learn", date: "2024" },
-  { src: "/next.jpeg", label: "Next.js Tech Session", date: "2024" },
-  { src: "/aws.jpeg", label: "AWS Cloud Workshop", date: "2023" }
+  { src: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1782987796/know%20me/photos/ccd25_xji8tt.jpg", label: "Cloud Community Days", date: "2025" },
+  { src: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1782987796/know%20me/photos/dsaclub_fzgcjx.jpg", label: "DSA Club Core", date: "2024" },
+  { src: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1782987796/know%20me/photos/ms_qkhpiq.jpg", label: "Microsoft Learn", date: "2024" },
+  { src: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1782987796/know%20me/photos/next_j02zzm.jpg", label: "Next.js Tech Session", date: "2024" },
+  { src: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1782987796/know%20me/photos/aws_fikp28.jpg", label: "AWS Cloud Workshop", date: "2023" }
 ];
 
 const About = () => {
