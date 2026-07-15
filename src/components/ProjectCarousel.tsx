@@ -2,6 +2,7 @@ import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoPlay from 'embla-carousel-autoplay';
 import { cn } from '@/lib/utils';
+import { getOptimizedImageUrl } from '@/lib/cloudinary';
 
 interface ProjectCarouselProps {
   images: string[];
@@ -26,7 +27,7 @@ const ProjectCarousel = ({ images, className }: ProjectCarouselProps) => {
             className="flex-[0_0_100%] min-w-0 relative h-full"
           >
             <img
-              src={image}
+              src={getOptimizedImageUrl(image, 1000)}
               alt={`Project slide ${index + 1}`}
               className="w-full h-full object-contain bg-secondary/10"
               loading="lazy"

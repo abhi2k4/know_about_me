@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Server, Globe, Cpu, Database } from "lucide-react";
 import { FlipWords } from "@/components/ui/flip-words";
+import { getOptimizedImageUrl } from "@/lib/cloudinary";
 
 // Skill icon URLs from simple CDN
 const skillIcons: Record<string, string> = {
@@ -19,7 +20,7 @@ const skillIcons: Record<string, string> = {
   "MySQL": "https://cdn.simpleicons.org/mysql/ffffff",
   "MongoDB": "https://cdn.simpleicons.org/mongodb/ffffff",
   "PostgreSQL": "https://cdn.simpleicons.org/postgresql/ffffff",
-  "AWS": "https://cdn.simpleicons.org/amazonwebservices/ffffff",
+  "AWS": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonaws.svg",
   "Docker": "https://cdn.simpleicons.org/docker/ffffff",
   "Git": "https://cdn.simpleicons.org/git/ffffff",
   "GitHub Actions": "https://cdn.simpleicons.org/githubactions/ffffff",
@@ -152,7 +153,7 @@ const About = () => {
                     }`} />
                     
                     <img
-                      src={photo.src}
+                      src={getOptimizedImageUrl(photo.src, 400)}
                       alt={photo.label}
                       className="w-full h-full object-cover filter contrast-[1.05] saturate-[0.8] brightness-[0.85] group-hover:saturate-100 group-hover:brightness-100 transition-all duration-300"
                     />
@@ -198,7 +199,7 @@ const About = () => {
                           <img
                             src={iconUrl}
                             alt={skill}
-                            className="w-3 h-3 object-contain opacity-60"
+                            className={`w-3 h-3 object-contain opacity-60 ${skill === 'AWS' ? 'brightness-0 invert' : ''}`}
                             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                           />
                         )}

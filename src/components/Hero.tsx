@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { useTypewriter } from "react-simple-typewriter";
 import { Linkedin, Github, ArrowRight } from "lucide-react";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import { getOptimizedImageUrl } from "@/lib/cloudinary";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -56,10 +57,10 @@ const Hero = () => {
       {/* Centered Profile Image */}
       <motion.div
         style={{ y: imageY }}
-        className="absolute left-0 right-0 mx-auto bottom-0 w-[85vw] max-w-[460px] md:max-w-[500px] h-[65vh] md:h-[82vh] z-10 pointer-events-none will-change-transform flex items-center justify-center"
+        className="absolute left-0 right-0 mx-auto bottom-0 w-[85vw] max-w-[460px] md:max-w-[500px] h-[65vh] md:h-[86vh] z-10 pointer-events-none will-change-transform flex items-center justify-center"
       >
         <img
-          src="https://res.cloudinary.com/ds2uw5gcw/image/upload/v1783014014/know%20me/photo2_csdlts.png"
+          src={getOptimizedImageUrl("https://res.cloudinary.com/ds2uw5gcw/image/upload/v1783014014/know%20me/photo2_csdlts.png", 800)}
           alt="Abhishek Thormothe"
           onLoad={() => setImageLoaded(true)}
           className={`w-full h-full object-cover object-center select-none filter brightness-[0.7] contrast-[1.1] saturate-[0.85] transition-opacity duration-1000 ${
