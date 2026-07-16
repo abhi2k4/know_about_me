@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import ProjectsPage from "./pages/ProjectsPage";
 import JourneyPage from "./pages/JourneyPage";
 import Arena from "./pages/Arena";
+import ResumePage from "./pages/ResumePage";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/journey" element={<JourneyPage />} />
               <Route path="/arena" element={<Arena />} />
+              <Route path="/resume" element={<ResumePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

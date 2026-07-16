@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { ArrowLeft, ExternalLink, Users, Trophy, Zap, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
-import NavigationDock from "@/components/NavigationDock";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 interface JourneyEvent {
@@ -175,7 +175,7 @@ const JourneyPage = () => {
         style={{ width: progressWidth }}
       />
 
-      <NavigationDock />
+      <Header />
 
       {/* Hero */}
       <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/6">

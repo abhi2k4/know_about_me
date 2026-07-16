@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useActiveResume } from "@/hooks/useResumes";
 
 const Header = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -8,6 +9,8 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("Home");
+  const { activeResume } = useActiveResume();
+  // const resumeUrl = "/resume" || "/Abhishek Resume.pdf";
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -140,7 +143,7 @@ const Header = () => {
           <div className="flex items-center gap-3 pr-1">
             {/* Resume Link (Desktop) */}
             <a
-              href="/Abhishek Resume.pdf"
+              href="/resume"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto"
@@ -230,8 +233,8 @@ const Header = () => {
                   <ArrowUpRight className="w-5 h-5 opacity-45" />
                 </button>
               ))}
-              <a
-                href="/Abhishek Resume.pdf"
+              <a 
+                href="/resume" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-left py-3 text-white/70 hover:text-white transition-colors border-b border-white/5 flex items-center justify-between"

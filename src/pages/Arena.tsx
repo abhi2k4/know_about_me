@@ -1,11 +1,12 @@
 import { useState } from "react";
 import ProjectsAdmin from "./arena/ProjectsAdmin";
 import ExperienceAdmin from "./arena/ExperienceAdmin";
-import { Lock, Briefcase, FolderOpen, LogOut } from "lucide-react";
+import ResumesAdmin from "./arena/ResumesAdmin";
+import { Lock, Briefcase, FolderOpen, LogOut, FileText } from "lucide-react";
 
 const ARENA_KEY = import.meta.env.VITE_ARENA_KEY || "arena";
 
-type Tab = "projects" | "experience";
+type Tab = "projects" | "experience" | "resumes";
 
 export default function Arena() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem("arena_authed") === "1");
@@ -106,31 +107,39 @@ export default function Arena() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 rounded-xl bg-white/[0.04] border border-white/[0.06] w-fit mb-8">
-          {(
-            [
-              { id: "projects", label: "Projects", icon: FolderOpen },
-              { id: "experience", label: "Experience", icon: Briefcase },
-            ] as { id: Tab; label: string; icon: React.ElementType }[]
-          ).map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                activeTab === id
-                  ? "bg-white/10 text-white shadow-sm"
-                  : "text-white/40 hover:text-white/70"
-              }`}
-            >
-              <Icon className="w-4 h-4" />
-              {label}
-            </button>
-          ))}
-        </div>
+        <nav className="flex gap-2 mb-8 border-b border-white/[0.06] pb-4">
+          <button
+            onClick={() => setActiveTab("projects")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${
+              activeTab === "projects" ? "bg-white/10 text-white" : "text-white/40 hover:text-white/80 hover:bg-white/5"
+            }`}
+          >
+            <FolderOpen className="w-4 h-4" /> Projects
+          </button>
+          <button
+            onClick={() => setActiveTab("experience")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${
+              activeTab === "experience" ? "bg-white/10 text-white" : "text-white/40 hover:text-white/80 hover:bg-white/5"
+            }`}
+          >
+            <Briefcase className="w-4 h-4" /> Experience
+          </button>
+          <button
+            onClick={() => setActiveTab("resumes")}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${
+              activeTab === "resumes" ? "bg-white/10 text-white" : "text-white/40 hover:text-white/80 hover:bg-white/5"
+            }`}
+          >
+            <FileText className="w-4 h-4" /> Resumes
+          </button>
+        </nav>
 
         {/* Tab Content */}
-        {activeTab === "projects" && <ProjectsAdmin />}
-        {activeTab === "experience" && <ExperienceAdmin />}
+        <div>
+          {activeTab === "projects" && <ProjectsAdmin />}
+          {activeTab === "experience" && <ExperienceAdmin />}
+          {activeTab === "resumes" && <ResumesAdmin />}
+        </div>
       </div>
     </div>
   );

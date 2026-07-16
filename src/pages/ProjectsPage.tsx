@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useProjects } from "@/hooks/useProjects";
 import { ExternalLink, Github, ChevronRight, X, ArrowLeft, Users, Star, GitFork } from "lucide-react";
-import NavigationDock from "@/components/NavigationDock";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProjectCarousel from "@/components/ProjectCarousel";
 import { Link } from "react-router-dom";
@@ -91,7 +91,7 @@ const ProjectsPage = () => {
         style={{ width: progressWidth }}
       />
 
-      <NavigationDock />
+      <Header />
 
       {/* Hero */}
       <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/6">
