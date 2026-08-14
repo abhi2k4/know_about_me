@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { Server, Globe, Cpu, Database } from "lucide-react";
+import { Server, Globe, Cpu, Database, User } from "lucide-react";
 import { FlipWords } from "@/components/ui/flip-words";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
 
@@ -40,7 +40,6 @@ const memories = [
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const { ref: animRef, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
@@ -79,15 +78,14 @@ const About = () => {
       className="relative w-full px-5 sm:px-8 py-16 sm:py-20 md:px-12 md:py-32 bg-[#040404] border-b border-white/5"
     >
       <div
-        ref={animRef as React.RefObject<HTMLDivElement>}
         className="w-full flex flex-col gap-12 lg:gap-24"
       >
         {/* Top: Badge & Header */}
         <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-16">
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 w-fit mb-6 md:mb-8">
-              <span className="w-2 h-2 rounded-full bg-[#B6443A] animate-pulse"></span>
-              <span className="text-xs tracking-wider text-white/60 uppercase font-mono">About Me</span>
+            <div className="inline-flex items-center gap-2 mb-6 md:mb-8">
+              <User className="w-4 h-4 text-[#B6443A]" />
+              <span className="text-sm font-medium tracking-wider text-white/60 uppercase font-mono">About Me</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tight leading-[1.1] text-white max-w-4xl">
@@ -179,7 +177,8 @@ const About = () => {
               <motion.div
                 key={group.category}
                 initial={{ opacity: 0, y: 25 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: 0.1 * idx }}
                 className="border border-white/[0.05] bg-[#0a0a0a]/70 p-5 md:p-6 rounded-2xl hover:border-[#B6443A]/20 transition-colors duration-300 flex flex-col"
               >

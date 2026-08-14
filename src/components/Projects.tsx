@@ -1,8 +1,7 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { ArrowRight, FolderGit2 } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import { useProjects } from "@/hooks/useProjects";
 
@@ -18,10 +17,6 @@ const ProjectsSkeleton = () => (
 );
 
 const Projects = () => {
-  const { ref: sectionRef, isVisible: isSectionVisible } = useScrollAnimation({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
 
   const { data: projects = [], isLoading } = useProjects();
 
@@ -29,19 +24,19 @@ const Projects = () => {
     <section
       id="projects"
       className="relative w-full px-6 py-20 sm:px-12 md:py-32 bg-[#080808]"
-      ref={sectionRef as React.RefObject<HTMLElement>}
     >
       <div className="w-full flex flex-col">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isSectionVisible ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6 }}
           className="mb-16 md:mb-24 flex flex-col items-start"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 w-fit mb-8">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <span className="text-xs tracking-wider text-muted-foreground uppercase">Portfolio</span>
+          <div className="inline-flex items-center gap-2 mb-8">
+            <FolderGit2 className="w-5 h-5 text-primary" />
+            <span className="text-sm font-medium tracking-wider text-muted-foreground uppercase">Portfolio</span>
           </div>
 
           <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -58,9 +53,13 @@ const Projects = () => {
         {isLoading ? (
           <ProjectsSkeleton />
         ) : (
-          <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-700 ${
-            isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.7 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
             {projects.slice(0, 5).map((project, index) => {
               const isFeatured = index === 0;
               return (
@@ -75,14 +74,15 @@ const Projects = () => {
                 </div>
               );
             })}
-          </div>
+          </motion.div>
         )}
 
         {/* Deep Dive Button */}
         {!isLoading && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
-            animate={isSectionVisible ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="w-full flex justify-center mt-12 md:mt-16"
           >

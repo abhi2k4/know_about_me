@@ -1,10 +1,8 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { ArrowUpRight, Wrench } from "lucide-react";
 
 const Services = () => {
-  const { ref: animRef, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
   const services = [
     {
@@ -35,24 +33,25 @@ const Services = () => {
       className="relative w-full px-6 py-20 sm:px-12 md:py-32 bg-[#080808] border-t border-white/5"
     >
       <div 
-        ref={animRef as React.RefObject<HTMLDivElement>}
         className="w-full flex flex-col xl:flex-row gap-16 lg:gap-24"
       >
         {/* Left Column: Title */}
         <div className="flex-1 max-w-xl">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 w-fit mb-8"
+            className="inline-flex items-center gap-2 mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <span className="text-xs tracking-wider text-muted-foreground uppercase">Services</span>
+            <Wrench className="w-5 h-5 text-primary" />
+            <span className="text-sm font-medium tracking-wider text-muted-foreground uppercase">Services</span>
           </motion.div>
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground mb-6"
           >
@@ -61,7 +60,8 @@ const Services = () => {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm text-muted-foreground max-w-md"
           >
@@ -70,7 +70,8 @@ const Services = () => {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-12"
           >
@@ -89,7 +90,8 @@ const Services = () => {
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: 0.2 + (index * 0.1) }}
               className={`p-6 sm:p-7 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 ${
                 service.highlight 

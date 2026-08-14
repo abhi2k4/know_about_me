@@ -1,4 +1,4 @@
-import { Linkedin, Github } from "lucide-react";
+import { Linkedin, Github, Instagram } from "lucide-react";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -14,6 +14,7 @@ const Footer = () => {
     { name: "X", href: "https://x.com/amt_official04", icon: XIcon },
     { name: "LinkedIn", href: "https://linkedin.com/in/thormotheabhishek", icon: Linkedin },
     { name: "GitHub", href: "https://github.com/abhi2k4", icon: Github },
+    { name: "Instagram", href: "https://www.instagram.com/abhishekthormothe", icon: Instagram },
   ];
 
   return (

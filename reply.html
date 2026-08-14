@@ -6,7 +6,7 @@
     <title>Thanks for Reaching Out!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
       * {
         margin: 0;
@@ -15,154 +15,145 @@
       }
 
       body {
-        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         line-height: 1.6;
-        background-color: #080808;
-        padding: clamp(12px, 3vw, 24px);
-        color: rgba(255, 255, 255, 0.9);
+        background-color: #f7f7f9;
+        padding: clamp(16px, 4vw, 40px);
+        color: #3f3f46;
+        -webkit-font-smoothing: antialiased;
       }
 
       .email-container {
-        max-width: 600px;
+        max-width: 580px;
         margin: 0 auto;
-        background: #0c0c0c;
-        border: 1px solid #1f1f1f;
-        border-radius: 0px; /* Sharp corners to match theme */
+        background: #ffffff;
+        border: 1px solid #e4e4e7;
+        border-radius: 20px;
         overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        padding: clamp(24px, 6vw, 40px);
       }
 
-      .header {
-        background: #080808;
-        padding: clamp(24px, 5vw, 32px);
-        border-bottom: 2px solid #E61919; /* Vivid red accent line */
-        text-align: left;
-      }
-
-      .header h2 {
-        color: #ffffff;
-        font-size: 1.5rem;
+      .sub-label {
+        font-size: 0.75rem;
         font-weight: 700;
-        letter-spacing: -0.02em;
+        color: #b45309; /* Warm gold/amber accent */
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-bottom: 8px;
+        display: block;
       }
 
-      .content {
-        padding: clamp(24px, 5vw, 32px);
+      .brand-header {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 32px;
       }
 
-      p {
+      .headline {
+        font-size: clamp(1.5rem, 4vw, 1.85rem);
+        font-weight: 700;
+        color: #0f172a;
+        line-height: 1.25;
+        letter-spacing: -0.025em;
         margin-bottom: 20px;
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .content p {
+        font-size: 0.975rem;
+        color: #52525b;
+        margin-bottom: 20px;
       }
 
       .highlight {
-        color: #E61919;
+        color: #b45309;
         font-weight: 600;
       }
 
+      /* Let's Connect highlight box style */
       .section {
+        background-color: #f9f9fb;
+        border: 1px solid #f1f1f4;
+        border-radius: 16px;
+        padding: clamp(20px, 4vw, 28px);
         margin: 28px 0;
-        padding: clamp(16px, 3vw, 24px);
-        background: #121212;
-        border: 1px solid #1f1f1f;
-        border-radius: 0px; /* Sharp corners */
       }
 
       .label {
-        font-family: 'Space Mono', 'Courier New', monospace;
-        font-weight: 700;
-        color: #E61919;
-        margin-bottom: 16px;
-        display: block;
         font-size: 0.75rem;
+        font-weight: 700;
+        color: #b45309;
         text-transform: uppercase;
         letter-spacing: 0.1em;
+        margin-bottom: 16px;
+        display: block;
       }
 
-      .social-links {
+      .social-links-row {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 12px;
-        margin: 8px 0;
       }
 
       .social-link {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        padding: 10px 16px;
-        background: #080808;
-        border-radius: 0px; /* Sharp corners */
-        color: rgba(255, 255, 255, 0.9);
+        padding: 10px 18px;
+        background: #ffffff;
+        border-radius: 9999px; /* Pill buttons */
+        color: #0f172a;
         text-decoration: none;
-        font-family: 'Space Mono', 'Courier New', monospace;
-        font-size: 0.8rem;
-        font-weight: 500;
-        border: 1px solid #1f1f1f;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid #e4e4e7;
         transition: all 0.2s ease;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
       }
 
       .social-link:hover {
-        border-color: #E61919;
-        color: #ffffff;
-        background: #121212;
+        background: #f4f4f5;
+        border-color: #d4d4d8;
       }
 
       .social-link img {
-        opacity: 0.8;
-        transition: opacity 0.2s ease;
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
         vertical-align: middle;
       }
 
-      .social-link img[src*="simple-icons"] {
-        filter: invert(1); /* Invert black simple-icons SVGs to white for dark theme */
-      }
-
-      .social-link:hover img {
-        opacity: 1;
-      }
-
+      /* Signature */
       .signature {
-        margin-top: clamp(24px, 5vw, 32px);
-        padding-top: clamp(20px, 4vw, 24px);
-        border-top: 1px solid #1f1f1f;
-        color: #555555;
-        font-size: 0.85rem;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid #f1f1f4;
       }
 
       .signature strong {
-        color: #ffffff;
+        color: #0f172a;
         font-size: 0.95rem;
+        font-weight: 600;
+        display: block;
       }
 
       .signature-title {
-        font-family: 'Space Mono', 'Courier New', monospace;
-        color: #888888;
         font-size: 0.75rem;
-        margin-top: 2px;
-        margin-bottom: 8px;
+        color: #71717a;
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        margin-top: 2px;
+        margin-bottom: 6px;
       }
 
       .signature a {
-        color: #E61919;
-        text-decoration: none;
-        font-family: 'Space Mono', 'Courier New', monospace;
-        font-size: 0.8rem;
-        transition: color 0.2s ease;
-      }
-
-      .signature a:hover {
-        color: #ff3333;
+        color: #71717a;
         text-decoration: underline;
+        font-size: 0.85rem;
       }
 
       @media (max-width: 640px) {
-        .social-links {
+        .social-links-row {
           flex-direction: column;
         }
         .social-link {
@@ -174,27 +165,29 @@
   </head>
   <body>
     <div class="email-container">
-      <div class="header">
-        <h2>Thanks for Reaching Out! 🙌</h2>
-      </div>
+      <span class="sub-label">Auto-Reply</span>
+      <h1 class="brand-header">ABHISHEK THORMOTHE</h1>
+      
+      <h2 class="headline">Thanks for Reaching Out! 🙌</h2>
+      
       <div class="content">
         <p>Hi <span class="highlight">{{name}}</span>,</p>
 
-        <p>Thanks for getting in touch through my portfolio website. I've received your message and will get back to you as soon as possible — usually within 24–48 hours.</p>
+        <p>Thanks for getting in touch through my portfolio website. I've received your message and will get back to you as soon as possible; usually within 24–48 hours.</p>
 
         <div class="section">
           <span class="label">Let's Connect</span>
-          <div class="social-links">
+          <div class="social-links-row">
             <a href="https://github.com/abhi2k4" class="social-link" target="_blank">
-              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" style="width:16px; height:16px; margin-right:10px;"> 
+              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub"> 
               GitHub
             </a>
             <a href="https://linkedin.com/in/thormotheabhishek" class="social-link" target="_blank">
-              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" style="width:16px; height:16px; margin-right:10px;"> 
+              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn"> 
               LinkedIn
             </a>
             <a href="https://abhishekthormothe.in" class="social-link" target="_blank">
-              <img src="https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745750550/know%20me/ac_fav_tsrm76.png" alt="Portfolio" style="width:16px; height:16px; margin-right:10px;"> 
+              <img src="https://res.cloudinary.com/ds2uw5gcw/image/upload/v1745750550/know%20me/ac_fav_tsrm76.png" alt="Portfolio"> 
               Portfolio
             </a>
           </div>

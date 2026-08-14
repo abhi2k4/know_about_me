@@ -91,10 +91,8 @@ const ProjectsPage = () => {
         style={{ width: progressWidth }}
       />
 
-      <Header />
-
       {/* Hero */}
-      <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/6">
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/6">
         <div className="absolute inset-0 bg-dot-pattern opacity-20 pointer-events-none" />
         <div className="container mx-auto">
           <Link
