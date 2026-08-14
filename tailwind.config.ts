@@ -155,6 +155,14 @@ export default {
 					'0%, 100%': { opacity: '0.5' },
 					'50%': { opacity: '1' },
 				},
+				marquee: {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-50%)' },
+				},
+				'marquee-reverse': {
+					'0%': { transform: 'translateX(-50%)' },
+					'100%': { transform: 'translateX(0%)' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -172,7 +180,9 @@ export default {
 				'glow-pulse': 'glow 2s ease-in-out infinite',
 				'spin-slow': 'spin-slow 8s linear infinite',
 				'scale-bounce': 'scale-bounce 2s ease-in-out infinite',
-				'border-glow': 'border-glow 2s ease-in-out infinite'
+				'border-glow': 'border-glow 2s ease-in-out infinite',
+				'marquee': 'marquee 28s linear infinite',
+				'marquee-reverse': 'marquee-reverse 28s linear infinite'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
