@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { User } from "lucide-react";
-import { FlipWords } from "@/components/ui/flip-words";
+import { FlippingWordSwap } from "@/components/ui/flipping-word-swap";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
 
 const memories = [
@@ -29,27 +28,41 @@ const About = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="relative w-full px-5 sm:px-8 py-16 sm:py-20 md:px-12 md:py-32 bg-[#040404] border-b border-white/5"
+      className="relative w-full px-5 sm:px-8 py-16 md:py-24 bg-[#040404] border-b border-white/5 overflow-hidden"
     >
-      <div className="w-full flex flex-col gap-12 lg:gap-20">
-        {/* Top: Header & Memories */}
-        <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-16">
-          <div className="flex-1">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.15] text-white max-w-4xl">
-              Crafting systems at the intersection of{" "}
-              <span className="block sm:inline-block">
-                <FlipWords 
-                  words={["Full-Stack Engineering", "Data Architecture", "Applied AI"]} 
-                  className="text-[#B6443A] font-semibold pl-0 pr-2"
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column: Heading, Subtext & Metrics */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.2] text-white">
+              Crafting systems at the <br />
+              intersection of <br />
+              <span className="text-[#B6443A] font-semibold inline-block">
+                <FlippingWordSwap
+                  words={["Full-Stack Engineering", "Data Architecture", "Applied AI"]}
+                  autoplay={true}
+                  interval={3000}
+                  duration={400}
+                  stagger={35}
+                  className="text-[#B6443A] font-semibold"
+                  toClassName="text-[#B6443A] font-semibold"
                 />
               </span>
             </h2>
+
+            <p className="mt-6 text-sm sm:text-base text-white/50 leading-relaxed font-light max-w-xl">
+              Passionate software engineer focused on building robust full-stack architectures, 
+              high-throughput data pipelines, and intelligent AI-driven applications. 
+              Driven by clean design, efficiency, and engineering precision.
+            </p>
+
           </div>
 
-          {/* 3D Fanning Deck of Memories */}
-          <div className="flex-1 w-full flex items-center justify-center lg:justify-end lg:p-8 lg:pr-28">
+          {/* Right Column: 3D Fanning Deck of Memories */}
+          <div className="lg:col-span-5 w-full flex items-center justify-center lg:justify-end py-8 lg:py-0">
             <motion.div 
-              className="relative flex items-center justify-center h-48 sm:h-64 md:h-72 w-full max-w-[480px]"
+              className="relative flex items-center justify-center h-52 sm:h-64 md:h-72 w-full max-w-[420px]"
               onMouseLeave={() => {
                 if (!isMobile) {
                   setHoveredCardIndex(null);
@@ -61,7 +74,7 @@ const About = () => {
                 const offset = i - Math.floor(totalCards / 2);
                 
                 // Always fanned out positions
-                const xOffset = offset * (isMobile ? 55 : 90);
+                const xOffset = offset * (isMobile ? 48 : 65);
                 const rotation = offset * 8;
                 const yOffset = Math.abs(offset) * (isMobile ? 4 : 8);
 
@@ -70,8 +83,8 @@ const About = () => {
                 return (
                   <motion.div
                     key={i}
-                    className="absolute w-[120px] sm:w-[160px] md:w-[200px] aspect-[4/3] rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl bg-[#0d0d0d] will-change-transform group cursor-pointer"
-                    style={{ originY: 1 }} // Rotate from bottom edge for clean fan effect
+                    className="absolute w-[115px] sm:w-[150px] md:w-[175px] aspect-[4/3] rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl bg-[#0d0d0d] will-change-transform group cursor-pointer"
+                    style={{ originY: 1 }}
                     animate={{
                       x: xOffset,
                       y: isHovered ? yOffset - (isMobile ? 16 : 25) : yOffset,
@@ -115,6 +128,7 @@ const About = () => {
               })}
             </motion.div>
           </div>
+
         </div>
       </div>
     </section>

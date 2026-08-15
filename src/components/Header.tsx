@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActiveResume } from "@/hooks/useResumes";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Header = () => {
   const [showHeader, setShowHeader] = useState(true);
@@ -144,16 +145,29 @@ const Header = () => {
 
           {/* Right side CTA & Mobile trigger */}
           <div className="flex items-center gap-3 pr-1">
-            {/* Resume Link (Desktop) */}
-            <a
-              href="/resume"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto"
-              title="View Resume"
-            >
-              <FileText className="w-4.5 h-4.5" />
-            </a>
+            {/* Resume Link (Desktop) with Tooltip */}
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <a
+                    href="/resume"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto"
+                    aria-label="View Resume"
+                  >
+                    <FileText className="w-4.5 h-4.5" />
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  sideOffset={8}
+                  className="bg-[#121212]/95 border border-white/15 text-white font-mono text-[11px] px-3 py-1.5 rounded-lg shadow-2xl backdrop-blur-md"
+                >
+                  View Resume
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
             <motion.button
               onClick={() => goToSection("Contact")}

@@ -30,6 +30,7 @@ export const FlipWords = ({
 
   return (
     <AnimatePresence
+      mode="popLayout"
       onExitComplete={() => {
         setIsAnimating(false);
       }}
@@ -50,14 +51,12 @@ export const FlipWords = ({
         }}
         exit={{
           opacity: 0,
-          y: -40,
-          x: 40,
-          filter: "blur(8px)",
-          scale: 2,
-          position: "absolute",
+          y: -20,
+          filter: "blur(6px)",
+          scale: 0.95,
         }}
         className={cn(
-          "z-10 inline-block relative text-left px-2",
+          "z-10 inline-block relative text-left p-0 m-0",
           className
         )}
         key={currentWord}
