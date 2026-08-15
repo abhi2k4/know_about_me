@@ -28,3 +28,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Allow access to OG image generation endpoints
+Allow: /api/og/*
