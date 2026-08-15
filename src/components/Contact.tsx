@@ -66,13 +66,14 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex-1"
           >
+
             <h2 className="text-[12vw] sm:text-[10vw] xl:text-[8vw] font-medium leading-[0.9] tracking-tighter text-foreground">
               Let's Connect <br />
               There
             </h2>
             <p className="mt-8 text-muted-foreground max-w-sm">
               Open to freelance projects, internships, and collaborations. 
-              Drop me a message — I typically respond within 24 hours.
+              Drop me a message, I typically respond within 24 hours.
             </p>
           </motion.div>
 

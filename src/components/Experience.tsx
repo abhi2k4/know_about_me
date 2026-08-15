@@ -24,13 +24,8 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
           className="mb-16 md:mb-24 flex flex-col items-start"
         >
-          <div className="inline-flex items-center gap-2 mb-8">
-            <Briefcase className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium tracking-wider text-muted-foreground uppercase">Experience</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground max-w-xl">
-            A brief snapshot of my professional growth
+            A track record of engineering leadership and execution
           </h2>
         </motion.div>
 

@@ -183,8 +183,8 @@ export const projects = [
     tags: ["DataHub", "Keycloak", "Langfuse", "AI Governance", "Open Source"],
     images: ["https://res.cloudinary.com/ds2uw5gcw/image/upload/v1773596803/know%20me/projects/PHOTO-2026-03-15-23-16-07_zoonym.jpg"],
     demoUrl: "https://oversightai.in",
-    problem: "Organizations deploying AI agents have no centralized way to monitor, audit, or enforce governance policies over how those agents access and use sensitive organizational data — creating compliance and trust risks.",
-    solution: "Built a governance control plane on top of open-source tools (DataHub, Keycloak, Langfuse) that continuously monitors AI agent activity, auto-evaluates risk and trust scores, enforces RBAC policies, and maintains a full audit trail — reducing manual governance overhead for low-risk events entirely.",
+    problem: "Organizations deploying AI agents have no centralized way to monitor, audit, or enforce governance policies over how those agents access and use sensitive organizational data, creating compliance and trust risks.",
+    solution: "Built a governance control plane on top of open-source tools (DataHub, Keycloak, Langfuse) that continuously monitors AI agent activity, auto-evaluates risk and trust scores, enforces RBAC policies, and maintains a full audit trail, reducing manual governance overhead for low-risk events entirely.",
     role: "Full-stack development: system architecture, open-source tool integration (DataHub, Keycloak, Langfuse), RBAC implementation, risk-scoring engine, and governance dashboard UI.",
     stack: [
       { name: "DataHub" },
@@ -214,8 +214,8 @@ export const projects = [
     tags: ["FastAPI", "React Router", "AWS", "PWA", "Tailwind CSS"],
     images: ["https://res.cloudinary.com/ds2uw5gcw/image/upload/v1773596711/know%20me/projects/PHOTO-2026-03-15-23-14-13_m1nef0.jpg"],
     demoUrl: "https://chalokisaan.in",
-    problem: "Small-scale Indian farmers lack the digital infrastructure and market access needed to monetize their land and culture through agritourism — a high-potential but underserved segment.",
-    solution: "Built a full-stack PWA hosted on AWS (EC2, S3, RDS, CloudFront, Bedrock) that allows farmers to list experiences, manage bookings, and track revenue through responsive dashboards — with offline support critical for low-connectivity rural areas.",
+    problem: "Small-scale Indian farmers lack the digital infrastructure and market access needed to monetize their land and culture through agritourism, a high-potential but underserved segment.",
+    solution: "Built a full-stack PWA hosted on AWS (EC2, S3, RDS, CloudFront, Bedrock) that allows farmers to list experiences, manage bookings, and track revenue through responsive dashboards, with offline support critical for low-connectivity rural areas.",
     role: "Full-stack development: UI/UX design, FastAPI backend, AWS infrastructure setup (EC2, S3, RDS, CloudFront, Bedrock), PWA configuration, and dashboard implementation.",
     stack: [
       { name: "FastAPI" },

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useTypewriter } from "react-simple-typewriter";
-import { Linkedin, Github, ArrowRight, Instagram, Briefcase } from "lucide-react";
+import { Linkedin, Github, ArrowRight, Mail, Briefcase } from "lucide-react";
 
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -23,12 +23,14 @@ const Hero = () => {
 
   const [typewriterText] = useTypewriter({
     words: [
-      "api development",
-      "ui/ux design",
-      "machine learning",
-      "web architectures",
-      "creative coding",
-    ],
+                  "software engineering",
+                  "full stack development",
+                  "data engineering",
+                  "api development",
+                  "system architecture",
+                  "machine learning",
+                  "creative coding"
+            ],
     loop: true,
     delaySpeed: 2000,
     deleteSpeed: 40,
@@ -46,7 +48,7 @@ const Hero = () => {
     { name: "X", href: "https://x.com/amt_official04", icon: XIcon },
     { name: "LinkedIn", href: "https://linkedin.com/in/thormotheabhishek", icon: Linkedin },
     { name: "GitHub", href: "https://github.com/abhi2k4", icon: Github },
-    { name: "Instagram", href: "https://www.instagram.com/abhishekthormothe", icon: Instagram },
+    { name: "Email", href: "mailto:thormothe.abhishek@gmail.com", icon: Mail },
   ];
 
   return (
@@ -123,7 +125,7 @@ const Hero = () => {
         {/* Left Side: Bio */}
         <div className="flex flex-col justify-center gap-3.5 md:gap-5 w-full md:max-w-[380px] text-left md:p-7 md:rounded-3xl md:bg-black/55 md:backdrop-blur-xl md:border md:border-white/10 md:shadow-2xl pointer-events-auto">
           {/* Status Badge */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -131,7 +133,7 @@ const Hero = () => {
           >
             <Briefcase className="w-3.5 h-3.5 text-[#B6443A]" />
             <span className="text-[10px] font-medium tracking-wider text-white uppercase">Available for work</span>
-          </motion.div>
+          </motion.div> */}
 
           {/* Terminal-style line */}
           <motion.div

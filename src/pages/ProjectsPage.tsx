@@ -22,7 +22,7 @@ interface CommunityItem {
 const communityContributions: CommunityItem[] = [
   {
     id: 1,
-    name: "Coders Club — APSIT",
+    name: "Coders Club - APSIT",
     type: "FOUNDED",
     description:
       "Co-founded the official coding community at APSIT. Designed and deployed the full club platform (codersclub.apsit.edu.in) serving 600+ members with curated notes, newsletters, event management, and attendance tracking.",
@@ -36,7 +36,7 @@ const communityContributions: CommunityItem[] = [
   },
   {
     id: 2,
-    name: "HackScript 4.0 — Dev Lead",
+    name: "HackScript 4.0 - Dev Lead",
     type: "ORGANISED",
     description:
       "Led engineering for an inter-college hackathon with 200+ participants. Built the judge portal and live leaderboard from scratch. Managed end-to-end logistics, sponsor communication and participant onboarding.",
@@ -50,7 +50,7 @@ const communityContributions: CommunityItem[] = [
   },
   {
     id: 3,
-    name: "DataWeb Hackathon — Organiser",
+    name: "DataWeb Hackathon - Organiser",
     type: "ORGANISED",
     description:
       "Coordinated end-to-end logistics for 150+ registrants. Handled sponsor communications, participant onboarding, and built registration infrastructure with real-time verification status.",
@@ -63,7 +63,7 @@ const communityContributions: CommunityItem[] = [
   },
   {
     id: 4,
-    name: "OJUS — Radiance of Euphoria",
+    name: "OJUS - Radiance of Euphoria",
     type: "TECH CO-LEAD",
     description:
       "Technical Co-Lead for APSIT's annual cultural fest. Managed tech infrastructure for 1,000+ attendee event including live stage controls, registration systems, and real-time crowd management tools.",
@@ -113,7 +113,7 @@ const ProjectsPage = () => {
               <span className="text-primary">built.</span>
             </h1>
             <p className="max-w-xl text-white/35 text-sm leading-relaxed mt-4">
-              A collection of production projects — real products, shipped to real users.
+              A collection of production projects - real products, shipped to real users.
               Each one a lesson in engineering, design, and problem solving.
             </p>
           </motion.div>
@@ -285,12 +285,12 @@ const CommunitySection = () => {
           <span className="section-subtitle">Community</span>
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <h2 className="section-title">
-              Beyond code —<br />
+              Beyond code -<br />
               <span className="text-primary">contributions.</span>
             </h2>
             <p className="max-w-sm text-white/30 text-sm leading-relaxed pb-2">
               Open source, communities, hackathons, and events I've built, 
-              organized, or led — the work that extends beyond individual repos.
+              organized, or led, the work that extends beyond individual repos.
             </p>
           </div>
         </div>

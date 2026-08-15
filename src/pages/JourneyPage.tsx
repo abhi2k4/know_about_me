@@ -199,7 +199,7 @@ const JourneyPage = () => {
               <span className="text-primary">Leadership Timeline.</span>
             </h1>
             <p className="max-w-xl text-white/35 text-sm leading-relaxed mt-4">
-              A timeline of meaningful moments — tracing my academic journey, hackathon builds, certifications, and leadership roles within student communities.
+              A timeline of meaningful moments, tracing my academic journey, hackathon builds, certifications, and leadership roles within student communities.
             </p>
           </motion.div>
         </div>

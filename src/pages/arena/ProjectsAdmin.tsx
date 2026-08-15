@@ -101,7 +101,7 @@ export default function ProjectsAdmin() {
         if (json.secure_url) urls.push(json.secure_url);
         else toast.error(`Upload failed: ${json.error?.message ?? "Unknown error"}`);
       } catch {
-        toast.error("Upload failed — check network and preset");
+        toast.error("Upload failed - check network and preset");
       }
     }
     setEditing((prev) => ({ ...prev, images: [...(prev?.images ?? []), ...urls] }));

@@ -39,7 +39,7 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
         initial={{ opacity: 0, y: 20 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group relative w-full rounded-2xl p-6 md:p-8 cursor-pointer bg-[#0c0c0c] border border-white/[0.06] hover:border-[#B6443A]/30 hover:bg-[#0f0a09] transition-all duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] md:min-h-[320px] overflow-hidden"
+        className="group relative w-full rounded-2xl p-7 md:p-9 cursor-pointer bg-[#0c0c0c] border border-white/[0.06] hover:border-[#B6443A]/30 hover:bg-[#0f0a09] transition-all duration-500 flex flex-col justify-between min-h-[260px] md:min-h-[300px] overflow-hidden"
       >
         {/* Subtle hover grid decoration */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#B6443A08_1px,transparent_1px),linear-gradient(to_bottom,#B6443A08_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -55,21 +55,21 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
         </div>
 
         {/* Main Info */}
-        <div className="my-5 md:my-6 space-y-2.5 relative z-10">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-medium tracking-tight text-white group-hover:text-[#B6443A] transition-colors duration-300">
+        <div className="my-6 md:my-8 space-y-3 relative z-10">
+          <h3 className="text-xl md:text-2xl font-medium tracking-tight text-white group-hover:text-[#B6443A] transition-colors duration-300">
             {project.title}
           </h3>
-          <p className="text-xs sm:text-sm text-white/40 font-light leading-relaxed line-clamp-3">
+          <p className="text-xs sm:text-sm text-white/40 font-light leading-relaxed line-clamp-2">
             {project.description}
           </p>
         </div>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 md:gap-2 mt-auto relative z-10">
-          {project.tags.slice(0, 4).map(tag => (
+        <div className="flex flex-wrap gap-2 mt-auto relative z-10">
+          {project.tags.slice(0, 3).map(tag => (
             <span
               key={tag}
-              className="px-2.5 py-1 bg-[#B6443A]/[0.06] border border-[#B6443A]/10 rounded-full text-[10px] font-mono text-[#B6443A]/60"
+              className="px-3 py-1 bg-[#B6443A]/[0.06] border border-[#B6443A]/10 rounded-full text-[10px] font-mono text-[#B6443A]/70"
             >
               {tag}
             </span>

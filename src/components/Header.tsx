@@ -28,7 +28,7 @@ const Header = () => {
       setLastScrollY(currentScrollY);
 
       // Scroll spy for active section highlight
-      const sections = ["home", "about", "services", "experience", "projects", "contact"];
+      const sections = ["home", "about", "projects", "experience", "techstack", "services", "contact"];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -37,9 +37,10 @@ const Header = () => {
             const sectionNameMap: { [key: string]: string } = {
               home: "Home",
               about: "About",
-              services: "Services",
-              experience: "Journey",
               projects: "Projects",
+              experience: "Journey",
+              techstack: "Stack",
+              services: "Services",
               contact: "Contact",
             };
             setActiveSection(sectionNameMap[section]);
@@ -63,9 +64,10 @@ const Header = () => {
 
     const sectionMap: { [key: string]: string } = {
       "About": "about",
-      "Services": "services",
-      "Journey": "experience",
       "Projects": "projects",
+      "Journey": "experience",
+      "Stack": "techstack",
+      "Services": "services",
       "Contact": "contact",
     };
 
@@ -81,9 +83,10 @@ const Header = () => {
 
   const navLinks = [
     { name: "About" },
-    { name: "Services" },
-    { name: "Journey" },
     { name: "Projects" },
+    { name: "Journey" },
+    { name: "Stack" },
+    { name: "Services" },
   ];
 
   return (

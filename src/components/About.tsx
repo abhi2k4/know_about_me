@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { User } from "lucide-react";
 import { FlipWords } from "@/components/ui/flip-words";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
-import TechStack from "./TechStack";
 
 const memories = [
   { src: "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1782987796/know%20me/photos/ccd25_xji8tt.jpg", label: "Google Cloud Community Days", date: "2025" },
@@ -36,12 +35,7 @@ const About = () => {
         {/* Top: Header & Memories */}
         <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-16">
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 mb-6 md:mb-8">
-              <User className="w-4 h-4 text-[#B6443A]" />
-              <span className="text-sm font-medium tracking-wider text-white/60 uppercase font-mono">About Me</span>
-            </div>
-
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tight leading-[1.1] text-white max-w-4xl">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.15] text-white max-w-4xl">
               Crafting systems at the intersection of{" "}
               <span className="block sm:inline-block">
                 <FlipWords 
@@ -122,9 +116,6 @@ const About = () => {
             </motion.div>
           </div>
         </div>
-
-        {/* Bottom: Modern Tech Stack Component */}
-        <TechStack />
       </div>
     </section>
   );

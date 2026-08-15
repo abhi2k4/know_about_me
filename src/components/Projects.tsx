@@ -34,17 +34,12 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
           className="mb-16 md:mb-24 flex flex-col items-start"
         >
-          <div className="inline-flex items-center gap-2 mb-8">
-            <FolderGit2 className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium tracking-wider text-muted-foreground uppercase">Portfolio</span>
-          </div>
-
           <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground max-w-xl">
-              Explore my portfolio of creative solutions
+              Engineering solutions designed for scale and purpose
             </h2>
             <p className="text-sm text-muted-foreground max-w-xs md:text-right pb-2">
-              A collection of digital products, applications, and experiments.
+              A curated suite of production platforms, distributed systems, and experimental applications.
             </p>
           </div>
         </motion.div>

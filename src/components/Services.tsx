@@ -37,17 +37,6 @@ const Services = () => {
       >
         {/* Left Column: Title */}
         <div className="flex-1 max-w-xl">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-8"
-          >
-            <Wrench className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium tracking-wider text-muted-foreground uppercase">Services</span>
-          </motion.div>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +44,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground mb-6"
           >
-            A Comprehensive look at what I offer and how I deliver
+            End-to-end engineering solutions built for performance
           </motion.h2>
 
           <motion.p

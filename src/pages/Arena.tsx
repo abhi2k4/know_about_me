@@ -87,7 +87,7 @@ export default function Arena() {
             <Lock className="w-3.5 h-3.5 text-white" />
           </div>
           <span className="text-sm font-semibold text-white tracking-tight">Arena</span>
-          <span className="hidden sm:block text-xs text-white/30 ml-1">— Portfolio Admin</span>
+          <span className="hidden sm:block text-xs text-white/30 ml-1">- Portfolio Admin</span>
         </div>
         <div className="flex items-center gap-2">
           <a href="/" target="_blank" className="text-xs text-white/30 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5">

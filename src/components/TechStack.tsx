@@ -77,107 +77,111 @@ export const TechStack = () => {
     : techSkills.filter(s => s.category === selectedCategory);
 
   return (
-    <div className="w-full pt-10 border-t border-white/5 flex flex-col gap-8">
-      {/* Header with Switcher */}
-      <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5">
-          <Code2 className="w-4 h-4 text-[#B6443A]" />
-          <span className="font-mono text-xs tracking-wider uppercase text-white/60">
-            Technology Stack & Tooling
-          </span>
-        </div>
-
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.03] border border-white/10 w-fit">
-          <button
-            onClick={() => setViewMode("marquee")}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-              viewMode === "marquee"
-                ? "bg-[#B6443A] text-white shadow-md shadow-red-950/40"
-                : "text-white/50 hover:text-white"
-            }`}
-          >
-            <InfinityIcon className="w-3.5 h-3.5" />
-            <span>Stream</span>
-          </button>
-
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-              viewMode === "grid"
-                ? "bg-[#B6443A] text-white shadow-md shadow-red-950/40"
-                : "text-white/50 hover:text-white"
-            }`}
-          >
-            <Grid3X3 className="w-3.5 h-3.5" />
-            <span>Matrix</span>
-          </button>
-        </div>
-      </div>
-
-      {/* VIEW 1: Infinite Dual Marquee Stream */}
-      {viewMode === "marquee" ? (
-        <div className="relative w-full overflow-hidden flex flex-col gap-4 py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          {/* Row 1: Leftward */}
-          <div className="flex w-max gap-4 animate-marquee hover:[animation-play-state:paused]">
-            {[...row1, ...row1, ...row1].map((tech, idx) => (
-              <TechPill key={`${tech.name}-row1-${idx}`} tech={tech} />
-            ))}
+    <section 
+      id="techstack"
+      className="relative w-full px-5 sm:px-8 py-16 sm:py-20 md:px-12 md:py-28 bg-[#040404] border-b border-white/5"
+    >
+      <div className="w-full flex flex-col gap-8">
+        {/* Header with Switcher */}
+        <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+              Tech Stack & Tooling
+            </h2>
           </div>
 
-          {/* Row 2: Rightward */}
-          <div className="flex w-max gap-4 animate-marquee-reverse hover:[animation-play-state:paused]">
-            {[...row2, ...row2, ...row2].map((tech, idx) => (
-              <TechPill key={`${tech.name}-row2-${idx}`} tech={tech} />
-            ))}
+          {/* View Mode Toggle */}
+          <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.03] border border-white/10 w-fit">
+            <button
+              onClick={() => setViewMode("marquee")}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                viewMode === "marquee"
+                  ? "bg-[#B6443A] text-white shadow-md shadow-red-950/40"
+                  : "text-white/50 hover:text-white"
+              }`}
+            >
+              <InfinityIcon className="w-3.5 h-3.5" />
+              <span>Stream</span>
+            </button>
+
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                viewMode === "grid"
+                  ? "bg-[#B6443A] text-white shadow-md shadow-red-950/40"
+                  : "text-white/50 hover:text-white"
+              }`}
+            >
+              <Grid3X3 className="w-3.5 h-3.5" />
+              <span>Matrix</span>
+            </button>
           </div>
         </div>
-      ) : (
-        /* VIEW 2: Interactive Filterable Grid */
-        <div className="flex flex-col gap-6">
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              const isSelected = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                    isSelected
-                      ? "text-white bg-white/10 border border-white/20 shadow-lg"
-                      : "text-white/40 hover:text-white/80 bg-white/[0.02] border border-white/5 hover:border-white/10"
-                  }`}
-                >
-                  {isSelected && (
-                    <motion.div
-                      layoutId="activeTabBadge"
-                      className="absolute inset-0 rounded-xl bg-[#B6443A]/20 border border-[#B6443A]/40 pointer-events-none"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  )}
-                  <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-[#B6443A]" : "text-white/40"}`} />
-                  <span className="relative z-10">{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
 
-          {/* Grid Cards */}
-          <motion.div 
-            layout
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredSkills.map((tech) => (
-                <TechCard key={tech.name} tech={tech} />
+        {/* VIEW 1: Infinite Dual Marquee Stream */}
+        {viewMode === "marquee" ? (
+          <div className="relative w-full overflow-hidden flex flex-col gap-4 py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            {/* Row 1: Leftward */}
+            <div className="flex w-max gap-4 animate-marquee hover:[animation-play-state:paused]">
+              {[...row1, ...row1, ...row1].map((tech, idx) => (
+                <TechPill key={`${tech.name}-row1-${idx}`} tech={tech} />
               ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      )}
-    </div>
+            </div>
+
+            {/* Row 2: Rightward */}
+            <div className="flex w-max gap-4 animate-marquee-reverse hover:[animation-play-state:paused]">
+              {[...row2, ...row2, ...row2].map((tech, idx) => (
+                <TechPill key={`${tech.name}-row2-${idx}`} tech={tech} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* VIEW 2: Interactive Filterable Grid */
+          <div className="flex flex-col gap-6">
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => {
+                const Icon = cat.icon;
+                const isSelected = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                      isSelected
+                        ? "text-white bg-white/10 border border-white/20 shadow-lg"
+                        : "text-white/40 hover:text-white/80 bg-white/[0.02] border border-white/5 hover:border-white/10"
+                    }`}
+                  >
+                    {isSelected && (
+                      <motion.div
+                        layoutId="activeTabBadge"
+                        className="absolute inset-0 rounded-xl bg-[#B6443A]/20 border border-[#B6443A]/40 pointer-events-none"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
+                    )}
+                    <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-[#B6443A]" : "text-white/40"}`} />
+                    <span className="relative z-10">{cat.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Grid Cards */}
+            <motion.div 
+              layout
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredSkills.map((tech) => (
+                  <TechCard key={tech.name} tech={tech} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 
