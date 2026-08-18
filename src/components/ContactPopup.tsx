@@ -82,16 +82,16 @@ export const ContactPopup = () => {
             <div className="flex items-center gap-2 mb-3">
               <MessageSquareCode className="w-4 h-4 text-[#B6443A]" />
               <span className="font-mono text-xs tracking-wider uppercase text-white/50">
-                Direct Line
+                Open for Roles
               </span>
             </div>
 
             {/* Content */}
             <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white mb-2.5">
-              Have an idea brewing?
+              Hiring for your engineering team?
             </h3>
             <p className="text-sm text-white/60 leading-relaxed mb-6 font-light">
-              Whether you need scalable web systems, clean architecture, or applied AI solutions; let's build something exceptional together.
+              I'm actively seeking full-time software engineering roles where I can drive system design, performance, and product scale. Let's connect!
             </p>
 
             {/* Actions */}
@@ -102,7 +102,7 @@ export const ContactPopup = () => {
                 whileTap={{ scale: 0.98 }}
                 className="flex-1 flex items-center justify-center gap-2.5 py-3 px-5 rounded-full bg-[#B6443A] hover:bg-[#c94f44] text-white font-medium text-xs sm:text-sm tracking-wide uppercase shadow-lg shadow-red-950/30 transition-all duration-300 group"
               >
-                <span>Ok, let's talk</span>
+                <span>Let's Connect</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </motion.button>
 

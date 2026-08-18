@@ -144,8 +144,8 @@ const Header = () => {
           </div>
 
           {/* Right side CTA & Mobile trigger */}
-          <div className="flex items-center gap-3 pr-1">
-            {/* Resume Link (Desktop) with Tooltip */}
+          <div className="flex items-center gap-2.5 sm:gap-3 pr-1">
+            {/* Resume Link (Desktop) - Prominent & Clearly Visible */}
             <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -153,10 +153,11 @@ const Header = () => {
                     href="/resume"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto"
+                    className="hidden sm:flex items-center justify-center gap-2 px-3.5 h-10 rounded-full bg-white/[0.07] hover:bg-white/[0.16] border border-white/20 hover:border-white/35 text-white transition-all duration-300 pointer-events-auto shadow-md"
                     aria-label="View Resume"
                   >
-                    <FileText className="w-4.5 h-4.5" />
+                    <FileText className="w-4 h-4 text-[#B6443A]" />
+                    <span className="text-xs font-mono font-medium tracking-wide">Resume</span>
                   </a>
                 </TooltipTrigger>
                 <TooltipContent
@@ -164,40 +165,35 @@ const Header = () => {
                   sideOffset={8}
                   className="bg-[#121212]/95 border border-white/15 text-white font-mono text-[11px] px-3 py-1.5 rounded-lg shadow-2xl backdrop-blur-md"
                 >
-                  View Resume
+                  Open PDF Resume
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
+            {/* Get in Touch CTA Button - Responsive Width & Clean Animation */}
             <motion.button
               onClick={() => goToSection("Contact")}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className="hidden sm:inline-flex items-center justify-center gap-1 w-28 h-10 rounded-full bg-[#f0eadd] text-black text-sm font-semibold shadow-inner relative overflow-hidden"
+              className="hidden sm:inline-flex items-center justify-center px-4.5 sm:px-5 h-10 rounded-full bg-[#f0eadd] text-black text-sm font-semibold shadow-inner relative overflow-hidden whitespace-nowrap"
               animate={{
                 backgroundColor: isHovered ? "#ffffff" : "#f0eadd",
-                scale: isHovered ? 1.05 : 1,
+                scale: isHovered ? 1.04 : 1,
               }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <motion.div 
-                className="flex items-center justify-center"
-                animate={{
-                  x: isHovered ? -3 : 8 // Centers the combined block vs centering just the text
-                }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              >
-                <span className="relative z-10">Say Hi</span>
+              <div className="flex items-center justify-center gap-1.5">
+                <span className="relative z-10">Get in Touch</span>
                 <motion.span
                   initial={false}
                   animate={{
                     opacity: isHovered ? 1 : 0,
                     scale: isHovered ? 1 : 0,
-                    width: isHovered ? 20 : 0,
-                    marginLeft: isHovered ? 6 : 0
+                    width: isHovered ? "auto" : 0,
+                    marginLeft: isHovered ? 2 : 0,
                   }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="inline-block overflow-hidden"
                 >
                   <motion.span
@@ -215,7 +211,7 @@ const Header = () => {
                     👋
                   </motion.span>
                 </motion.span>
-              </motion.div>
+              </div>
             </motion.button>
 
             {/* Mobile menu trigger */}
@@ -263,7 +259,7 @@ const Header = () => {
                 onClick={() => goToSection("Contact")}
                 className="text-left py-3 text-[#f0eadd] hover:text-white transition-colors border-b border-white/5 flex items-center justify-between"
               >
-                Say Hi
+                Get in Touch
                 <ArrowUpRight className="w-5 h-5 opacity-45" />
               </button>
             </div>

@@ -17,7 +17,7 @@ export const SEOHead = () => {
       "jobTitle": "Full Stack Developer",
       "worksFor": {
         "@type": "Organization",
-        "name": "Freelance"
+        "name": "Software Engineering"
       },
       "image": "https://res.cloudinary.com/ds2uw5gcw/image/upload/v1742794389/Profile_pwfnrf.png",
       "email": "thormothe.abhishek@gmail.com",

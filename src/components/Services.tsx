@@ -6,23 +6,23 @@ const Services = () => {
 
   const services = [
     {
-      title: "API Development",
-      desc: "Building robust, scalable backends and microservices tailored to your specific needs.",
-      highlight: false
-    },
-    {
-      title: "UI/UX Engineering",
-      desc: "Crafting beautiful, intuitive interfaces that delight users and drive engagement.",
-      highlight: false
-    },
-    {
-      title: "Full-Stack Web",
-      desc: "End-to-end web application development from database architecture to pixel-perfect UI.",
+      title: "Full-Stack Architecture",
+      desc: "Designing and shipping resilient, production-ready web platforms from database schemas to performant React applications.",
       highlight: true
     },
     {
-      title: "Cloud Infrastructure",
-      desc: "Deploying and managing scalable applications using AWS, Vercel, and modern DevOps tools.",
+      title: "API & Backend Engineering",
+      desc: "Building high-performance REST microservices, async worker queues, and secure backend integrations.",
+      highlight: false
+    },
+    {
+      title: "Frontend & Web Performance",
+      desc: "Developing pixel-perfect, accessible user interfaces with ultra-fast page loads and 60fps interaction polish.",
+      highlight: false
+    },
+    {
+      title: "Cloud Operations & DevOps",
+      desc: "Deploying and managing scalable applications using AWS, Docker, Vercel, and modern CI/CD automation pipelines.",
       highlight: false
     }
   ];
@@ -44,7 +44,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground mb-6"
           >
-            End-to-end engineering solutions built for performance
+            Technical capabilities I bring to high-growth engineering teams
           </motion.h2>
 
           <motion.p
@@ -54,7 +54,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm text-muted-foreground max-w-md"
           >
-            A comprehensive approach to software development combining deep technical expertise with thoughtful design.
+            A comprehensive software engineering mindset combining scalable architecture, system efficiency, and product execution.
           </motion.p>
 
           <motion.div
@@ -68,7 +68,7 @@ const Services = () => {
               href="#contact" 
               className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
             >
-              Let's Talk
+              Discuss Opportunities
             </a>
           </motion.div>
         </div>

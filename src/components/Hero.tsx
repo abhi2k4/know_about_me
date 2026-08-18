@@ -125,15 +125,15 @@ const Hero = () => {
         {/* Left Side: Bio */}
         <div className="flex flex-col justify-center gap-3.5 md:gap-5 w-full md:max-w-[380px] text-left md:p-7 md:rounded-3xl md:bg-black/55 md:backdrop-blur-xl md:border md:border-white/10 md:shadow-2xl pointer-events-auto">
           {/* Status Badge */}
-          {/* <motion.div
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 md:bg-white/[0.06] backdrop-blur-md border border-white/15 w-fit shadow-lg"
           >
             <Briefcase className="w-3.5 h-3.5 text-[#B6443A]" />
-            <span className="text-[10px] font-medium tracking-wider text-white uppercase">Available for work</span>
-          </motion.div> */}
+            <span className="text-[10px] font-medium tracking-wider text-white uppercase">Open for Full-Time Roles</span>
+          </motion.div>
 
           {/* Terminal-style line */}
           <motion.div

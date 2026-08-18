@@ -53,7 +53,7 @@ const About = () => {
           <p className="mt-6 text-sm sm:text-base text-white/50 leading-relaxed font-light max-w-xl">
             Passionate software engineer focused on building robust full-stack architectures, 
             high-throughput data pipelines, and intelligent AI-driven applications. 
-            Driven by clean design, efficiency, and engineering precision.
+            Seeking high-impact engineering roles where I can drive system design, performance, and product scale.
           </p>
         </div>
 

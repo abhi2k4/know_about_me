@@ -72,8 +72,7 @@ const Contact = () => {
               There
             </h2>
             <p className="mt-8 text-muted-foreground max-w-sm">
-              Open to freelance projects, internships, and collaborations. 
-              Drop me a message, I typically respond within 24 hours.
+              Actively open for full-time Software Engineer roles, high-impact engineering teams, and technical opportunities. Let's discuss how I can contribute.
             </p>
           </motion.div>
 
@@ -89,7 +88,7 @@ const Contact = () => {
                 <input
                   type="text"
                   name="name"
-                  placeholder="What's your name?"
+                  placeholder="What's your name or company?"
                   className={inputClass("name")}
                   required
                   onFocus={() => setFocusedField("name")}
@@ -101,7 +100,7 @@ const Contact = () => {
                 <input
                   type="email"
                   name="email"
-                  placeholder="Your email address"
+                  placeholder="Your work email address"
                   className={inputClass("email")}
                   required
                   onFocus={() => setFocusedField("email")}
@@ -112,7 +111,7 @@ const Contact = () => {
               <div>
                 <textarea
                   name="message"
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me about the engineering role, team, or opportunity..."
                   rows={4}
                   className={`${inputClass("message")} resize-none`}
                   required
