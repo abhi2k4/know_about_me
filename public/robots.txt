@@ -1,33 +1,32 @@
 # robots.txt for Abhishek Thormothe's Portfolio
+# Website: https://abhishekthormothe.in/
 
-# Allow all search engines
 User-agent: *
 Allow: /
+Disallow: /arena
+Disallow: /admin
+Disallow: /private
+Disallow: /api/
 
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0
+Disallow: /arena
+Disallow: /admin
+Disallow: /private
 
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-# Sitemap
-Sitemap: https://abhishekthormothe.in/sitemap.xml
-
-# Disallow private paths
+Disallow: /arena
 Disallow: /admin
 Disallow: /private
-Allow: /
 
-User-agent: *
+User-agent: Applebot
 Allow: /
+Disallow: /arena
 
-# Allow access to OG image generation endpoints
-Allow: /api/og/*
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /arena
+
+# Sitemap location
+Sitemap: https://abhishekthormothe.in/sitemap.xml

@@ -146,16 +146,17 @@ const Hero = () => {
             <span>$ open --currently</span>
           </motion.div>
 
-          {/* Bio */}
+          {/* Bio & Primary H1 for SEO */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             className="space-y-2"
           >
-            <p className="text-base sm:text-lg md:text-xl text-white font-medium leading-snug tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] md:drop-shadow-none">
+            <h1 className="text-base sm:text-lg md:text-xl text-white font-medium leading-snug tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] md:drop-shadow-none">
+              <span className="sr-only">Abhishek Thormothe — Full Stack Engineer &amp; Architect. </span>
               Mumbai-based Software Developer crafting purposeful digital systems.
-            </p>
+            </h1>
             <p className="font-mono text-[11px] md:text-xs text-white/90 md:text-white/80 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] md:drop-shadow-none">
               specializing in <span className="text-white font-semibold">{typewriterText}</span><span className="text-[#B6443A] animate-pulse">_</span>
             </p>

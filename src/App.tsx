@@ -26,7 +26,6 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <ReactLenis root options={{ lerp: 0.1, duration: 1.2, smoothTouch: false }}>
-        <SEOHead />
         <SpeedInsights />
         <TooltipProvider>
           <Toaster />
@@ -37,6 +36,7 @@ const App = () => (
             theme="dark"
           />
           <BrowserRouter>
+            <SEOHead />
             <ScrollToTop />
             <FloatingBackToTop />
             <ContactPopup />
