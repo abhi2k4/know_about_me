@@ -42,9 +42,9 @@ const Services = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-foreground mb-6"
           >
-            Technical capabilities I bring to high-growth engineering teams
+            Technical capabilities I bring to engineering teams
           </motion.h2>
 
           <motion.p
@@ -52,9 +52,9 @@ const Services = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm text-muted-foreground max-w-md"
+            className="text-xs sm:text-sm text-muted-foreground/80 font-normal max-w-sm"
           >
-            A comprehensive software engineering mindset combining scalable architecture, system efficiency, and product execution.
+            Combining scalable architecture, system efficiency, and product execution.
           </motion.p>
 
           <motion.div

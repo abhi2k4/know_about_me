@@ -1,11 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { useProjects, type Project } from "@/hooks/useProjects";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Pencil, Trash2, Eye, EyeOff, Upload, X, GripVertical, Loader2, ExternalLink, Github } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, EyeOff, Upload, X, GripVertical, Loader2, ExternalLink, Github, Save } from "lucide-react";
 import { toast } from "sonner";
 
 const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "ds2uw5gcw";
@@ -64,10 +64,25 @@ function formToPayload(f: FormState) {
 export default function ProjectsAdmin() {
   const queryClient = useQueryClient();
   const { data: projects = [], isLoading } = useProjects(true);
+
+  // Local drag-and-drop ordering state
+  const [items, setItems] = useState<Project[]>([]);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [isOrderChanged, setIsOrderChanged] = useState(false);
+  const [savingOrder, setSavingOrder] = useState(false);
+
   const [editing, setEditing] = useState<FormState | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  // Sync projects from query into items state when not in active custom reorder mode
+  useEffect(() => {
+    if (!isOrderChanged) {
+      setItems(projects);
+    }
+  }, [projects, isOrderChanged]);
 
   const openNew = () => {
     setEditing(emptyForm());
@@ -80,6 +95,79 @@ export default function ProjectsAdmin() {
   const closeForm = () => {
     setEditing(null);
     setIsNew(false);
+  };
+
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    e.dataTransfer.setData("text/plain", index.toString());
+    e.dataTransfer.effectAllowed = "move";
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (dragOverIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    const reordered = [...items];
+    const [moved] = reordered.splice(draggedIndex, 1);
+    reordered.splice(index, 0, moved);
+
+    const updatedWithOrder = reordered.map((item, idx) => ({
+      ...item,
+      display_order: idx,
+    }));
+
+    setItems(updatedWithOrder);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+    setIsOrderChanged(true);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  // Save new order to Supabase at once
+  const handleSaveOrder = async () => {
+    if (items.length === 0) return;
+    setSavingOrder(true);
+    try {
+      const updates = items.map((item, index) =>
+        supabase
+          .from("portfolio_projects")
+          .update({ display_order: index })
+          .eq("id", item.id)
+      );
+
+      const results = await Promise.all(updates);
+      const hasError = results.some((r) => r.error);
+
+      if (hasError) {
+        toast.error("Failed to save project sequence. Please try again.");
+      } else {
+        toast.success("Project sequence updated successfully!");
+        setIsOrderChanged(false);
+        queryClient.invalidateQueries({ queryKey: ["projects"] });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred while saving sequence.");
+    } finally {
+      setSavingOrder(false);
+    }
   };
 
   const handleUpload = useCallback(async (files: FileList | null) => {
@@ -145,12 +233,31 @@ export default function ProjectsAdmin() {
 
   return (
     <div className="space-y-6">
-      {/* Toolbar */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-white/50">{projects.length} project{projects.length !== 1 ? "s" : ""}</p>
-        <Button onClick={openNew} className="bg-[#B6443A] hover:bg-[#c94f44] text-white gap-2">
-          <Plus className="w-4 h-4" /> New Project
-        </Button>
+      {/* Toolbar Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <p className="text-sm text-white/60">
+            {items.length} project{items.length !== 1 ? "s" : ""} • Drag rows to reorder
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {/* Save Sequence Button - Active when order is changed */}
+          {isOrderChanged && (
+            <Button
+              onClick={handleSaveOrder}
+              disabled={savingOrder}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white gap-2 transition-all shadow-lg font-medium"
+            >
+              {savingOrder ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              {savingOrder ? "Saving Sequence…" : "Save New Sequence"}
+            </Button>
+          )}
+
+          <Button onClick={openNew} className="bg-[#B6443A] hover:bg-[#c94f44] text-white gap-2">
+            <Plus className="w-4 h-4" /> New Project
+          </Button>
+        </div>
       </div>
 
       {/* Project List */}
@@ -158,9 +265,30 @@ export default function ProjectsAdmin() {
         <div className="text-white/40 text-sm animate-pulse">Loading projects…</div>
       ) : (
         <div className="flex flex-col gap-3">
-          {projects.map((p) => (
-            <div key={p.id} className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 hover:border-white/20 transition-colors">
-              <GripVertical className="w-4 h-4 text-white/20 flex-shrink-0" />
+          {items.map((p, index) => (
+            <div
+              key={p.id}
+              draggable
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragOver={(e) => handleDragOver(e, index)}
+              onDrop={(e) => handleDrop(e, index)}
+              onDragEnd={handleDragEnd}
+              className={`flex items-center gap-4 rounded-xl border px-4 py-3 transition-all duration-200 ${
+                draggedIndex === index
+                  ? "opacity-30 border-dashed border-[#B6443A] bg-[#B6443A]/10 scale-[0.99]"
+                  : dragOverIndex === index
+                  ? "border-emerald-500/80 bg-emerald-500/10 shadow-lg scale-[1.01]"
+                  : "border-white/10 bg-white/[0.03] hover:border-white/20"
+              }`}
+            >
+              {/* Drag handle */}
+              <div 
+                className="p-1 rounded cursor-grab active:cursor-grabbing text-white/30 hover:text-white/80 transition-colors flex-shrink-0"
+                title="Drag to reorder"
+              >
+                <GripVertical className="w-4 h-4" />
+              </div>
+
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-white truncate">{p.title}</span>
@@ -172,6 +300,7 @@ export default function ProjectsAdmin() {
                   ))}
                 </div>
               </div>
+
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 {p.demo_url && <a href={p.demo_url} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-white/30 hover:text-white transition-colors"><ExternalLink className="w-3.5 h-3.5" /></a>}
                 {p.code_url && <a href={p.code_url} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg text-white/30 hover:text-white transition-colors"><Github className="w-3.5 h-3.5" /></a>}
@@ -264,7 +393,7 @@ export default function ProjectsAdmin() {
                 ))}
                 <div className="space-y-1.5">
                   <label className="text-xs text-white/50">Tech Stack (comma-separated)</label>
-                  <Input value={editing.stack_raw ?? ""} onChange={(e) => setEditing({ ...editing, stack_raw: e.target.value })} placeholder="React, FastAPI, PostgreSQL" className="bg-white/5 border-white/10 text-white" />
+                  <Input value={editing.stack_raw ?? ""} onChange={(e) => setEditing({ ...editing, stack_raw: e.target.value })} placeholder="React, FastAPI, PostgreSQL" className="bg-[#white]/5 border-white/10 text-white" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-white/50">Key Challenges (one per line)</label>

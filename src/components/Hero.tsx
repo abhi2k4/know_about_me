@@ -86,7 +86,7 @@ const Hero = () => {
         </motion.div>
         {/* Ambient Top & Bottom Gradients */}
         <div className="absolute inset-x-0 top-0 h-28 sm:h-36 bg-gradient-to-b from-black/80 via-black/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-36 sm:h-44 bg-gradient-to-t from-[#040404] via-[#040404]/60 to-transparent" />
+        {/* <div className="absolute inset-x-0 bottom-0 h-36 sm:h-44 bg-gradient-to-t from-[#040404] via-[#040404]/60 to-transparent" /> */}
       </motion.div>
 
       {/* Layer 2: Foreground Cutout with Distinct Parallax & Rise/Fade Entrance */}
@@ -114,6 +114,7 @@ const Hero = () => {
               }`}
             />
           </picture>
+          <div className="absolute inset-x-0 bottom-0 h-36 sm:h-44 bg-gradient-to-t from-[#040404] via-[#040404]/60 to-transparent" />
         </motion.div>
       </motion.div>
 

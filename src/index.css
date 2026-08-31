@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 html.lenis,
 html.lenis body {
@@ -122,7 +120,7 @@ html.lenis body {
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Space Grotesk', sans-serif;
     background-color: #080808;
     color: rgba(255,255,255,0.92);
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -130,8 +128,9 @@ html.lenis body {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Plus Jakarta Sans', 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
   }
 
   code, pre, .mono {

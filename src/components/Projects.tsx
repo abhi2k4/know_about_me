@@ -35,11 +35,11 @@ const Projects = () => {
           className="mb-16 md:mb-24 flex flex-col items-start"
         >
           <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight leading-[1.2] text-foreground max-w-xl">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-foreground max-w-xl">
               Engineering solutions designed for scale and purpose
             </h2>
-            <p className="text-sm text-muted-foreground max-w-xs md:text-right pb-2">
-              A curated suite of production platforms, distributed systems, and experimental applications.
+            <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-xs md:text-right font-normal pb-2">
+              Curated production platforms, distributed systems, and AI applications.
             </p>
           </div>
         </motion.div>
