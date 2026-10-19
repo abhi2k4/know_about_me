@@ -1,281 +1,343 @@
-import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Server, 
-  Globe, 
-  Cpu, 
-  Database, 
-  Layers, 
-  Sparkles, 
-  Grid3X3, 
-  Infinity as InfinityIcon,
-  Code2
-} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import SectionLabel from "@/components/SectionLabel";
 
-export interface TechSkill {
+type Category = "backend" | "frontend" | "data" | "cloud" | "ai";
+
+interface TechSkill {
   name: string;
-  category: "backend" | "frontend" | "cloud" | "data" | "ai";
-  categoryLabel: string;
+  key: string;
+  category: Category;
   icon: string;
-  color?: string;
   description: string;
+  // Single-colour logos that need re-tinting to stay visible on a keycap.
+  mono?: boolean;
 }
 
 const techSkills: TechSkill[] = [
-  // Backend
-  { name: "Python", category: "backend", categoryLabel: "Backend", icon: "https://cdn.simpleicons.org/python", description: "Core Language" },
-  { name: "Django", category: "backend", categoryLabel: "Backend", icon: "https://cdn.simpleicons.org/django/092E20", description: "Web Framework" },
-  { name: "FastAPI", category: "backend", categoryLabel: "Backend", icon: "https://cdn.simpleicons.org/fastapi/009688", description: "Async APIs" },
-  { name: "Node.js", category: "backend", categoryLabel: "Backend", icon: "https://cdn.simpleicons.org/nodedotjs/5FA04E", description: "Runtime" },
-  { name: "Flask", category: "backend", categoryLabel: "Backend", icon: "https://cdn.simpleicons.org/flask/ffffff", description: "Micro-framework" },
-  
-  // Frontend
-  { name: "React.js", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/react/61DAFB", description: "UI Library" },
-  { name: "TypeScript", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/typescript/3178C6", description: "Typed JS" },
-  { name: "Next.js", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/nextdotjs/ffffff", description: "React Framework" },
-  { name: "JavaScript", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/javascript/F7DF1E", description: "Language" },
-  { name: "Tailwind CSS", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4", description: "Styling" },
-  { name: "React Native", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/react/61DAFB", description: "Mobile Apps" },
-  { name: "Figma", category: "frontend", categoryLabel: "Frontend", icon: "https://cdn.simpleicons.org/figma/F24E1E", description: "UI/UX Design" },
-  
-  // Data
-  { name: "PostgreSQL", category: "data", categoryLabel: "Data", icon: "https://cdn.simpleicons.org/postgresql/4169E1", description: "Relational DB" },
-  { name: "MongoDB", category: "data", categoryLabel: "Data", icon: "https://cdn.simpleicons.org/mongodb/47A248", description: "NoSQL DB" },
-  { name: "MySQL", category: "data", categoryLabel: "Data", icon: "https://cdn.simpleicons.org/mysql/4479A1", description: "SQL Engine" },
-  { name: "Supabase", category: "data", categoryLabel: "Data", icon: "https://cdn.simpleicons.org/supabase/3FCF8E", description: "BaaS & Postgres" },
-  { name: "Redis", category: "data", categoryLabel: "Data", icon: "https://cdn.simpleicons.org/redis/DC382D", description: "In-Memory Cache" },
+  { name: "Python", key: "P", category: "backend", icon: "https://cdn.simpleicons.org/python", description: "Core language" },
+  { name: "Django", key: "D", category: "backend", icon: "https://cdn.simpleicons.org/django/44B78B", description: "Web framework" },
+  { name: "FastAPI", key: "F", category: "backend", icon: "https://cdn.simpleicons.org/fastapi/009688", description: "Async APIs" },
+  { name: "Node.js", key: "N", category: "backend", icon: "https://cdn.simpleicons.org/nodedotjs/5FA04E", description: "Runtime" },
+  { name: "Flask", key: "L", category: "backend", icon: "https://cdn.simpleicons.org/flask/ffffff", description: "Micro-framework", mono: true },
 
-  // Cloud & DevOps
-  { name: "AWS", category: "cloud", categoryLabel: "Cloud", icon: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonaws.svg", description: "Cloud Infra" },
-  { name: "Docker", category: "cloud", categoryLabel: "Cloud", icon: "https://cdn.simpleicons.org/docker/2496ED", description: "Containers" },
-  { name: "GitHub Actions", category: "cloud", categoryLabel: "Cloud", icon: "https://cdn.simpleicons.org/githubactions/2088FF", description: "CI/CD Pipelines" },
-  { name: "Git", category: "cloud", categoryLabel: "Cloud", icon: "https://cdn.simpleicons.org/git/F05032", description: "Version Control" },
-  
-  // AI & Architecture
-  { name: "Google Gemini", category: "ai", categoryLabel: "AI & ML", icon: "https://cdn.simpleicons.org/googlegemini/8E75B2", description: "LLMs & Multimodal" },
+  { name: "React", key: "R", category: "frontend", icon: "https://cdn.simpleicons.org/react/61DAFB", description: "UI library" },
+  { name: "TypeScript", key: "T", category: "frontend", icon: "https://cdn.simpleicons.org/typescript/3178C6", description: "Typed JavaScript" },
+  { name: "Next.js", key: "X", category: "frontend", icon: "https://cdn.simpleicons.org/nextdotjs/ffffff", description: "React framework", mono: true },
+  { name: "JavaScript", key: "J", category: "frontend", icon: "https://cdn.simpleicons.org/javascript/F7DF1E", description: "Language" },
+  { name: "Tailwind", key: "W", category: "frontend", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4", description: "Styling" },
+  { name: "React Native", key: "V", category: "frontend", icon: "https://cdn.simpleicons.org/react/61DAFB", description: "Mobile apps" },
+  { name: "Figma", key: "I", category: "frontend", icon: "https://cdn.simpleicons.org/figma/F24E1E", description: "UI/UX design" },
+
+  { name: "PostgreSQL", key: "Q", category: "data", icon: "https://cdn.simpleicons.org/postgresql/4169E1", description: "Relational DB" },
+  { name: "MongoDB", key: "M", category: "data", icon: "https://cdn.simpleicons.org/mongodb/47A248", description: "Document DB" },
+  { name: "MySQL", key: "Y", category: "data", icon: "https://cdn.simpleicons.org/mysql/4479A1", description: "SQL engine" },
+  { name: "Supabase", key: "S", category: "data", icon: "https://cdn.simpleicons.org/supabase/3FCF8E", description: "BaaS & Postgres" },
+  { name: "Redis", key: "E", category: "data", icon: "https://cdn.simpleicons.org/redis/DC382D", description: "In-memory cache" },
+
+  { name: "AWS", key: "A", category: "cloud", icon: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/amazonaws.svg", description: "Cloud infra", mono: true },
+  { name: "Docker", key: "C", category: "cloud", icon: "https://cdn.simpleicons.org/docker/2496ED", description: "Containers" },
+  { name: "GitHub Actions", key: "H", category: "cloud", icon: "https://cdn.simpleicons.org/githubactions/2088FF", description: "CI/CD pipelines" },
+  { name: "Git", key: "G", category: "cloud", icon: "https://cdn.simpleicons.org/git/F05032", description: "Version control" },
+
+  { name: "Gemini", key: "U", category: "ai", icon: "https://cdn.simpleicons.org/googlegemini/8E75B2", description: "LLMs & multimodal" },
 ];
 
-const categories = [
-  { id: "all", label: "All Stack", icon: Layers },
-  { id: "backend", label: "Backend & Systems", icon: Server },
-  { id: "frontend", label: "Frontend & UI", icon: Globe },
-  { id: "data", label: "Data & Storage", icon: Database },
-  { id: "cloud", label: "Cloud & DevOps", icon: Cpu },
-  { id: "ai", label: "Applied AI", icon: Sparkles },
+const rows: { category: Category; label: string; glyph: string }[] = [
+  { category: "backend", label: "Backend", glyph: "⇥" },
+  { category: "frontend", label: "Frontend", glyph: "⇪" },
+  { category: "data", label: "Data", glyph: "⌥" },
+  { category: "cloud", label: "Cloud", glyph: "⇧" },
+  { category: "ai", label: "AI", glyph: "⌘" },
 ];
 
-// Row 1 & Row 2 for the Marquee
-const row1 = techSkills.slice(0, Math.ceil(techSkills.length / 2));
-const row2 = techSkills.slice(Math.ceil(techSkills.length / 2));
+type Readout =
+  | { kind: "idle" }
+  | { kind: "tool"; tech: TechSkill }
+  | { kind: "group"; category: Category; label: string };
 
-export const TechStack = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [viewMode, setViewMode] = useState<"marquee" | "grid">("marquee");
+let audioCtx: AudioContext | null = null;
 
-  const filteredSkills = selectedCategory === "all" 
-    ? techSkills 
-    : techSkills.filter(s => s.category === selectedCategory);
-
-  return (
-    <section 
-      id="techstack"
-      className="relative w-full px-5 sm:px-8 py-16 sm:py-20 md:px-12 md:py-28 bg-[#040404] border-b border-white/5"
-    >
-      <div className="w-full flex flex-col gap-8">
-        {/* Header with Switcher */}
-        <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
-              Tech Stack & Tooling
-            </h2>
-          </div>
-
-          {/* View Mode Toggle */}
-          <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.03] border border-white/10 w-fit">
-            <button
-              onClick={() => setViewMode("marquee")}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                viewMode === "marquee"
-                  ? "bg-[#B6443A] text-white shadow-md shadow-red-950/40"
-                  : "text-white/50 hover:text-white"
-              }`}
-            >
-              <InfinityIcon className="w-3.5 h-3.5" />
-              <span>Stream</span>
-            </button>
-
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                viewMode === "grid"
-                  ? "bg-[#B6443A] text-white shadow-md shadow-red-950/40"
-                  : "text-white/50 hover:text-white"
-              }`}
-            >
-              <Grid3X3 className="w-3.5 h-3.5" />
-              <span>Matrix</span>
-            </button>
-          </div>
-        </div>
-
-        {/* VIEW 1: Infinite Dual Marquee Stream */}
-        {viewMode === "marquee" ? (
-          <div className="relative w-full overflow-hidden flex flex-col gap-4 py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-            {/* Row 1: Leftward */}
-            <div className="flex w-max gap-4 animate-marquee hover:[animation-play-state:paused]">
-              {[...row1, ...row1, ...row1].map((tech, idx) => (
-                <TechPill key={`${tech.name}-row1-${idx}`} tech={tech} />
-              ))}
-            </div>
-
-            {/* Row 2: Rightward */}
-            <div className="flex w-max gap-4 animate-marquee-reverse hover:[animation-play-state:paused]">
-              {[...row2, ...row2, ...row2].map((tech, idx) => (
-                <TechPill key={`${tech.name}-row2-${idx}`} tech={tech} />
-              ))}
-            </div>
-          </div>
-        ) : (
-          /* VIEW 2: Interactive Filterable Grid */
-          <div className="flex flex-col gap-6">
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((cat) => {
-                const Icon = cat.icon;
-                const isSelected = selectedCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                      isSelected
-                        ? "text-white bg-white/10 border border-white/20 shadow-lg"
-                        : "text-white/40 hover:text-white/80 bg-white/[0.02] border border-white/5 hover:border-white/10"
-                    }`}
-                  >
-                    {isSelected && (
-                      <motion.div
-                        layoutId="activeTabBadge"
-                        className="absolute inset-0 rounded-xl bg-[#B6443A]/20 border border-[#B6443A]/40 pointer-events-none"
-                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                      />
-                    )}
-                    <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-[#B6443A]" : "text-white/40"}`} />
-                    <span className="relative z-10">{cat.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Grid Cards */}
-            <motion.div 
-              layout
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5"
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredSkills.map((tech) => (
-                  <TechCard key={tech.name} tech={tech} />
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+/** A short filtered noise burst — sounds like a mechanical switch bottoming out. */
+const playClick = () => {
+  try {
+    audioCtx ??= new AudioContext();
+    const ctx = audioCtx;
+    const length = Math.floor(ctx.sampleRate * 0.035);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 5);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 1800 + Math.random() * 900;
+    filter.Q.value = 0.9;
+    const gain = ctx.createGain();
+    gain.gain.value = 0.6;
+    source.connect(filter).connect(gain).connect(ctx.destination);
+    source.start();
+  } catch {
+    /* Audio is a nicety; ignore unsupported environments. */
+  }
 };
 
-/* Individual Tech Pill for Marquee */
-const TechPill = ({ tech }: { tech: TechSkill }) => {
-  return (
-    <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-[#0c0c0c] border border-white/10 hover:border-[#B6443A]/40 hover:bg-[#120a09] transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-red-950/20 group cursor-default">
-      <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
-        <img
-          src={tech.icon}
-          alt={tech.name}
-          className={`w-4 h-4 object-contain filter group-hover:scale-110 transition-transform duration-300 ${
-            tech.name === "AWS" || tech.name === "Next.js" || tech.name === "Flask" ? "brightness-0 invert" : ""
-          }`}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-        />
-      </div>
-      <div className="flex flex-col">
-        <span className="text-xs font-semibold text-white/90 group-hover:text-white whitespace-nowrap">
-          {tech.name}
-        </span>
-        <span className="text-[10px] font-mono text-white/40 group-hover:text-[#B6443A] transition-colors whitespace-nowrap">
-          {tech.description}
-        </span>
-      </div>
-    </div>
+const Keycap = ({
+  tech,
+  pressed,
+  lit,
+  onPress,
+  onRelease,
+  onHover,
+}: {
+  tech: TechSkill;
+  pressed: boolean;
+  lit: boolean;
+  onPress: () => void;
+  onRelease: () => void;
+  onHover: () => void;
+}) => (
+  <button
+    type="button"
+    data-pressed={pressed}
+    data-lit={lit}
+    onPointerDown={onPress}
+    onPointerUp={onRelease}
+    onPointerLeave={onRelease}
+    onPointerEnter={(e) => e.pointerType === "mouse" && onHover()}
+    onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onPress()}
+    onKeyUp={onRelease}
+    aria-label={`${tech.name}: ${tech.description}. Shortcut ${tech.key}`}
+    className="keycap flex h-[var(--u)] min-w-0 flex-col justify-between p-2 text-left sm:min-w-[var(--u)] sm:flex-1 sm:p-2.5"
+  >
+    <span className="flex w-full items-start justify-between">
+      <img
+        src={tech.icon}
+        alt=""
+        loading="lazy"
+        className={`h-4 w-4 object-contain sm:h-5 sm:w-5 ${tech.mono ? "brightness-0 invert" : ""}`}
+        onError={(e) => ((e.target as HTMLImageElement).style.visibility = "hidden")}
+      />
+      <span className="font-mono text-[10px] leading-none text-white/35">{tech.key}</span>
+    </span>
+    <span className="line-clamp-2 break-words text-[9.5px] font-medium leading-[1.15] tracking-tight sm:text-[11px]">{tech.name}</span>
+  </button>
+);
+
+const TechStack = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef, { amount: 0.35 });
+  const [pressed, setPressed] = useState<string | null>(null);
+  const [litGroup, setLitGroup] = useState<Category | null>(null);
+  const [readout, setReadout] = useState<Readout>({ kind: "idle" });
+  const [sound, setSound] = useState(false);
+  const [presses, setPresses] = useState(0);
+  const litTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  const pressTool = useCallback(
+    (tech: TechSkill) => {
+      setPressed(tech.name);
+      setReadout({ kind: "tool", tech });
+      setPresses((n) => n + 1);
+      if (sound) playClick();
+    },
+    [sound]
   );
-};
 
-/* Individual Tech Card for Grid */
-const TechCard = ({ tech }: { tech: TechSkill }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+  const pressGroup = (row: (typeof rows)[number]) => {
+    setPressed(row.category);
+    setLitGroup(row.category);
+    setReadout({ kind: "group", category: row.category, label: row.label });
+    if (sound) playClick();
+    clearTimeout(litTimer.current);
+    litTimer.current = setTimeout(() => setLitGroup(null), 1400);
   };
 
+  const shuffle = () => {
+    pressTool(techSkills[Math.floor(Math.random() * techSkills.length)]);
+    setPressed("shuffle");
+  };
+
+  const release = () => setPressed(null);
+
+  // Physical keyboard: typing a letter presses the matching cap while the section is on screen.
+  useEffect(() => {
+    if (!inView) return;
+    const isTyping = (el: EventTarget | null) =>
+      el instanceof HTMLElement && (el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName));
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.repeat || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return;
+      const tech = techSkills.find((t) => t.key === e.key.toUpperCase());
+      if (tech) pressTool(tech);
+    };
+    const onKeyUp = () => setPressed(null);
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+    };
+  }, [inView, pressTool]);
+
+  useEffect(() => () => clearTimeout(litTimer.current), []);
+
+  const groupTools = readout.kind === "group" ? techSkills.filter((t) => t.category === readout.category) : [];
+
   return (
-    <motion.div
-      ref={cardRef}
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.25 }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative flex flex-col items-start justify-between p-4 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#B6443A]/40 transition-colors duration-300 group overflow-hidden cursor-default min-h-[110px]"
-    >
-      {/* Spotlight Hover Glow */}
-      {isHovered && (
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-300"
-          style={{
-            background: `radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, rgba(182, 68, 58, 0.18), transparent 80%)`,
-          }}
-        />
-      )}
-
-      {/* Top: Icon + Category Badge */}
-      <div className="w-full flex items-center justify-between mb-3 relative z-10">
-        <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center group-hover:scale-110 group-hover:border-[#B6443A]/30 transition-all duration-300">
-          <img
-            src={tech.icon}
-            alt={tech.name}
-            className={`w-4 h-4 object-contain ${
-              tech.name === "AWS" || tech.name === "Next.js" || tech.name === "Flask" ? "brightness-0 invert" : ""
-            }`}
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-          />
+    <section id="techstack" ref={sectionRef} className="relative w-full overflow-hidden bg-[#040404] px-5 py-24 sm:px-8 md:py-36">
+      <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+        <div>
+          <SectionLabel index="04">Stack</SectionLabel>
+          <h2 className="mt-8 text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+            The <span className="font-serif font-normal italic text-[#f0eadd]">toolkit</span>
+          </h2>
         </div>
-        <span className="text-[9px] font-mono uppercase tracking-wider text-white/30 group-hover:text-white/60 transition-colors">
-          {tech.categoryLabel}
-        </span>
-      </div>
-
-      {/* Bottom: Name & Subtitle */}
-      <div className="relative z-10">
-        <h4 className="text-xs sm:text-sm font-semibold text-white/90 group-hover:text-white transition-colors">
-          {tech.name}
-        </h4>
-        <p className="text-[10px] font-mono text-white/40 group-hover:text-[#B6443A] transition-colors mt-0.5">
-          {tech.description}
+        <p className="max-w-xs text-sm text-white/50 md:text-right">
+          Go ahead and type. Every key on your keyboard maps to a tool I use. On a phone, tap the caps.
         </p>
       </div>
-    </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 60, rotateX: 18 }}
+        whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformPerspective: 1600 }}
+        className="chassis mx-auto mt-14 w-full max-w-[1040px] p-3 sm:p-5 md:mt-20"
+      >
+        {/* Top deck: display + controls */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+          <div className="oled relative min-h-[132px] flex-1 overflow-hidden rounded-2xl p-4 font-mono sm:p-5" aria-live="polite">
+            <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-[#f0eadd]/45">
+              <span>toolkit.v26</span>
+              <span className="tabular-nums">
+                {String(presses).padStart(4, "0")} presses · {techSkills.length} tools
+              </span>
+            </div>
+
+            <AnimatePresence mode="popLayout" initial={false}>
+              {readout.kind === "idle" && (
+                <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5">
+                  <p className="text-2xl text-[#f0eadd] sm:text-3xl">
+                    PRESS ANY KEY<span className="animate-blink">_</span>
+                  </p>
+                  <p className="mt-2 text-[11px] text-[#f0eadd]/45">Try R, P or Q. Modifiers light up a whole group.</p>
+                </motion.div>
+              )}
+              {readout.kind === "tool" && (
+                <motion.div
+                  key={readout.tech.name + presses}
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="mt-5 flex items-end justify-between gap-4"
+                >
+                  <div className="min-w-0">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#B6443A]">
+                      [{readout.tech.category}] · key {readout.tech.key}
+                    </p>
+                    <p className="mt-1 truncate text-2xl text-[#f0eadd] sm:text-4xl">{readout.tech.name}</p>
+                    <p className="mt-1 text-[11px] text-[#f0eadd]/55">{readout.tech.description}</p>
+                  </div>
+                  <img
+                    src={readout.tech.icon}
+                    alt=""
+                    className={`h-12 w-12 shrink-0 object-contain opacity-90 sm:h-16 sm:w-16 ${readout.tech.mono ? "brightness-0 invert" : ""}`}
+                  />
+                </motion.div>
+              )}
+              {readout.kind === "group" && (
+                <motion.div key={readout.category} initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="mt-5">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#B6443A]">group · {groupTools.length} tools</p>
+                  <p className="mt-1 text-2xl text-[#f0eadd] sm:text-4xl">{readout.label}</p>
+                  <p className="mt-1 truncate text-[11px] text-[#f0eadd]/55">{groupTools.map((t) => t.name).join(" / ")}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 rounded-2xl px-2 sm:w-44 sm:flex-col sm:items-stretch sm:justify-between sm:py-1">
+            <div className="speaker-grill h-10 flex-1 rounded-xl sm:h-auto sm:flex-1" aria-hidden />
+            <button
+              type="button"
+              onClick={() => setSound((s) => !s)}
+              aria-pressed={sound}
+              className="flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/50"
+            >
+              Sound
+              <span className={`relative h-5 w-9 rounded-full transition-colors ${sound ? "bg-[#B6443A]" : "bg-white/10"}`}>
+                <span
+                  className={`absolute top-0.5 h-4 w-4 rounded-full bg-[#f0eadd] shadow transition-all ${sound ? "left-[18px]" : "left-0.5"}`}
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Key well */}
+        <div className="key-well mt-3 flex flex-col gap-2 rounded-2xl p-2 [--u:62px] sm:mt-4 sm:gap-2.5 sm:p-4 sm:[--u:78px] lg:[--u:88px]">
+          {rows.map((row) => {
+            const tools = techSkills.filter((t) => t.category === row.category);
+            // Phones lay each row on a 4-wide grid; blank caps pad the last line like a real board.
+            const cells = 1 + tools.length + (row.category === "ai" ? 2 : 0);
+            const blanks = (4 - (cells % 4)) % 4;
+            return (
+              <div key={row.category} className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
+                <button
+                  type="button"
+                  data-pressed={pressed === row.category}
+                  onPointerDown={() => pressGroup(row)}
+                  onPointerUp={release}
+                  onPointerLeave={release}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && pressGroup(row)}
+                  onKeyUp={release}
+                  className="keycap keycap-paper flex h-[var(--u)] shrink-0 flex-col sm:w-[calc(var(--u)*1.6)] justify-between p-2 text-left sm:p-2.5"
+                  aria-label={`Highlight ${row.label} tools`}
+                >
+                  <span className="text-sm leading-none text-black/50">{row.glyph}</span>
+                  <span className="font-mono text-[10px] font-medium uppercase tracking-wider">{row.label}</span>
+                </button>
+
+                {tools.map((tech) => (
+                    <Keycap
+                      key={tech.name}
+                      tech={tech}
+                      pressed={pressed === tech.name}
+                      lit={litGroup === tech.category}
+                      onPress={() => pressTool(tech)}
+                      onRelease={release}
+                      onHover={() => setReadout({ kind: "tool", tech })}
+                    />
+                  ))}
+
+                {row.category === "ai" && (
+                  <button
+                    type="button"
+                    data-pressed={pressed === "shuffle"}
+                    onPointerDown={shuffle}
+                    onPointerUp={release}
+                    onPointerLeave={release}
+                    onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && shuffle()}
+                    onKeyUp={release}
+                    className="keycap keycap-brick col-span-2 flex h-[var(--u)] items-end sm:min-w-[calc(var(--u)*2)] sm:flex-[3] justify-between p-2 sm:p-2.5"
+                  >
+                    <span className="font-mono text-[10px] font-medium uppercase tracking-wider">Shuffle</span>
+                    <span className="font-mono text-[10px] text-white/60">rand()</span>
+                  </button>
+                )}
+
+                {Array.from({ length: blanks }, (_, i) => (
+                  <span key={i} aria-hidden className="keycap h-[var(--u)] opacity-50 sm:hidden" />
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+    </section>
   );
 };
 

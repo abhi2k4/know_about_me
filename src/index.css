@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 html.lenis,
 html.lenis body {
@@ -121,8 +121,10 @@ html.lenis body {
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', 'Space Grotesk', sans-serif;
-    background-color: #080808;
+    background-color: #040404;
     color: rgba(255,255,255,0.92);
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
   }
@@ -460,4 +462,97 @@ html.lenis body {
   opacity: 1;
   transform: translateY(0);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* === Film grain: a fixed noise layer that keeps flat blacks from looking digital === */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* === Stack keyboard === */
+.chassis {
+  border-radius: 28px;
+  background: linear-gradient(180deg, #1b1b1b 0%, #121212 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 60px 120px -40px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.oled {
+  background: #050505;
+  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  text-shadow: 0 0 12px rgba(240, 234, 221, 0.35);
+}
+.oled::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0 1px, transparent 1px 3px);
+}
+
+.speaker-grill {
+  min-height: 2.5rem;
+  background-image: radial-gradient(circle, #050505 1.6px, transparent 2px);
+  background-size: 9px 9px;
+}
+
+.key-well {
+  background: #0b0b0b;
+  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.keycap {
+  --cap-top: #262626;
+  --cap-side: #0f0f0f;
+  --cap-text: rgba(255, 255, 255, 0.82);
+  position: relative;
+  border-radius: 12px;
+  color: var(--cap-text);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 60%), var(--cap-top);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.22),
+    0 5px 0 0 var(--cap-side),
+    0 9px 16px -4px rgba(0, 0, 0, 0.7);
+  transform: translateY(0);
+  transition: transform 80ms ease, box-shadow 80ms ease, filter 200ms ease, background-color 300ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.keycap:hover { filter: brightness(1.15); }
+.keycap:focus-visible { outline: 2px solid #f0eadd; outline-offset: 3px; }
+.keycap[data-pressed="true"] {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 1px 0 0 var(--cap-side),
+    0 2px 4px rgba(0, 0, 0, 0.7);
+}
+.keycap[data-lit="true"] {
+  --cap-top: #3a2220;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 5px 0 0 var(--cap-side),
+    0 0 24px -2px rgba(182, 68, 58, 0.55);
+}
+.keycap-paper { --cap-top: #e7dfcf; --cap-side: #9d9483; --cap-text: #141414; }
+.keycap-brick { --cap-top: #b6443a; --cap-side: #6b241e; --cap-text: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .keycap { transition: none; }
 }

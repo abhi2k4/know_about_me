@@ -17,8 +17,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import SEOHead from "@/components/SEOHead";
 import FloatingBackToTop from "@/components/FloatingBackToTop";
 import { ReactLenis } from "@studio-freight/react-lenis";
-
-import ContactPopup from "@/components/ContactPopup";
+import { CommandMenuProvider } from "@/components/CommandMenu";
 
 const queryClient = new QueryClient();
 
@@ -36,21 +35,22 @@ const App = () => (
             theme="dark"
           />
           <BrowserRouter>
-            <SEOHead />
-            <ScrollToTop />
-            <FloatingBackToTop />
-            <ContactPopup />
-            <Analytics />
-            <Suspense fallback={<div className="min-h-screen bg-[#040404]" />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/projects" element={<ProjectsPage />} />
-                <Route path="/journey" element={<JourneyPage />} />
-                <Route path="/arena" element={<Arena />} />
-                <Route path="/resume" element={<ResumePage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <CommandMenuProvider>
+              <SEOHead />
+              <ScrollToTop />
+              <FloatingBackToTop />
+              <Analytics />
+              <Suspense fallback={<div className="min-h-screen bg-[#040404]" />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/projects" element={<ProjectsPage />} />
+                  <Route path="/journey" element={<JourneyPage />} />
+                  <Route path="/arena" element={<Arena />} />
+                  <Route path="/resume" element={<ResumePage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </CommandMenuProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ReactLenis>

@@ -1,17 +1,21 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { ArrowLeft, ExternalLink, Users, Trophy, Zap, Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, LayoutGroup, animate, motion, useInView, useScroll, useSpring } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PageHero from "@/components/PageHero";
+import SectionLabel from "@/components/SectionLabel";
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
+type EventType = "hackathon" | "collaboration" | "milestone" | "launch" | "award";
 
 interface JourneyEvent {
   id: number;
   year: string;
   month?: string;
   title: string;
-  type: "hackathon" | "collaboration" | "milestone" | "launch" | "award";
+  type: EventType;
   description: string;
   tags?: string[];
   link?: string;
@@ -29,12 +33,12 @@ interface Collaboration {
   logoUrl?: string;
 }
 
-const typeConfig = {
-  hackathon: { label: "HACKATHON", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
-  collaboration: { label: "LEADERSHIP", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
-  milestone: { label: "MILESTONE", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
-  launch: { label: "LAUNCH", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
-  award: { label: "CERTIFIED", color: "text-[#B6443A]", borderColor: "border-[#B6443A]/30", bg: "bg-[#B6443A]/10" },
+const typeLabels: Record<EventType, string> = {
+  milestone: "Milestone",
+  hackathon: "Hackathon",
+  collaboration: "Leadership",
+  launch: "Launch",
+  award: "Certified",
 };
 
 const journeyEvents: JourneyEvent[] = [
@@ -161,267 +165,317 @@ const collaborations: Collaboration[] = [
   },
 ];
 
+const FILTERS: { id: "all" | EventType; label: string }[] = [
+  { id: "all", label: "Everything" },
+  { id: "milestone", label: "Milestones" },
+  { id: "collaboration", label: "Leadership" },
+  { id: "hackathon", label: "Hackathons" },
+  { id: "award", label: "Certifications" },
+];
+
+const stats = [
+  { value: 4, suffix: "", label: "Leadership roles" },
+  { value: 2, suffix: "", label: "Internships" },
+  { value: 12, suffix: "+", label: "Hackathons" },
+  { value: 4, suffix: "", label: "Certifications" },
+];
+
 /* ─── Journey Page ───────────────────────────────────── */
-const JourneyPage = () => {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: pageRef, offset: ["start start", "end end"] });
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+const JourneyPage = () => (
+  <div className="min-h-screen bg-[#040404] text-white">
+    <Header />
+
+    <PageHero
+      index="J"
+      label="Journey"
+      title="Four years,"
+      accent="in moments."
+      intro="Academics, internships, hackathon builds, certifications and the student communities I helped lead, newest first."
+    />
+
+    <StatsBand />
+    <Timeline />
+    <Collaborations />
+
+    <Footer />
+  </div>
+);
+
+/* ─── Stats: numbers count up as they enter ─────────── */
+const CountUp = ({ value, suffix }: { value: number; suffix: string }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, value, {
+      duration: 1.4,
+      ease,
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, value]);
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-background text-foreground">
-      {/* Progress */}
-      <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-primary z-[100]"
-        style={{ width: progressWidth }}
-      />
-
-      <Header />
-
-      {/* Hero */}
-      <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/6">
-        <div className="absolute inset-0 bg-dot-pattern opacity-20 pointer-events-none" />
-        <div className="container mx-auto">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-xs font-mono text-white/30 hover:text-primary transition-colors mb-10 no-underline"
-          >
-            <ArrowLeft className="w-3 h-3" />
-            Back to Home
-          </Link>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className="section-subtitle">Story</span>
-            <h1 className="section-title">
-              Academic &<br />
-              <span className="text-primary">Leadership Timeline.</span>
-            </h1>
-            <p className="max-w-xl text-white/35 text-sm leading-relaxed mt-4">
-              A timeline of meaningful moments, tracing my academic journey, hackathon builds, certifications, and leadership roles within student communities.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Stats row */}
-      <StatsSection />
-
-      {/* Timeline */}
-      <TimelineSection />
-
-      {/* Collaborations */}
-      <CollaborationsSection />
-
-      <Footer />
-    </div>
+    <span ref={ref} className="tabular-nums">
+      {display}
+      {suffix}
+    </span>
   );
 };
 
-/* ─── Stats ──────────────────────────────────────────── */
-const StatsSection = () => {
-  const stats = [
-    { icon: <Users className="w-4 h-4" />, value: "4", label: "Leadership Roles" },
-    { icon: <Zap className="w-4 h-4" />, value: "2", label: "Internships" },
-    { icon: <Trophy className="w-4 h-4" />, value: "12+", label: "Hackathons" },
-    { icon: <Calendar className="w-4 h-4" />, value: "4", label: "Certifications" },
-  ];
+const StatsBand = () => (
+  <section className="grid grid-cols-2 border-y border-white/[0.07] md:grid-cols-4">
+    {stats.map((s, i) => (
+      <div
+        key={s.label}
+        className={`px-5 py-10 sm:px-8 md:py-14 ${i % 2 === 1 ? "border-l border-white/[0.07]" : ""} ${
+          i > 1 ? "border-t border-white/[0.07] md:border-t-0" : ""
+        } ${i === 2 ? "md:border-l" : ""}`}
+      >
+        <p className="font-serif text-[clamp(3.5rem,8vw,7rem)] italic leading-none text-[#f0eadd]">
+          <CountUp value={s.value} suffix={s.suffix} />
+        </p>
+        <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">{s.label}</p>
+      </div>
+    ))}
+  </section>
+);
 
-  return (
-    <div className="border-b border-white/6 grid grid-cols-2 md:grid-cols-4 divide-x divide-white/6">
-      {stats.map((s, i) => (
-        <motion.div
-          key={s.label}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: i * 0.07 }}
-          className="flex flex-col items-center justify-center py-10 gap-2"
-        >
-          <span className="text-primary/60">{s.icon}</span>
-          <span className="text-3xl font-bold tracking-tight text-white/90">{s.value}</span>
-          <span className="text-xs font-mono text-white/25 tracking-widest uppercase text-center">{s.label}</span>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
+/* ─── Odometer year: each digit rolls independently ─── */
+const Digit = ({ digit, direction }: { digit: string; direction: 1 | -1 }) => (
+  <span className="relative inline-block overflow-hidden">
+    <span className="invisible">0</span>
+    <AnimatePresence initial={false} custom={direction}>
+      <motion.span
+        key={digit}
+        custom={direction}
+        variants={{
+          enter: (d: number) => ({ y: d > 0 ? "100%" : "-100%" }),
+          center: { y: "0%" },
+          exit: (d: number) => ({ y: d > 0 ? "-100%" : "100%" }),
+        }}
+        initial="enter"
+        animate="center"
+        exit="exit"
+        transition={{ duration: 0.6, ease }}
+        className="absolute inset-0"
+      >
+        {digit}
+      </motion.span>
+    </AnimatePresence>
+  </span>
+);
 
 /* ─── Timeline ───────────────────────────────────────── */
-const TimelineSection = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { ref: animRef, isVisible } = useScrollAnimation({ threshold: 0.05, triggerOnce: true });
+const Timeline = () => {
+  const [filter, setFilter] = useState<(typeof FILTERS)[number]["id"]>("all");
+  const [year, setYear] = useState(journeyEvents[0].year);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const yearRef = useRef(year);
+  const listRef = useRef<HTMLOListElement>(null);
 
-  // Group by year
-  const grouped: Record<string, JourneyEvent[]> = {};
-  journeyEvents.forEach((e) => {
-    if (!grouped[e.year]) grouped[e.year] = [];
-    grouped[e.year].push(e);
-  });
+  const events = journeyEvents.filter((e) => filter === "all" || e.type === filter);
 
-  const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ["start 70%", "end 60%"] });
+  const lineProgress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+
+  // The sticky year follows whichever event is crossing the middle of the viewport.
+  useEffect(() => {
+    const items = listRef.current?.querySelectorAll<HTMLElement>("[data-year]");
+    if (!items?.length) return;
+    yearRef.current = items[0].dataset.year!;
+    setYear(yearRef.current);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const next = (entry.target as HTMLElement).dataset.year!;
+          if (next === yearRef.current) return;
+          setDirection(Number(next) < Number(yearRef.current) ? 1 : -1);
+          yearRef.current = next;
+          setYear(next);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [filter]);
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8" ref={animRef as React.RefObject<HTMLDivElement>}>
-      <div className="container mx-auto">
-        <div
-          className={`mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-        >
-          <span className="section-subtitle">Timeline</span>
-          <h2 className="text-2xl font-bold text-white/80">From first commit to production.</h2>
+    <section className="px-5 py-24 sm:px-8 md:py-36">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <SectionLabel index="01">Timeline</SectionLabel>
+          <h2 className="mt-8 text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+            From first commit <br className="hidden sm:block" />
+            <span className="font-serif font-normal italic text-[#f0eadd]">to production</span>
+          </h2>
         </div>
 
-        <div className="max-w-3xl space-y-16">
-          {years.map((year) => (
-            <div key={year}>
-              {/* Year header */}
-              <div className="flex items-center gap-4 mb-8">
-                <span className="font-mono text-4xl font-bold text-white/10">{year}</span>
-                <div className="flex-1 h-px bg-white/6" />
-              </div>
+        <LayoutGroup>
+          <div role="tablist" aria-label="Filter timeline" className="flex flex-wrap gap-1 rounded-3xl border border-white/10 p-1 sm:rounded-full">
+            {FILTERS.map((f) => {
+              const count = f.id === "all" ? journeyEvents.length : journeyEvents.filter((e) => e.type === f.id).length;
+              const isActive = f.id === filter;
+              return (
+                <button
+                  key={f.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setFilter(f.id)}
+                  className={`relative rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                    isActive ? "text-black" : "text-white/55 hover:text-white"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="journey-filter"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                      className="absolute inset-0 rounded-full bg-[#f0eadd]"
+                    />
+                  )}
+                  <span className="relative">
+                    {f.label}
+                    <span className={`ml-1.5 font-mono text-[10px] ${isActive ? "text-black/50" : "text-white/30"}`}>{count}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </LayoutGroup>
+      </div>
 
-              <div className="relative pl-6 md:pl-10 space-y-0">
-                <div className="absolute left-0 top-0 bottom-0 w-px bg-white/8" />
-
-                {grouped[year].map((event, idx) => {
-                  const cfg = typeConfig[event.type];
-                  return (
-                    <motion.div
-                      key={event.id}
-                      initial={{ opacity: 0, y: 24 }}
-                      animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
-                      className="relative pb-8 last:pb-0"
-                    >
-                      {/* Dot */}
-                      <div
-                        className={`absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full border ${cfg.borderColor} ${cfg.bg}`}
-                      />
-
-                      <div className={`border ${event.highlight ? "border-white/15" : "border-white/6"} hover:border-white/14 transition-colors bg-background`}>
-                        <div className="p-5 md:p-6">
-                          {/* Meta row */}
-                          <div className="flex items-center gap-3 mb-3">
-                            {event.month && (
-                              <span className="font-mono text-[10px] text-white/20 tracking-wider">
-                                {event.month} {event.year}
-                              </span>
-                            )}
-                            <span
-                              className={`font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-0.5 border ${cfg.borderColor} ${cfg.color}`}
-                            >
-                              {cfg.label}
-                            </span>
-                            {event.highlight && (
-                              <span className="font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-0.5 border border-primary/20 text-primary/50">
-                                HIGHLIGHT
-                              </span>
-                            )}
-                          </div>
-
-                          <h3 className="text-base font-semibold text-white/85 mb-2">{event.title}</h3>
-                          <p className="text-sm text-white/35 leading-relaxed mb-3">{event.description}</p>
-
-                          {event.tags && (
-                            <div className="flex flex-wrap gap-1.5 mb-3">
-                              {event.tags.map((t) => (
-                                <span key={t} className="tag-mono">{t}</span>
-                              ))}
-                            </div>
-                          )}
-
-                          {event.link && (
-                            <a
-                              href={event.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs font-mono text-primary/50 hover:text-primary transition-colors no-underline"
-                            >
-                              <ExternalLink className="w-3 h-3" />
-                              {event.linkLabel || "View"}
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+      <div className="mt-16 grid gap-10 md:mt-24 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+        {/* Sticky odometer year (desktop) */}
+        <div className="hidden md:block">
+          <div className="sticky top-32">
+            <p
+              aria-live="polite"
+              aria-label={`Year ${year}`}
+              className="flex text-[clamp(6rem,15vw,15rem)] font-semibold leading-[0.85] tracking-[-0.06em] text-white"
+            >
+              {year.split("").map((d, i) => (
+                <Digit key={i} digit={d} direction={direction} />
+              ))}
+            </p>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-white/35">
+              {(() => {
+                const n = events.filter((e) => e.year === year).length;
+                return `${n} ${n === 1 ? "moment" : "moments"} this year`;
+              })()}
+            </p>
+          </div>
         </div>
+
+        <ol ref={listRef} className="relative pl-8 sm:pl-12">
+          <span className="absolute bottom-2 left-[5px] top-2 w-px bg-white/10" />
+          <motion.span
+            style={{ scaleY: lineProgress }}
+            className="absolute bottom-2 left-[5px] top-2 w-px origin-top bg-gradient-to-b from-[#f0eadd] to-[#B6443A]"
+          />
+
+          <AnimatePresence mode="popLayout" initial={false}>
+            {events.map((event, i) => {
+              const firstOfYear = i === 0 || events[i - 1].year !== event.year;
+              return (
+                <motion.li
+                  key={event.id}
+                  layout
+                  data-year={event.year}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.6, ease }}
+                  className="relative pb-14 last:pb-0"
+                >
+                  {firstOfYear && (
+                    <p className="mb-6 text-5xl font-semibold tracking-[-0.05em] text-white/90 md:hidden">{event.year}</p>
+                  )}
+                  <span
+                    className={`absolute -left-8 h-[11px] w-[11px] rounded-full ring-4 ring-[#040404] sm:-left-12 ${
+                      firstOfYear ? "top-[4.6rem] md:top-1.5" : "top-1.5"
+                    } ${event.highlight ? "bg-[#B6443A]" : "bg-[#f0eadd]"}`}
+                  />
+                  <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.16em]">
+                    <span className="text-white/40">
+                      {event.month ? `${event.month} ` : ""}
+                      {event.year}
+                    </span>
+                    <span className="text-[#B6443A]">{typeLabels[event.type]}</span>
+                    {event.highlight && <span className="text-[#f0eadd]/70">★ Highlight</span>}
+                  </p>
+                  <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">{event.title}</h3>
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/55 sm:text-[15px]">{event.description}</p>
+                  <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+                    {event.tags && <p className="font-mono text-[11px] text-white/35">{event.tags.join(" · ")}</p>}
+                    {event.link && (
+                      <a
+                        href={event.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1 text-sm text-white/60 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-white/60"
+                      >
+                        {event.linkLabel || "View"}
+                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </a>
+                    )}
+                  </div>
+                </motion.li>
+              );
+            })}
+          </AnimatePresence>
+        </ol>
       </div>
     </section>
   );
 };
 
 /* ─── Collaborations ─────────────────────────────────── */
-const CollaborationsSection = () => {
-  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+const Collaborations = () => (
+  <section className="border-t border-white/[0.07] px-5 py-24 sm:px-8 md:py-36">
+    <SectionLabel index="02">Collaborations</SectionLabel>
+    <h2 className="mt-8 max-w-4xl text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white">
+      Communities I've <span className="font-serif font-normal italic text-[#f0eadd]">helped build</span>
+    </h2>
 
-  return (
-    <section
-      className="py-24 px-4 sm:px-6 lg:px-8 border-t border-white/6"
-      style={{ backgroundColor: "#0c0c0c" }}
-      ref={ref as React.RefObject<HTMLElement>}
-    >
-      <div className="container mx-auto">
-        <div
-          className={`mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+    <div className="mt-16 grid gap-x-8 gap-y-14 md:mt-24 md:grid-cols-3">
+      {collaborations.map((c, i) => (
+        <motion.article
+          key={c.id}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.9, ease, delay: i * 0.08 }}
+          className="group relative pt-6"
         >
-          <span className="section-subtitle">Collaborations</span>
-          <h2 className="text-2xl font-bold text-white/80">
-            Companies & communities<br />
-            <span className="text-primary">I've worked with.</span>
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px border border-white/8 bg-white/8">
-          {collaborations.map((c, i) => (
-            <motion.div
-              key={c.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-[#0c0c0c] p-7 md:p-8 hover:bg-white/[0.02] transition-colors group"
-            >
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex items-center gap-3">
-                  {c.logoUrl && (
-                    <div className="w-9 h-9 bg-white overflow-hidden flex-shrink-0">
-                      <img src={c.logoUrl} alt={c.name} className="w-full h-full object-contain" />
-                    </div>
-                  )}
-                  <div>
-                    <h3 className="text-sm font-semibold text-white/85 group-hover:text-white transition-colors">
-                      {c.name}
-                    </h3>
-                    <p className="font-mono text-[10px] text-primary/60 tracking-widest uppercase">{c.role}</p>
-                  </div>
-                </div>
-                {c.link && (
-                  <a
-                    href={c.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/15 hover:text-primary/60 transition-colors flex-shrink-0"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-              <p className="text-xs text-white/35 leading-relaxed mb-4">{c.description}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {c.tags.map((t) => (
-                  <span key={t} className="tag-mono">{t}</span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+          <span className="absolute inset-x-0 top-0 h-px bg-white/10" />
+          <motion.span
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 1.2, ease, delay: 0.2 + i * 0.08 }}
+            className="absolute inset-x-0 top-0 h-px origin-left bg-[#f0eadd]/60"
+          />
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#B6443A]">{c.role}</p>
+          <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-white">
+            {c.link ? (
+              <a href={c.link} target="_blank" rel="noopener noreferrer" className="group/link inline-flex items-center gap-2 hover:text-[#f0eadd]">
+                {c.name}
+                <ArrowUpRight className="h-4 w-4 text-white/30 transition-all group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-[#f0eadd]" />
+              </a>
+            ) : (
+              c.name
+            )}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-white/55">{c.description}</p>
+          <p className="mt-5 font-mono text-[11px] text-white/35">{c.tags.join(" · ")}</p>
+        </motion.article>
+      ))}
+    </div>
+  </section>
+);
 
 export default JourneyPage;

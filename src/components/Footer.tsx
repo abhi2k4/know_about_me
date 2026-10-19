@@ -1,66 +1,117 @@
-import { Linkedin, Github, Mail } from "lucide-react";
-import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import { motion } from "framer-motion";
+import { ArrowUp, ArrowUpRight } from "lucide-react";
+import LocalTime from "@/components/LocalTime";
+import { useCommandMenu } from "@/components/CommandMenu";
+import { useGoToSection } from "@/hooks/useGoToSection";
+import { SECTIONS, SOCIALS } from "@/lib/site";
 
-const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
+const WORDMARK = "Thormothe";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const goToSection = useGoToSection();
+  const { setOpen } = useCommandMenu();
 
-  const socialLinks = [
-    { name: "X", href: "https://x.com/amt_official04", icon: XIcon },
-    { name: "LinkedIn", href: "https://linkedin.com/in/thormotheabhishek", icon: Linkedin },
-    { name: "GitHub", href: "https://github.com/abhi2k4", icon: Github },
-    { name: "Email", href: "mailto:thormothe.abhishek@gmail.com", icon: Mail },
-  ];
+  const heading = "mb-4 font-mono text-[10px] uppercase tracking-[0.18em] text-white/30";
+  const link = "text-sm text-white/60 transition-colors hover:text-white";
 
   return (
-    <footer 
-      className="w-full bg-[#040404] border-t border-white/5 pt-20 pb-8 px-6 sm:px-12 relative overflow-hidden flex flex-col justify-between min-h-[350px]"
-    >
-      {/* Background Interactive Word Art */}
-      <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center opacity-85">
-        <TextHoverEffect text="ABHISHEK" />
-      </div>
-
-      <div className="mt-auto pt-16"></div>
-
-      {/* Tagline Centered Bottom */}
-      <div className="w-full flex justify-center text-center mb-8 relative z-10 pointer-events-auto">
-        <p className="text-sm text-white/40 max-w-md font-light leading-relaxed">
-          Crafting elegant digital solutions at the intersection of engineering and design.
-        </p>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="w-full pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6 relative z-10 pointer-events-auto">
-        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-xs text-white/30">
-          <p>© {currentYear} Abhishek Thormothe</p>
-          <span className="hidden sm:inline text-white/10">|</span>
-          <p>All rights reserved.</p>
+    <footer className="relative w-full overflow-hidden border-t border-white/[0.07] bg-[#040404] px-5 pt-16 sm:px-8">
+      <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+        <div className="col-span-2 md:col-span-1">
+          <p className="max-w-[16rem] text-sm leading-relaxed text-white/50">
+            Software engineer building fast, honest systems from Mumbai.
+          </p>
+          <button
+            onClick={() => setOpen(true)}
+            className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] text-white/40 transition-colors hover:text-white"
+          >
+            Press
+            <kbd className="rounded-md border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[10px]">⌘K</kbd>
+            to go anywhere
+          </button>
         </div>
 
-        {/* Social Icons */}
-        <div className="flex items-center gap-5">
-          {socialLinks.map((link) => {
-            const Icon = link.icon;
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/30 hover:text-white transition-colors duration-300"
-                aria-label={link.name}
-              >
-                <Icon className="w-5 h-5" />
+        <nav aria-label="Footer">
+          <p className={heading}>Index</p>
+          <ul className="space-y-2">
+            {SECTIONS.slice(1).map((section) => (
+              <li key={section.id}>
+                <button onClick={() => goToSection(section.id)} className={link}>
+                  {section.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div>
+          <p className={heading}>Elsewhere</p>
+          <ul className="space-y-2">
+            {SOCIALS.map((social) => (
+              <li key={social.name}>
+                <a href={social.href} target="_blank" rel="noopener noreferrer" className={`group inline-flex items-center gap-1 ${link}`}>
+                  {social.name}
+                  <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
+                </a>
+              </li>
+            ))}
+            <li>
+              <a href="/resume" target="_blank" rel="noopener noreferrer" className={`group inline-flex items-center gap-1 ${link}`}>
+                Résumé
+                <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
-            );
-          })}
+            </li>
+          </ul>
         </div>
+
+        <div className="col-span-2 flex flex-col justify-between gap-6 md:col-span-1 md:items-end md:text-right">
+          <div>
+            <p className={heading}>Currently</p>
+            <p className="flex items-center gap-2 text-sm text-white/70 md:justify-end">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Open to full-time SWE roles
+            </p>
+            <button
+              onClick={() => goToSection("contact")}
+              className="group mt-2 inline-flex items-center gap-1 text-sm text-white/45 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white hover:decoration-white/60"
+            >
+              Get in touch
+              <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </button>
+          </div>
+          <button
+            onClick={() => goToSection("home")}
+            className="group inline-flex w-fit items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-white/70 transition-colors hover:border-white/30 hover:text-white"
+          >
+            Back to top
+            <ArrowUp className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5" />
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-16 flex flex-col gap-2 border-t border-white/[0.07] pt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-white/30 sm:flex-row sm:justify-between">
+        <span>© {new Date().getFullYear()} Abhishek Thormothe</span>
+        <span>
+          Mumbai, IN · <LocalTime /> IST
+        </span>
+      </div>
+
+      {/* Wordmark bleeding off the bottom edge */}
+      <div aria-hidden className="pointer-events-none mt-6 select-none overflow-hidden">
+        <p className="flex translate-y-[14%] justify-center whitespace-nowrap text-[18vw] font-extrabold leading-[0.8] tracking-[-0.065em] text-transparent">
+          {WORDMARK.split("").map((letter, i) => (
+            <motion.span
+              key={i}
+              initial={{ y: "60%", opacity: 0 }}
+              whileInView={{ y: "0%", opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}
+              className="inline-block bg-gradient-to-b from-[#f0eadd]/[0.16] via-[#f0eadd]/[0.06] to-transparent bg-clip-text pb-[0.05em]"
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </p>
       </div>
     </footer>
   );
