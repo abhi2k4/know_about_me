@@ -1,11 +1,16 @@
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useProjects } from "@/hooks/useProjects";
-import { ExternalLink, Github, ChevronRight, X, ArrowLeft, Users, Star, GitFork } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { ArrowUpRight, Github } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProjectCarousel from "@/components/ProjectCarousel";
-import { Link } from "react-router-dom";
+import PageHero from "@/components/PageHero";
+import SectionLabel from "@/components/SectionLabel";
+import CaseStudyDialog from "@/components/CaseStudyDialog";
+import { useProjects, type Project } from "@/hooks/useProjects";
+import { getOptimizedImageUrl } from "@/lib/cloudinary";
+import { splitTitle } from "@/lib/site";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 /* ─── Community Contribution Data ───────────────────── */
 interface CommunityItem {
@@ -74,184 +79,193 @@ const communityContributions: CommunityItem[] = [
   },
 ];
 
+/* ─── Filters ────────────────────────────────────────── */
+const FILTERS = [
+  { id: "all", label: "All", match: () => true },
+  { id: "live", label: "Live", match: (p: Project) => !!p.demo_url },
+  { id: "source", label: "Source available", match: (p: Project) => !!p.code_url },
+];
+
 /* ─── Projects Page ──────────────────────────────────── */
 const ProjectsPage = () => {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: pageRef, offset: ["start start", "end end"] });
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
   const { data: projects = [], isLoading } = useProjects();
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [filter, setFilter] = useState("all");
+  const [selected, setSelected] = useState<Project | null>(null);
+
+  const active = FILTERS.find((f) => f.id === filter)!;
+  const visible = projects.filter(active.match);
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-background text-foreground">
-      {/* Scroll Progress */}
-      <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-primary z-[100]"
-        style={{ width: progressWidth }}
-      />
+    <div className="min-h-screen bg-[#040404] text-white">
+      <Header />
 
-      {/* Hero */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-white/6">
-        <div className="absolute inset-0 bg-dot-pattern opacity-20 pointer-events-none" />
-        <div className="container mx-auto">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-xs font-mono text-white/30 hover:text-primary transition-colors mb-10 no-underline"
-          >
-            <ArrowLeft className="w-3 h-3" />
-            Back to Home
-          </Link>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className="section-subtitle">Portfolio</span>
-            <h1 className="section-title">
-              Things I've<br />
-              <span className="text-primary">built.</span>
-            </h1>
-            <p className="max-w-xl text-white/35 text-sm leading-relaxed mt-4">
-              A collection of production projects - real products, shipped to real users.
-              Each one a lesson in engineering, design, and problem solving.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Project Grid ────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto">
-          {/* Label row */}
-          <div className="flex items-center gap-4 mb-12">
-            <span className="font-mono text-xs text-white/20 tracking-widest uppercase">
-              {isLoading ? "Loading..." : `${projects.length} projects`}
-            </span>
-            <div className="flex-1 h-px bg-white/6" />
+      <PageHero
+        index="A"
+        label="Archive"
+        title="Everything"
+        accent="I've built."
+        intro="Production platforms, hackathon builds and side projects, shipped to real users. Hover a card to flip through its screens, or open it for the full case study."
+      >
+        <LayoutGroup>
+          <div role="tablist" aria-label="Filter projects" className="flex flex-wrap gap-1 rounded-full border border-white/10 p-1">
+            {FILTERS.map((f) => {
+              const count = projects.filter(f.match).length;
+              const isActive = f.id === filter;
+              return (
+                <button
+                  key={f.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setFilter(f.id)}
+                  className={`relative rounded-full px-4 py-2 text-[13px] font-medium transition-colors ${
+                    isActive ? "text-black" : "text-white/55 hover:text-white"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="archive-filter"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                      className="absolute inset-0 rounded-full bg-[#f0eadd]"
+                    />
+                  )}
+                  <span className="relative">
+                    {f.label}
+                    <span className={`ml-1.5 font-mono text-[10px] ${isActive ? "text-black/50" : "text-white/30"}`}>
+                      {isLoading ? "–" : count}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
+        </LayoutGroup>
+      </PageHero>
 
-          {/* Cards with gap, each card has its own border */}
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white/[0.02] border border-white/8 rounded-2xl animate-pulse min-h-[280px]" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {projects.map((project, index) => (
-                <ProjectGridCard
+      {/* ── Gallery ─────────────────────────────────── */}
+      <section className="px-5 pb-24 sm:px-8 md:pb-36">
+        {isLoading ? (
+          <div className="grid gap-x-6 gap-y-16 md:grid-cols-12">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className={`${i % 4 === 0 || i % 4 === 3 ? "md:col-span-7" : "md:col-span-5"}`}>
+                <div className="aspect-[16/10] animate-pulse rounded-2xl bg-white/[0.04]" />
+                <div className="mt-5 h-8 w-1/2 animate-pulse rounded bg-white/[0.04]" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <motion.div layout className="grid gap-x-6 gap-y-16 md:grid-cols-12 md:gap-y-24">
+            <AnimatePresence mode="popLayout">
+              {visible.map((project, i) => (
+                <GalleryCard
                   key={project.id}
                   project={project}
-                  index={index}
-                  onOpen={() => setSelectedProject(project)}
+                  index={projects.indexOf(project)}
+                  // Alternate wide/narrow so the grid reads like an editorial spread.
+                  wide={i % 4 === 0 || i % 4 === 3}
+                  onOpen={() => setSelected(project)}
                 />
               ))}
-            </div>
-          )}
-        </div>
+            </AnimatePresence>
+          </motion.div>
+        )}
       </section>
 
-      {/* ── Community Contributions ──────────────────── */}
       <CommunitySection />
 
       <Footer />
 
-      {/* Case Study Drawer */}
-      {selectedProject && (
-        <CaseStudyDrawer
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      <CaseStudyDialog project={selected} onClose={() => setSelected(null)} />
     </div>
   );
 };
 
-/* ─── Project Grid Card ─────────────────────────────── */
-interface CardProps {
-  project: any;
+/* ─── Gallery card: scrub through screenshots with the cursor ─── */
+const GalleryCard = ({
+  project,
+  index,
+  wide,
+  onOpen,
+}: {
+  project: Project;
   index: number;
+  wide: boolean;
   onOpen: () => void;
-}
+}) => {
+  const images = (project.images ?? []).filter((img) => img?.trim());
+  const [frame, setFrame] = useState(0);
+  const [name, subtitle] = splitTitle(project.title);
 
-const ProjectGridCard = ({ project, index, onOpen }: CardProps) => {
-  const [hovered, setHovered] = useState(false);
+  const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse" || images.length < 2) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    setFrame(Math.min(images.length - 1, Math.floor(((e.clientX - r.left) / r.width) * images.length)));
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-background border border-white/8 hover:border-white/16 group cursor-pointer relative overflow-hidden flex flex-col transition-colors duration-300"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onClick={onOpen}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.8, ease }}
+      className={`group ${wide ? "md:col-span-7" : "md:col-span-5 md:mt-24"}`}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden aspect-video">
-        {project.images?.some((img: string) => img && img.trim()) ? (
-          <motion.div
-            className="w-full h-full"
-            animate={{ scale: hovered ? 1.05 : 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <ProjectCarousel images={project.images} className="aspect-video w-full" />
-          </motion.div>
+      <button
+        onClick={onOpen}
+        onPointerMove={onPointerMove}
+        onPointerLeave={() => setFrame(0)}
+        className="relative block aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0e0e0e] text-left"
+        aria-label={`Open case study: ${project.title}`}
+      >
+        {images.length > 0 ? (
+          images.map((src, i) => (
+            <img
+              key={src + i}
+              src={getOptimizedImageUrl(src, wide ? 1200 : 900)}
+              alt={i === 0 ? `${name} screenshot` : ""}
+              loading="lazy"
+              className={`absolute inset-0 h-full w-full object-cover object-top transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.03] ${
+                i === frame ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-white/3 text-xs text-white/20 font-mono min-h-[160px]">
-            NO PREVIEW
-          </div>
+          <span className="absolute inset-0 flex items-center justify-center font-mono text-xs text-white/25">No preview</span>
         )}
-        {/* Hover overlay */}
-        <motion.div
-          className="absolute inset-0 bg-black/60 flex items-center justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <div className="flex items-center gap-2 text-xs font-mono text-white/80 border border-white/20 px-4 py-2 tracking-widest uppercase">
-            View Case Study <ChevronRight className="w-3 h-3" />
-          </div>
-        </motion.div>
-      </div>
 
-      {/* Content */}
-      <div className="p-5 md:p-6 border-t border-white/6 flex flex-col flex-1">
-        <div className="flex items-start justify-between gap-4 mb-2">
-          <h3 className="text-base font-semibold text-white/90 leading-tight group-hover:text-white transition-colors">
-            {project.title}
-          </h3>
-          <span className="font-mono text-[10px] text-white/20 tracking-widest pt-0.5 flex-shrink-0">
-            {String(index + 1).padStart(2, "0")}
+        {/* Story-style frame indicator */}
+        {images.length > 1 && (
+          <span className="absolute inset-x-3 top-3 hidden gap-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:flex">
+            {images.map((_, i) => (
+              <span key={i} className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/25">
+                <span className={`block h-full bg-white transition-transform duration-300 ${i <= frame ? "translate-x-0" : "-translate-x-full"}`} />
+              </span>
+            ))}
           </span>
-        </div>
-        <p className="text-xs text-white/35 leading-relaxed mb-4 line-clamp-2">
-          {project.description}
-        </p>
+        )}
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {project.tags.slice(0, 4).map((tag: string) => (
-            <span key={tag} className="tag-mono">
-              {tag}
-            </span>
-          ))}
-        </div>
+        <span className="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-[#f0eadd] text-black opacity-0 shadow-xl transition-all duration-500 group-hover:rotate-45 group-hover:opacity-100">
+          <ArrowUpRight className="h-4 w-4" />
+        </span>
+      </button>
 
-        {/* Links */}
-        <div className="flex items-center gap-3 pt-3 border-t border-white/6 mt-auto">
+      <div className="mt-5 flex items-start justify-between gap-6">
+        <div className="min-w-0">
+          <p className="font-mono text-[11px] text-white/35">{String(index + 1).padStart(2, "0")}</p>
+          <h2 className="mt-2 text-3xl font-semibold leading-none tracking-[-0.04em] text-white sm:text-4xl">{name}</h2>
+          {subtitle && <p className="mt-2 font-serif text-lg italic text-[#f0eadd]/60 sm:text-xl">{subtitle}</p>}
+          <p className="mt-4 font-mono text-[11px] text-white/40">{project.tags.slice(0, 4).join(" · ")}</p>
+        </div>
+        <div className="flex shrink-0 gap-2 pt-6">
           {project.code_url && (
             <a
               href={project.code_url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1.5 text-xs font-mono text-white/30 hover:text-white transition-colors no-underline"
+              aria-label={`${name} source code`}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/60 transition-colors hover:border-white/40 hover:text-white"
             >
-              <Github className="w-3.5 h-3.5" />
-              Code
+              <Github className="h-4 w-4" />
             </a>
           )}
           {project.demo_url && (
@@ -259,250 +273,74 @@ const ProjectGridCard = ({ project, index, onOpen }: CardProps) => {
               href={project.demo_url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-1.5 text-xs font-mono text-white/30 hover:text-primary transition-colors no-underline"
+              className="flex h-10 items-center gap-1.5 rounded-full border border-emerald-400/25 px-3.5 font-mono text-[11px] uppercase tracking-wider text-emerald-300/90 transition-colors hover:border-emerald-300/60"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Live
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Live
             </a>
           )}
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 
-/* ─── Community Contributions Section ───────────────── */
-const CommunitySection = () => {
-  return (
-    <section
-      className="py-24 px-4 sm:px-6 lg:px-8 border-t border-white/6"
-      style={{ backgroundColor: "#0c0c0c" }}
-    >
-      <div className="container mx-auto">
-        {/* Header */}
-        <div className="mb-14">
-          <span className="section-subtitle">Community</span>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <h2 className="section-title">
-              Beyond code -<br />
-              <span className="text-primary">contributions.</span>
-            </h2>
-            <p className="max-w-sm text-white/30 text-sm leading-relaxed pb-2">
-              Open source, communities, hackathons, and events I've built, 
-              organized, or led, the work that extends beyond individual repos.
-            </p>
-          </div>
-        </div>
-
-        {/* Contributions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {communityContributions.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="border border-white/8 hover:border-white/15 bg-background transition-colors duration-300 group p-6 md:p-7 flex flex-col"
-            >
-              {/* Header row */}
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div>
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-primary/60 uppercase border border-primary/20 px-2 py-0.5 inline-block mb-2">
-                    {item.type}
-                  </span>
-                  <h3 className="text-base font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">
-                    {item.name}
-                  </h3>
-                </div>
-                {item.link && (
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/15 hover:text-primary/60 transition-colors flex-shrink-0 mt-1"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-
-              <p className="text-xs text-white/35 leading-relaxed mb-5 flex-1">
-                {item.description}
-              </p>
-
-              {/* Stats */}
-              {item.stats && item.stats.length > 0 && (
-                <div className="flex items-center gap-6 mb-4 py-3 border-y border-white/5">
-                  {item.stats.map((s) => (
-                    <div key={s.label}>
-                      <p className="text-lg font-bold text-white/80">{s.value}</p>
-                      <p className="font-mono text-[10px] text-white/20 tracking-widest uppercase">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1.5">
-                {item.tags.map((t) => (
-                  <span key={t} className="tag-mono">{t}</span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+/* ─── Community Contributions ───────────────────────── */
+const CommunitySection = () => (
+  <section className="border-t border-white/[0.07] px-5 py-24 sm:px-8 md:py-36">
+    <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        <SectionLabel index="B">Community</SectionLabel>
+        <h2 className="mt-8 text-[clamp(2.5rem,6vw,5.5rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-white">
+          Beyond <span className="font-serif font-normal italic text-[#f0eadd]">the repo</span>
+        </h2>
       </div>
-    </section>
-  );
-};
+      <p className="max-w-xs text-sm text-white/50 md:text-right">
+        Communities I've founded, hackathons I've run and events whose tech I've led.
+      </p>
+    </div>
 
-/* ─── Case Study Drawer ─────────────────────────────── */
-interface DrawerProps {
-  project: any;
-  onClose: () => void;
-}
-
-const CaseStudyDrawer = ({ project, onClose }: DrawerProps) => {
-  return (
-    <motion.div
-      className="fixed inset-0 z-[200] flex"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
-
-      {/* Drawer panel */}
-      <motion.div
-        data-lenis-prevent
-        className="relative ml-auto w-full max-w-2xl h-full bg-[#0a0a0a] border-l border-white/8 overflow-y-auto"
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="sticky top-0 z-10 w-full flex items-center justify-between px-6 py-4 border-b border-white/6 bg-[#0a0a0a] hover:bg-white/3 transition-colors"
+    <ul className="mt-14 border-t border-white/10 md:mt-20">
+      {communityContributions.map((item, i) => (
+        <motion.li
+          key={item.id}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.8, ease, delay: i * 0.05 }}
+          className="group grid gap-6 border-b border-white/10 py-10 md:grid-cols-[10rem_minmax(0,1fr)_auto] md:gap-10 md:py-12"
         >
-          <span className="font-mono text-xs text-white/30 tracking-widest uppercase">Case Study</span>
-          <X className="w-4 h-4 text-white/30 hover:text-white transition-colors" />
-        </button>
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#B6443A]">{item.type}</span>
 
-        <div className="p-6 md:p-8 space-y-8">
-          {/* Title */}
           <div>
-            <h2 className="text-2xl font-bold text-white/90 mb-1">{project.title}</h2>
-            <p className="text-sm text-white/35">{project.description}</p>
+            <h3 className="flex items-center gap-3 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+              {item.link ? (
+                <a href={item.link} target="_blank" rel="noopener noreferrer" className="group/link inline-flex items-center gap-2 hover:text-[#f0eadd]">
+                  {item.name}
+                  <ArrowUpRight className="h-5 w-5 text-white/30 transition-all group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-[#f0eadd]" />
+                </a>
+              ) : (
+                item.name
+              )}
+            </h3>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/55 sm:text-[15px]">{item.description}</p>
+            <p className="mt-4 font-mono text-[11px] text-white/35">{item.tags.join(" · ")}</p>
           </div>
 
-          {/* Images */}
-          {project.images?.some((img: string) => img && img.trim()) && (
-            <div className="overflow-hidden border border-white/8">
-              <ProjectCarousel images={project.images} className="aspect-video w-full" />
-            </div>
-          )}
-
-          {/* Links */}
-          <div className="flex gap-4">
-            {project.code_url && (
-              <a
-                href={project.code_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-mono border border-white/15 px-4 py-2.5 hover:border-primary/40 hover:text-primary transition-colors no-underline text-white/50 uppercase tracking-widest"
-              >
-                <Github className="w-3.5 h-3.5" />
-                Source Code
-              </a>
-            )}
-            {project.demo_url && (
-              <a
-                href={project.demo_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-mono border border-primary/40 px-4 py-2.5 hover:bg-primary/10 text-primary transition-colors no-underline uppercase tracking-widest"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                Live Demo
-              </a>
-            )}
-          </div>
-
-          {/* Sections */}
-          {[
-            { label: "The Problem", content: project.problem },
-            { label: "The Solution", content: project.solution },
-            { label: "My Role", content: project.role },
-          ].map(
-            (s) =>
-              s.content && (
-                <div key={s.label} className="border-t border-white/6 pt-6">
-                  <h4 className="font-mono text-[10px] tracking-[0.2em] text-primary/70 uppercase mb-3">
-                    {s.label}
-                  </h4>
-                  <p className="text-sm text-white/45 leading-relaxed">{s.content}</p>
+          {item.stats && (
+            <dl className="flex gap-8 md:justify-end md:text-right">
+              {item.stats.map((s) => (
+                <div key={s.label}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="font-serif text-5xl italic leading-none text-[#f0eadd] sm:text-6xl">{s.value}</dd>
+                  <dd className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/35">{s.label}</dd>
                 </div>
-              )
+              ))}
+            </dl>
           )}
-
-          {/* Stack */}
-          {project.stack && (
-            <div className="border-t border-white/6 pt-6">
-              <h4 className="font-mono text-[10px] tracking-[0.2em] text-primary/70 uppercase mb-3">
-                Tech Stack
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {project.stack.map((t) => (
-                  <span key={t.name} className="tag-mono">
-                    {t.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Challenges */}
-          {project.challenges && (
-            <div className="border-t border-white/6 pt-6">
-              <h4 className="font-mono text-[10px] tracking-[0.2em] text-primary/70 uppercase mb-3">
-                Key Challenges
-              </h4>
-              <ul className="space-y-2.5">
-                {project.challenges.map((c, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-white/40 leading-relaxed">
-                    <span className="w-1 h-1 rounded-full bg-primary/40 mt-2 flex-shrink-0" />
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Outcomes */}
-          {project.outcomes && (
-            <div className="border-t border-white/6 pt-6 pb-8">
-              <h4 className="font-mono text-[10px] tracking-[0.2em] text-primary/70 uppercase mb-3">
-                Outcomes
-              </h4>
-              <ul className="space-y-2.5">
-                {project.outcomes.map((o, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-white/40 leading-relaxed">
-                    <span className="w-1 h-1 rounded-full bg-primary/40 mt-2 flex-shrink-0" />
-                    {o}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
+        </motion.li>
+      ))}
+    </ul>
+  </section>
+);
 
 export default ProjectsPage;

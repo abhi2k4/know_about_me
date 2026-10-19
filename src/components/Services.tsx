@@ -1,107 +1,66 @@
-import { useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Wrench } from "lucide-react";
+import SectionLabel from "@/components/SectionLabel";
 
-const Services = () => {
+const ease = [0.16, 1, 0.3, 1] as const;
 
-  const services = [
-    {
-      title: "Full-Stack Architecture",
-      desc: "Designing and shipping resilient, production-ready web platforms from database schemas to performant React applications.",
-      highlight: true
-    },
-    {
-      title: "API & Backend Engineering",
-      desc: "Building high-performance REST microservices, async worker queues, and secure backend integrations.",
-      highlight: false
-    },
-    {
-      title: "Frontend & Web Performance",
-      desc: "Developing pixel-perfect, accessible user interfaces with ultra-fast page loads and 60fps interaction polish.",
-      highlight: false
-    },
-    {
-      title: "Cloud Operations & DevOps",
-      desc: "Deploying and managing scalable applications using AWS, Docker, Vercel, and modern CI/CD automation pipelines.",
-      highlight: false
-    }
-  ];
+const capabilities = [
+  {
+    title: "Full-stack architecture",
+    desc: "Resilient, production-ready platforms, from the database schema to a fast React front end.",
+    stack: "Postgres · Django · Node · React",
+  },
+  {
+    title: "APIs & backend systems",
+    desc: "High-throughput REST services, async worker queues and secure third-party integrations.",
+    stack: "FastAPI · Redis · Queues",
+  },
+  {
+    title: "Frontend & performance",
+    desc: "Accessible interfaces with fast page loads and interactions that hold 60fps.",
+    stack: "TypeScript · Next.js · Motion",
+  },
+  {
+    title: "Cloud & delivery",
+    desc: "Containerised deploys, CI/CD pipelines and infrastructure that scales without drama.",
+    stack: "AWS · Docker · Actions",
+  },
+];
 
-  return (
-    <section
-      id="services"
-      className="relative w-full px-6 py-20 sm:px-12 md:py-32 bg-[#080808] border-t border-white/5"
-    >
-      <div 
-        className="w-full flex flex-col xl:flex-row gap-16 lg:gap-24"
-      >
-        {/* Left Column: Title */}
-        <div className="flex-1 max-w-xl">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-foreground mb-6"
-          >
-            Technical capabilities I bring to engineering teams
-          </motion.h2>
+const Services = () => (
+  <section id="services" className="relative w-full bg-[#040404] px-5 py-24 sm:px-8 md:py-36">
+    <SectionLabel index="05">Capabilities</SectionLabel>
+    <h2 className="mt-8 max-w-4xl text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white">
+      What I bring to an <span className="font-serif font-normal italic text-[#f0eadd]">engineering team</span> on day one
+    </h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xs sm:text-sm text-muted-foreground/80 font-normal max-w-sm"
-          >
-            Combining scalable architecture, system efficiency, and product execution.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-12"
-          >
-            <a 
-              href="#contact" 
-              className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
-            >
-              Discuss Opportunities
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Right Column: 2x2 Grid */}
-        <div className="w-full xl:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.6, delay: 0.2 + (index * 0.1) }}
-              className={`p-6 sm:p-7 rounded-2xl flex flex-col justify-between group cursor-pointer transition-all duration-300 ${
-                service.highlight 
-                  ? 'bg-primary/5 border border-primary/20 hover:border-primary/40' 
-                  : 'bg-white/[0.02] border border-white/5 hover:bg-white/[0.04]'
-              }`}
-            >
-              <div>
-                <h3 className={`text-lg font-medium mb-3 ${service.highlight ? 'text-primary' : 'text-foreground'}`}>
-                  {service.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed">
-                  {service.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+    <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 md:mt-24 xl:grid-cols-4">
+      {capabilities.map((item, i) => (
+        <motion.article
+          key={item.title}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.9, ease, delay: i * 0.08 }}
+          className="group relative pt-6"
+        >
+          <span className="absolute inset-x-0 top-0 h-px bg-white/10" />
+          <motion.span
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 1.2, ease, delay: 0.2 + i * 0.08 }}
+            className="absolute inset-x-0 top-0 h-px origin-left bg-[#f0eadd]/60"
+          />
+          <span className="font-serif text-6xl italic leading-none text-white/15 transition-colors duration-500 group-hover:text-[#B6443A]">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <h3 className="mt-6 text-xl font-semibold tracking-[-0.02em] text-white">{item.title}</h3>
+          <p className="mt-3 text-sm leading-relaxed text-white/55">{item.desc}</p>
+          <p className="mt-5 font-mono text-[11px] text-white/35">{item.stack}</p>
+        </motion.article>
+      ))}
+    </div>
+  </section>
+);
 
 export default Services;

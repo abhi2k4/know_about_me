@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -7,31 +9,35 @@ import TechStack from "@/components/TechStack";
 import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { useGoToSection } from "@/hooks/useGoToSection";
+import { useProjects } from "@/hooks/useProjects";
+import { useExperiences } from "@/hooks/useExperiences";
 
 const Index = () => {
+  const { hash } = useLocation();
+  const goToSection = useGoToSection();
+  // Same cached queries the sections use; their content shifts layout once loaded.
+  const { isLoading: projectsLoading } = useProjects();
+  const { isLoading: experiencesLoading } = useExperiences();
+  const layoutReady = !projectsLoading && !experiencesLoading;
+
+  // Deep links like /#contact arrive from other pages; scroll once async sections have rendered.
+  useEffect(() => {
+    if (!hash || !layoutReady) return;
+    const id = setTimeout(() => goToSection(hash.slice(1)), 150);
+    return () => clearTimeout(id);
+  }, [hash, layoutReady, goToSection]);
+
   return (
-    <div className="min-h-screen flex flex-col relative bg-background">
+    <div className="relative flex min-h-screen flex-col bg-[#040404]">
       <Header />
       <main>
-        {/* 1. Hero (Who I am + What I build + Socials) */}
         <Hero />
-
-        {/* 2. About (My story + Stats) */}
         <About />
-
-        {/* 3. FEATURED PROJECTS (OverSightAI, Project 2, Project 3) */}
         <Projects />
-
-        {/* 4. EXPERIENCE */}
         <Experience />
-
-        {/* 5. TECH STACK */}
         <TechStack />
-
-        {/* 6. ACHIEVEMENTS / Services (Worthwhile) */}
         <Services />
-
-        {/* 7. CONTACT */}
         <Contact />
       </main>
       <Footer />

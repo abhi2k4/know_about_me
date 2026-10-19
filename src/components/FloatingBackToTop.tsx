@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 export const FloatingBackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { scrollYProgress } = useScroll();
+  // The home page header island already shows progress and the footer has a back-to-top.
+  const isHome = useLocation().pathname === '/';
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -28,7 +31,7 @@ export const FloatingBackToTop = () => {
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && !isHome && (
         <motion.button
           onClick={scrollToTop}
           className="fixed bottom-20 right-6 md:bottom-24 md:right-10 w-12 h-12 rounded-full bg-[#0c0c0c]/90 border border-white/10 text-white flex items-center justify-center z-50 backdrop-blur-md cursor-pointer transition-colors duration-300 hover:border-[#B6443A]/30 hover:bg-[#0f0a09] group"
